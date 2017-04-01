@@ -16,6 +16,7 @@ public class AgendaDiarioSur {
      */
     public static void main(String[] args) {
         System.out.println("Hola Isma  ");
+        System.out.println("Hola");
     }
     
 }
