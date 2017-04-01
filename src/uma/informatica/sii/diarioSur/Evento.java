@@ -7,6 +7,7 @@ package uma.informatica.sii.diarioSur;
 
 import java.io.Serializable;
 import java.sql.Time;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,7 +15,7 @@ import javax.persistence.Id;
 
 /**
  *
- * @author Acer
+ * @author Luis Mayo
  */
 @Entity
 public class Evento implements Serializable {
@@ -22,7 +23,7 @@ public class Evento implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private Integer idEvento;
     private String nombre;
     private String descripcion;
     private Integer precio;
@@ -33,6 +34,7 @@ public class Evento implements Serializable {
     private Byte[][] imagenes;
     private String URLVideos;
     private String URLOrganizador;
+    private List<CalificacionEvento> calificaciones;
 
     public String getNombre() {
         return nombre;
@@ -115,17 +117,17 @@ public class Evento implements Serializable {
     }
     
     public Integer getId() {
-        return id;
+        return idEvento;
     }
 
     public void setId(Integer id) {
-        this.id = id;
+        this.idEvento = id;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (idEvento != null ? idEvento.hashCode() : 0);
         return hash;
     }
 
@@ -136,7 +138,7 @@ public class Evento implements Serializable {
             return false;
         }
         Evento other = (Evento) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.idEvento == null && other.idEvento != null) || (this.idEvento != null && !this.idEvento.equals(other.idEvento))) {
             return false;
         }
         return true;
@@ -144,7 +146,7 @@ public class Evento implements Serializable {
 
     @Override
     public String toString() {
-        return "uma.informatica.sii.diarioSur.Evento[ id=" + id + " ]";
+        return "uma.informatica.sii.diarioSur.Evento[ id=" + idEvento + " ]";
     }
     
 }
