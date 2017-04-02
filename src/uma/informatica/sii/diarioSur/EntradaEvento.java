@@ -38,6 +38,7 @@ public class EntradaEvento implements Serializable {
     @ManyToOne
     private Evento evento;
 
+    
     public Integer getPrecio() {
         return precio;
     }
