@@ -8,6 +8,7 @@ package uma.informatica.sii.diarioSur;
 import java.io.Serializable;
 import java.sql.Time;
 import java.util.List;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -25,6 +26,7 @@ public class Evento implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer idEvento;
+    @Column(nullable = false)
     private String nombre;
     private String descripcion;
     private Integer precio;
@@ -37,6 +39,8 @@ public class Evento implements Serializable {
     private String URLOrganizador;
     @OneToMany
     private List<CalificacionEvento> calificaciones;
+    @OneToMany
+    private List<EntradaEvento> entradas;
 
     public String getNombre() {
         return nombre;
