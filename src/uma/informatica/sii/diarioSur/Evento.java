@@ -39,7 +39,7 @@ public class Evento implements Serializable {
     private String nombre;
     private String descripcion;
     private Integer precio;
-    private String gelolocalizacion;
+    private String geolocalizacion;
     @Enumerated(EnumType.STRING)
     private Tipo tipoEvento;
     private Time duracion;
@@ -76,12 +76,12 @@ public class Evento implements Serializable {
         this.precio = precio;
     }
 
-    public String getGelolocalizacion() {
-        return gelolocalizacion;
+    public String getGeolocalizacion() {
+        return geolocalizacion;
     }
 
-    public void setGelolocalizacion(String gelolocalizacion) {
-        this.gelolocalizacion = gelolocalizacion;
+    public void setGeolocalizacion(String geolocalizacion) {
+        this.geolocalizacion = geolocalizacion;
     }
 
     public Tipo getTipoEvento() {
