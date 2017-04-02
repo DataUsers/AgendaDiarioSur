@@ -21,7 +21,7 @@ public class Publicidad implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long idPublicidad;       // Es el identificador de cada objeto de la clase Publicidad
-    private String ubicacionWeb;     // Indica la zona de la página web donde debería mostrarse el anuncio
+    private String ubicacionWeb;     // Indica la URL a la que se debería redirigir si un usuario accede a él.
     private Byte[][] imagen;         // Si es una imagen estática se guardará como tal
     private String video;            // Si es una video el anuncio se guardará el enlace a la plataforma de video.
     public enum Tipo {ANIMOLUCRO, INSTITUCIONAL, MARCA, NEGOCIO, PRODUCTOLOCAL, SERVICIOPUBLICO };   // Distinguimos según el tipo de publicidad 
