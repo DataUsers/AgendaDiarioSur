@@ -16,7 +16,7 @@ import javax.persistence.ManyToOne;
 
 /**
  *
- * @author
+ * @author Pablo
  */
 @Entity
 public class EntradaEvento implements Serializable {
