@@ -10,6 +10,8 @@ import java.sql.Time;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -22,6 +24,13 @@ import javax.persistence.OneToMany;
 @Entity
 public class Evento implements Serializable {
 
+    enum Tipo {
+        ACTOSPOLÍTICOS, CERTÁMENES,
+        CINES, CONCIERTOS, CONCURSOS, CONMMEMORACIONES, DEBATES, DESFILES,
+        ENTREGAPREMIOS, EVENTODEPORTIVO, EVENTOINFANTIL, EXPOSICIONES, FERIAS,
+        FIESTASBENÉFICAS, FIESTASNOCTURNAS, HOMENAJES, INAUGURACIONES, MUESTRASDEARTE, PRESENTACIONES,
+        AIRE_LIBRE, CAMPEONATOS, CLASESABIERTAS, CONFERENCIAS, CONGRESOS, GASTRONOMICO, MODA, MUSEOS, MUSICAL, TORNEOS
+    }
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -30,8 +39,9 @@ public class Evento implements Serializable {
     private String nombre;
     private String descripcion;
     private Integer precio;
-    private String gelolocalizacion; 
-    private String tipoEvento;
+    private String gelolocalizacion;
+    @Enumerated(EnumType.STRING)
+    private Tipo tipoEvento;
     private Time duracion;
     private String organizador;
     private Byte[][] imagenes;
@@ -74,11 +84,11 @@ public class Evento implements Serializable {
         this.gelolocalizacion = gelolocalizacion;
     }
 
-    public String getTipoEvento() {
+    public Tipo getTipoEvento() {
         return tipoEvento;
     }
 
-    public void setTipoEvento(String tipoEvento) {
+    public void setTipoEvento(Tipo tipoEvento) {
         this.tipoEvento = tipoEvento;
     }
 
@@ -121,7 +131,7 @@ public class Evento implements Serializable {
     public void setURLOrganizador(String URLOrganizador) {
         this.URLOrganizador = URLOrganizador;
     }
-    
+
     public Integer getId() {
         return idEvento;
     }
@@ -154,5 +164,5 @@ public class Evento implements Serializable {
     public String toString() {
         return "uma.informatica.sii.diarioSur.Evento[ id=" + idEvento + " ]";
     }
-    
+
 }
