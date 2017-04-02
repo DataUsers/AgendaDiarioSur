@@ -4,14 +4,17 @@
 package uma.informatica.sii.diarioSur;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+
 
 /**
  *
- * @author 
+ * @author Ismael Pineda
  */
 @Entity
 public class CalificacionEvento implements Serializable {
@@ -19,20 +22,77 @@ public class CalificacionEvento implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private Integer idCalificacion;  // Es el identificador de cada objeto de la clase Publicidad
+    private String  titulo;          // Indica el título que el usuario ponga a su valoración
+    private Integer puntuacion;      // Indica la puntuación que el usuario establezca al realizar su valoración
+    private String  comentario;      // Es el propio comentario acerca del evento
+    private boolean favorito;        // Si lo marca como favorito aparecerá como True, en caso contrario a False
+    
+    @ManyToOne                       // Modelamos la relación muchos a uno con la entidad Evento
+    private Evento eventos;
+    @ManyToOne                       // Modelamos la relación muchos a uno con la entidad Usuario
+    private Usuario usuarios;
 
-    public Integer getId() {
-        return id;
+    public Integer getIdCalificacion() {
+        return idCalificacion;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setIdCalificacion(Integer idCalificacion) {
+        this.idCalificacion = idCalificacion;
+    }
+
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
+    }
+
+    public Integer getPuntuacion() {
+        return puntuacion;
+    }
+
+    public void setPuntuacion(Integer puntuacion) {
+        this.puntuacion = puntuacion;
+    }
+
+    public String getComentario() {
+        return comentario;
+    }
+
+    public void setComentario(String comentario) {
+        this.comentario = comentario;
+    }
+
+    public boolean isFavorito() {
+        return favorito;
+    }
+
+    public void setFavorito(boolean favorito) {
+        this.favorito = favorito;
+    }
+
+    public Evento getEventos() {
+        return eventos;
+    }
+
+    public void setEventos(Evento eventos) {
+        this.eventos = eventos;
+    }
+
+    public Usuario getUsuarios() {
+        return usuarios;
+    }
+
+    public void setUsuarios(Usuario usuarios) {
+        this.usuarios = usuarios;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (idCalificacion != null ? idCalificacion.hashCode() : 0);
         return hash;
     }
 
@@ -43,7 +103,7 @@ public class CalificacionEvento implements Serializable {
             return false;
         }
         CalificacionEvento other = (CalificacionEvento) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.idCalificacion == null && other.idCalificacion != null) || (this.idCalificacion != null && !this.idCalificacion.equals(other.idCalificacion))) {
             return false;
         }
         return true;
@@ -51,7 +111,7 @@ public class CalificacionEvento implements Serializable {
 
     @Override
     public String toString() {
-        return "uma.informatica.sii.diarioSur.CalificacionEvento[ id=" + id + " ]";
+        return "uma.informatica.sii.diarioSur.CalificacionEvento[ idCalificacion=" + idCalificacion + " ]";
     }
     
 }
