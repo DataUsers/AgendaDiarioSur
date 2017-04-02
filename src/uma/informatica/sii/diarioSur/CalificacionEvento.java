@@ -4,7 +4,7 @@
 package uma.informatica.sii.diarioSur;
 
 import java.io.Serializable;
-import java.util.List;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -28,8 +28,11 @@ public class CalificacionEvento implements Serializable {
     private String  comentario;      // Es el propio comentario acerca del evento
     private boolean favorito;        // Si lo marca como favorito aparecerá como True, en caso contrario a False
     
+    @Column(nullable = false)
     @ManyToOne                       // Modelamos la relación muchos a uno con la entidad Evento
     private Evento eventos;
+    
+    @Column(nullable = false)
     @ManyToOne                       // Modelamos la relación muchos a uno con la entidad Usuario
     private Usuario usuarios;
 
