@@ -8,6 +8,8 @@ package uma.informatica.sii.diarioSur;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -19,6 +21,8 @@ import javax.persistence.Id;
 @Entity
 public class Publicidad implements Serializable {
    private static final long serialVersionUID = 1L;
+   public enum Tipo {ANIMOLUCRO, INSTITUCIONAL, MARCA, NEGOCIO, PRODUCTOLOCAL, SERVICIOPUBLICO };   // Distinguimos según el tipo de publicidad 
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long idPublicidad;       // Es el identificador de cada objeto de la clase Publicidad
@@ -26,7 +30,7 @@ public class Publicidad implements Serializable {
     private String ubicacionWeb;     // Indica la URL a la que se debería redirigir si un usuario accede a él.
     private Byte[][] imagen;         // Si es una imagen estática se guardará como tal
     private String video;            // Si es una video el anuncio se guardará el enlace a la plataforma de video.
-    public enum Tipo {ANIMOLUCRO, INSTITUCIONAL, MARCA, NEGOCIO, PRODUCTOLOCAL, SERVICIOPUBLICO };   // Distinguimos según el tipo de publicidad 
+    @Enumerated(EnumType.STRING)
     private Tipo tipo;
 
    
