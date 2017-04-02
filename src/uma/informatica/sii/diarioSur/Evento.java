@@ -27,7 +27,7 @@ import javax.persistence.OneToMany;
 @Entity
 public class Evento implements Serializable {
 
-    enum Tipo {
+    public enum Tipo {
         ACTOSPOLÍTICOS, CERTÁMENES,
         CINES, CONCIERTOS, CONCURSOS, CONMMEMORACIONES, DEBATES, DESFILES,
         ENTREGAPREMIOS, EVENTODEPORTIVO, EVENTOINFANTIL, EXPOSICIONES, FERIAS,
@@ -48,7 +48,7 @@ public class Evento implements Serializable {
     @ElementCollection (fetch = FetchType.EAGER)
     private List<Date> fechas;
     private Time duracion;
-    public Integer numero_entradas;
+    private Integer numero_entradas;
     private String organizador;
     private Byte[][] imagenes;
     private String URLVideos;
