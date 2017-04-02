@@ -6,12 +6,15 @@
 package uma.informatica.sii.diarioSur;
 
 import java.io.Serializable;
+import java.sql.Date;
 import java.sql.Time;
 import java.util.List;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -40,9 +43,12 @@ public class Evento implements Serializable {
     private String descripcion;
     private Integer precio;
     private String geolocalizacion;
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.ORDINAL)
     private Tipo tipoEvento;
+    @ElementCollection (fetch = FetchType.EAGER)
+    private List<Date> fechas;
     private Time duracion;
+    public Integer numero_entradas;
     private String organizador;
     private Byte[][] imagenes;
     private String URLVideos;
