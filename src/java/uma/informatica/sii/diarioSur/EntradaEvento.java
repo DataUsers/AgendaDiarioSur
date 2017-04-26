@@ -12,6 +12,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 /**
@@ -30,11 +31,11 @@ public class EntradaEvento implements Serializable {
     private Date fechaCompra;
     private Date fechaValidez;
     
-    @Column(nullable = false)
+    @JoinColumn(nullable = false)
     @ManyToOne
     private Usuario usuario;
     
-    @Column(nullable = false)
+    @JoinColumn(nullable = false)
     @ManyToOne
     private Evento evento;
 
