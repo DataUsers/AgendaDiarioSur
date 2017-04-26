@@ -58,6 +58,10 @@ public class Evento implements Serializable {
     @OneToMany
     private List<EntradaEvento> entradas;
 
+    public Evento(){
+        
+    }
+    
     public String getNombre() {
         return nombre;
     }
