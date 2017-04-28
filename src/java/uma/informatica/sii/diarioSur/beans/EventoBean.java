@@ -6,6 +6,7 @@
 package uma.informatica.sii.diarioSur.beans;
 
 import java.io.Serializable;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Named;
@@ -50,9 +51,17 @@ public class EventoBean implements Serializable {
         for (int i = 0; i < 5; ++i) {
             calificaciones.add(new CalificacionEvento("PACO", "UNA DESCRIPCION", i));
         }
-        
         evento.setCalificaciones(calificaciones);
-
+        
+        // Crear fechas ficticias
+        List<Date> fechas = new ArrayList<>();
+        for(int i = 0; i < 5; ++i){
+            Date date = new Date(System.currentTimeMillis());
+            fechas.add(date);
+            System.out.println("Date: " + date.toLocalDate().toString());
+        }
+        evento.setFechas(fechas);
+        
         imagenes = new ArrayList<>();
         for (int i = 0; i < 5; ++i) {
             imagenes.add("image" + i + ".jpg");

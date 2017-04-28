@@ -34,6 +34,12 @@
                                     <p:panel header="#{evento.evento.nombre}">
                                         <h:panelGrid columns="2">
                                             <p>Precio: #{evento.evento.precio}</p>
+                                            <p:dataList value="#{evento.evento.fechas}" var="fecha" type="unordered" itemType="none" paginator="true" rows="4" styleClass="paginated">
+                                                <f:facet name="header">
+                                                    Fechas
+                                                </f:facet>
+                                                <h:outputText value="#{fecha.toLocalDate().toString()}"/>
+                                            </p:dataList>
                                         </h:panelGrid>
                                         <h:panelGroup>
                                             <h:form>
@@ -66,7 +72,7 @@
                                 <h:form id="calificacion">
                                     <h:panelGrid columns="2" cellpadding="5">
                                         <h:outputText value="Puntuacion:"/>
-                                        <p:rating value="#{calificacionBean.puntuacion}"/>
+                                        <p:rating value="#{calificacionBean.puntuacion}" stars="5"/>
                                     </h:panelGrid>
                                     <h:panelGrid columns="1">
                                         <p:inputText value="#{calificacionBean.titulo}" placeholder="Introduce el titulo"/>
