@@ -37,6 +37,16 @@ public class CalificacionEvento implements Serializable {
     @ManyToOne                       // Modelamos la relación muchos a uno con la entidad Usuario
     private Usuario usuarios;
 
+    public CalificacionEvento(){
+        
+    }
+    
+    public CalificacionEvento(String titulo, String comentario, Integer puntuacion){
+        setTitulo(titulo);
+        setComentario(comentario);
+        setPuntuacion(puntuacion);
+    }
+    
     public Integer getIdCalificacion() {
         return idCalificacion;
     }

@@ -61,7 +61,15 @@ public class Evento implements Serializable {
     public Evento(){
         
     }
-    
+
+    public Integer getIdEvento() {
+        return idEvento;
+    }
+
+    public void setIdEvento(Integer idEvento) {
+        this.idEvento = idEvento;
+    }
+
     public String getNombre() {
         return nombre;
     }
@@ -78,11 +86,11 @@ public class Evento implements Serializable {
         this.descripcion = descripcion;
     }
 
-    public int getPrecio() {
+    public Integer getPrecio() {
         return precio;
     }
 
-    public void setPrecio(int precio) {
+    public void setPrecio(Integer precio) {
         this.precio = precio;
     }
 
@@ -102,12 +110,28 @@ public class Evento implements Serializable {
         this.tipoEvento = tipoEvento;
     }
 
+    public List<Date> getFechas() {
+        return fechas;
+    }
+
+    public void setFechas(List<Date> fechas) {
+        this.fechas = fechas;
+    }
+
     public Time getDuracion() {
         return duracion;
     }
 
     public void setDuracion(Time duracion) {
         this.duracion = duracion;
+    }
+
+    public Integer getNumero_entradas() {
+        return numero_entradas;
+    }
+
+    public void setNumero_entradas(Integer numero_entradas) {
+        this.numero_entradas = numero_entradas;
     }
 
     public String getOrganizador() {
@@ -142,12 +166,20 @@ public class Evento implements Serializable {
         this.URLOrganizador = URLOrganizador;
     }
 
-    public Integer getId() {
-        return idEvento;
+    public List<CalificacionEvento> getCalificaciones() {
+        return calificaciones;
     }
 
-    public void setId(Integer id) {
-        this.idEvento = id;
+    public void setCalificaciones(List<CalificacionEvento> calificaciones) {
+        this.calificaciones = calificaciones;
+    }
+
+    public List<EntradaEvento> getEntradas() {
+        return entradas;
+    }
+
+    public void setEntradas(List<EntradaEvento> entradas) {
+        this.entradas = entradas;
     }
 
     @Override

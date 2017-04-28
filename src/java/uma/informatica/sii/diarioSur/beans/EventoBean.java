@@ -12,8 +12,10 @@ import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
+import uma.informatica.sii.diarioSur.CalificacionEvento;
 import uma.informatica.sii.diarioSur.Evento;
 import uma.informatica.sii.diarioSur.Publicidad;
+import uma.informatica.sii.diarioSur.Usuario;
 
 /**
  *
@@ -21,12 +23,13 @@ import uma.informatica.sii.diarioSur.Publicidad;
  */
 @Named(value = "evento")
 @RequestScoped
-public class EventoBean implements Serializable{
+public class EventoBean implements Serializable {
 
     private Publicidad publicidad;
     private Evento evento; // event placeholder
     private List<String> imagenes;
-    
+    private List<CalificacionEvento> calificaciones;
+
     //@ManagedProperty("#{param.eventId}")
     private String eventId;
 
@@ -38,13 +41,20 @@ public class EventoBean implements Serializable{
         // Placeholders
         publicidad = new Publicidad();
         evento = new Evento();
-        evento.setId(10);
+        evento.setIdEvento(10);
         evento.setNombre("Placeholder");
         evento.setDescripcion("Placeholder");
         evento.setPrecio(20);
+
+        calificaciones = new ArrayList<CalificacionEvento>();
+        for (int i = 0; i < 5; ++i) {
+            calificaciones.add(new CalificacionEvento("PACO", "UNA DESCRIPCION", i));
+        }
         
+        evento.setCalificaciones(calificaciones);
+
         imagenes = new ArrayList<>();
-        for(int i = 0; i < 5; ++i){
+        for (int i = 0; i < 5; ++i) {
             imagenes.add("image" + i + ".jpg");
         }
     }
@@ -90,6 +100,14 @@ public class EventoBean implements Serializable{
         this.imagenes = imagenes;
     }
 
+    public List<CalificacionEvento> getCalificaciones() {
+        return calificaciones;
+    }
+
+    public void setCalificaciones(List<CalificacionEvento> calificaciones) {
+        this.calificaciones = calificaciones;
+    }
+
     public boolean validarEvento() {
         boolean validado = false;
 
@@ -100,11 +118,11 @@ public class EventoBean implements Serializable{
             System.out.println("Evento id " + eventId);
             try {
                 id = Integer.parseInt(eventId);
-                validado = evento.getId() == id;
+                validado = evento.getIdEvento() == id;
             } catch (NumberFormatException e) {
                 validado = false;
             }
-        }else{
+        } else {
             System.out.println("Vacio " + eventId);
         }
 
