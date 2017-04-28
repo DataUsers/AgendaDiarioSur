@@ -9,10 +9,15 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
+import org.primefaces.model.map.DefaultMapModel;
+import org.primefaces.model.map.LatLng;
+import org.primefaces.model.map.MapModel;
+import org.primefaces.model.map.Marker;
 import uma.informatica.sii.diarioSur.CalificacionEvento;
 import uma.informatica.sii.diarioSur.Evento;
 import uma.informatica.sii.diarioSur.Publicidad;
@@ -30,6 +35,7 @@ public class EventoBean implements Serializable {
     private Evento evento; // event placeholder
     private List<String> imagenes;
     private List<CalificacionEvento> calificaciones;
+    private MapModel model = new DefaultMapModel();
 
     //@ManagedProperty("#{param.eventId}")
     private String eventId;
@@ -39,103 +45,119 @@ public class EventoBean implements Serializable {
      */
     public EventoBean() {
 
-        // Placeholders
-        publicidad = new Publicidad();
-        evento = new Evento();
-        evento.setIdEvento(10);
-        evento.setNombre("Placeholder");
-        evento.setDescripcion("Placeholder");
-        evento.setPrecio(20);
+	// Placeholders
+	publicidad = new Publicidad();
+	evento = new Evento();
+	evento.setIdEvento(10);
+	evento.setNombre("Placeholder");
+	evento.setDescripcion("Placeholder");
+	evento.setPrecio(20);
+	evento.setGeolocalizacion("36.714040, -4.433475");
 
-        calificaciones = new ArrayList<CalificacionEvento>();
-        for (int i = 0; i < 5; ++i) {
-            calificaciones.add(new CalificacionEvento("PACO", "UNA DESCRIPCION", i));
-        }
-        evento.setCalificaciones(calificaciones);
-        
-        // Crear fechas ficticias
-        List<Date> fechas = new ArrayList<>();
-        for(int i = 0; i < 5; ++i){
-            Date date = new Date(System.currentTimeMillis());
-            fechas.add(date);
-            System.out.println("Date: " + date.toLocalDate().toString());
-        }
-        evento.setFechas(fechas);
-        
-        imagenes = new ArrayList<>();
-        for (int i = 0; i < 5; ++i) {
-            imagenes.add("image" + i + ".jpg");
-        }
+	calificaciones = new ArrayList<CalificacionEvento>();
+	for (int i = 0; i < 5; ++i) {
+	    calificaciones.add(new CalificacionEvento("PACO", "UNA DESCRIPCION", i));
+	}
+	evento.setCalificaciones(calificaciones);
+
+	// Crear fechas ficticias
+	List<Date> fechas = new ArrayList<>();
+	for (int i = 0; i < 5; ++i) {
+	    Date date = new Date(System.currentTimeMillis());
+	    fechas.add(date);
+	    System.out.println("Date: " + date.toLocalDate().toString());
+	}
+	evento.setFechas(fechas);
+
+	// Setear marcador del mapa, compobar errores aqui
+	String[] coord = evento.getGeolocalizacion().split(",");
+	Double latitud = Double.parseDouble(coord[0]);
+	Double longitud = Double.parseDouble(coord[1]);
+	model.addOverlay(new Marker(new LatLng(latitud, longitud), evento.getNombre()));
+
+	imagenes = new ArrayList<>();
+	for (int i = 0; i < 5; ++i) {
+	    imagenes.add("image" + i + ".jpg");
+	}
     }
 
     public Publicidad getPublicidad() {
-        return publicidad;
+	return publicidad;
     }
 
     public void setPublicidad(Publicidad publicidad) {
-        this.publicidad = publicidad;
+	this.publicidad = publicidad;
     }
 
     public Evento getEvento() {
-        return evento;
+	return evento;
     }
 
     public void setEvento(Evento evento) {
-        this.evento = evento;
+	this.evento = evento;
     }
 
     public String getEventId() {
-        return eventId;
+	return eventId;
     }
 
     public void setEventId(String eventId) {
-        this.eventId = eventId;
+	this.eventId = eventId;
     }
-
-    public void redirect() {
-        FacesContext.getCurrentInstance()
-                .getApplication()
-                .getNavigationHandler()
-                .handleNavigation(
-                        FacesContext.getCurrentInstance(), null, "index.xhtml"
-                );
-    }
-
+    
     public List<String> getImagenes() {
-        return imagenes;
+	return imagenes;
     }
 
     public void setImagenes(List<String> imagenes) {
-        this.imagenes = imagenes;
+	this.imagenes = imagenes;
     }
 
     public List<CalificacionEvento> getCalificaciones() {
-        return calificaciones;
+	return calificaciones;
     }
 
     public void setCalificaciones(List<CalificacionEvento> calificaciones) {
-        this.calificaciones = calificaciones;
+	this.calificaciones = calificaciones;
     }
 
+    public MapModel getModel() {
+	return model;
+    }
+
+    public void setModel(MapModel model) {
+	this.model = model;
+    }
+    
+    public void redirect() {
+	FacesContext.getCurrentInstance()
+		.getApplication()
+		.getNavigationHandler()
+		.handleNavigation(
+			FacesContext.getCurrentInstance(), null, "index.xhtml"
+		);
+    }
+
+
     public boolean validarEvento() {
-        boolean validado = false;
+	boolean validado = false;
 
-        if (eventId != null && eventId.length() > 0) {
-            // Deberia comprobar si el evento esta en la base de datos y asignar el
-            // evento a la variable evento de este bean
-            int id = 0;
-            System.out.println("Evento id " + eventId);
-            try {
-                id = Integer.parseInt(eventId);
-                validado = evento.getIdEvento() == id;
-            } catch (NumberFormatException e) {
-                validado = false;
-            }
-        } else {
-            System.out.println("Vacio " + eventId);
-        }
+	if (eventId != null && eventId.length() > 0) {
+	    // Deberia comprobar si el evento esta en la base de datos y asignar el
+	    // evento a la variable evento de este bean
+	    int id = 0;
+	    System.out.println("Evento id " + eventId);
+	    try {
+		id = Integer.parseInt(eventId);
+		validado = evento.getIdEvento() == id;
+	    } catch (NumberFormatException e) {
+		validado = false;
+	    }
+	} else {
+	    System.out.println("Vacio " + eventId);
+	}
 
-        return validado;
+	return validado;
     }
 
 }
