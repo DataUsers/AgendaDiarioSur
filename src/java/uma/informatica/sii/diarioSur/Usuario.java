@@ -33,30 +33,6 @@ public class Usuario implements Serializable {
     private String apellidos;
 	@Column
 	private String contrasena;
-
-	public String getContrasena() {
-		return contrasena;
-	}
-
-	public void setContrasena(String contrasena) {
-		this.contrasena = contrasena;
-	}
-
-	public List<CalificacionEvento> getCalificaciones() {
-		return calificaciones;
-	}
-
-	public void setCalificaciones(List<CalificacionEvento> calificaciones) {
-		this.calificaciones = calificaciones;
-	}
-
-	public List<EntradaEvento> getEntradas() {
-		return entradas;
-	}
-
-	public void setEntradas(List<EntradaEvento> entradas) {
-		this.entradas = entradas;
-	}
     @Column(nullable = false)
     private String email;
     @Column(nullable = false)
@@ -151,6 +127,30 @@ public class Usuario implements Serializable {
     public void setCuentaTwitter(String cuentaTwitter) {
         this.cuentaTwitter = cuentaTwitter;
     }
+	
+	public String getContrasena() {
+		return contrasena;
+	}
+
+	public void setContrasena(String contrasena) {
+		this.contrasena = contrasena;
+	}
+
+	public List<CalificacionEvento> getCalificaciones() {
+		return calificaciones;
+	}
+
+	public void setCalificaciones(List<CalificacionEvento> calificaciones) {
+		this.calificaciones = calificaciones;
+	}
+
+	public List<EntradaEvento> getEntradas() {
+		return entradas;
+	}
+
+	public void setEntradas(List<EntradaEvento> entradas) {
+		this.entradas = entradas;
+	}
 
     @Override
     public int hashCode() {
