@@ -58,93 +58,127 @@ public class Evento implements Serializable {
     @OneToMany
     private List<EntradaEvento> entradas;
 
-    public String getNombre() {
-        return nombre;
-    }
+	public Integer getIdEvento() {
+		return idEvento;
+	}
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
+	public void setIdEvento(Integer idEvento) {
+		this.idEvento = idEvento;
+	}
 
-    public String getDescripcion() {
-        return descripcion;
-    }
+	public String getNombre() {
+		return nombre;
+	}
 
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
 
-    public int getPrecio() {
-        return precio;
-    }
+	public String getDescripcion() {
+		return descripcion;
+	}
 
-    public void setPrecio(int precio) {
-        this.precio = precio;
-    }
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
 
-    public String getGeolocalizacion() {
-        return geolocalizacion;
-    }
+	public Integer getPrecio() {
+		return precio;
+	}
 
-    public void setGeolocalizacion(String geolocalizacion) {
-        this.geolocalizacion = geolocalizacion;
-    }
+	public void setPrecio(Integer precio) {
+		this.precio = precio;
+	}
 
-    public Tipo getTipoEvento() {
-        return tipoEvento;
-    }
+	public String getGeolocalizacion() {
+		return geolocalizacion;
+	}
 
-    public void setTipoEvento(Tipo tipoEvento) {
-        this.tipoEvento = tipoEvento;
-    }
+	public void setGeolocalizacion(String geolocalizacion) {
+		this.geolocalizacion = geolocalizacion;
+	}
 
-    public Time getDuracion() {
-        return duracion;
-    }
+	public Tipo getTipoEvento() {
+		return tipoEvento;
+	}
 
-    public void setDuracion(Time duracion) {
-        this.duracion = duracion;
-    }
+	public void setTipoEvento(Tipo tipoEvento) {
+		this.tipoEvento = tipoEvento;
+	}
 
-    public String getOrganizador() {
-        return organizador;
-    }
+	public List<Date> getFechas() {
+		return fechas;
+	}
 
-    public void setOrganizador(String organizador) {
-        this.organizador = organizador;
-    }
+	public void setFechas(List<Date> fechas) {
+		this.fechas = fechas;
+	}
 
-    public Byte[][] getImagenes() {
-        return imagenes;
-    }
+	public Time getDuracion() {
+		return duracion;
+	}
 
-    public void setImagenes(Byte[][] imagenes) {
-        this.imagenes = imagenes;
-    }
+	public void setDuracion(Time duracion) {
+		this.duracion = duracion;
+	}
 
-    public String getURLVideos() {
-        return URLVideos;
-    }
+	public Integer getNumero_entradas() {
+		return numero_entradas;
+	}
 
-    public void setURLVideos(String URLVideos) {
-        this.URLVideos = URLVideos;
-    }
+	public void setNumero_entradas(Integer numero_entradas) {
+		this.numero_entradas = numero_entradas;
+	}
 
-    public String getURLOrganizador() {
-        return URLOrganizador;
-    }
+	public String getOrganizador() {
+		return organizador;
+	}
 
-    public void setURLOrganizador(String URLOrganizador) {
-        this.URLOrganizador = URLOrganizador;
-    }
+	public void setOrganizador(String organizador) {
+		this.organizador = organizador;
+	}
 
-    public Integer getId() {
-        return idEvento;
-    }
+	public Byte[][] getImagenes() {
+		return imagenes;
+	}
 
-    public void setId(Integer id) {
-        this.idEvento = id;
-    }
+	public void setImagenes(Byte[][] imagenes) {
+		this.imagenes = imagenes;
+	}
+
+	public String getURLVideos() {
+		return URLVideos;
+	}
+
+	public void setURLVideos(String URLVideos) {
+		this.URLVideos = URLVideos;
+	}
+
+	public String getURLOrganizador() {
+		return URLOrganizador;
+	}
+
+	public void setURLOrganizador(String URLOrganizador) {
+		this.URLOrganizador = URLOrganizador;
+	}
+
+	public List<CalificacionEvento> getCalificaciones() {
+		return calificaciones;
+	}
+
+	public void setCalificaciones(List<CalificacionEvento> calificaciones) {
+		this.calificaciones = calificaciones;
+	}
+
+	public List<EntradaEvento> getEntradas() {
+		return entradas;
+	}
+
+	public void setEntradas(List<EntradaEvento> entradas) {
+		this.entradas = entradas;
+	}
+
+
 
     @Override
     public int hashCode() {
