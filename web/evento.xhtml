@@ -8,7 +8,6 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <h:head>
         <title>Facelet Title</title>
-        <script src="http://maps.google.com/maps/api/js?key=AIzaSyD4fLESI4ybh4eJh7NOxFhDxW7uCK2XHDs" type="text/javascript" ></script>
     </h:head>
     <h:body>
         <f:metadata>
@@ -18,6 +17,7 @@
 
         <c:choose>
             <c:when test="#{evento.validarEvento()}">
+		<script src="http://maps.google.com/maps/api/js?key=AIzaSyD4fLESI4ybh4eJh7NOxFhDxW7uCK2XHDs" type="text/javascript" ></script>
                 <h:panelGrid id="main" columns="1" border="1">
                     <h1>Publicidad</h1>
                     <h:panelGroup id="evento">
@@ -42,10 +42,8 @@
 					    </p:scrollPanel>
                                         </h:panelGrid>
                                         <h:panelGroup>
-                                            <h:form>
-                                                <!-- Aqui se deberia comprobar la sesion para comprar -->
-                                                <h:commandButton action="index" value="Comprar"/>
-                                            </h:form>
+					    <h:button value="Compar" outcome="index.xhtml?evento=#{evento.eventId}"></h:button>
+					    <h:button value='Favoritos #{evento.numeroFavoritos()}' onclick="return false"></h:button>
 					    <!-- Boton para popup de compartir a facebook o twitter -->
 					    <h:button styleClass="shareButton" value="Compartir Twitter" onclick="return shareTwitter('#{evento.currentUrl}')"/>
 					    <h:button styleClass="shareButton" value="Compartir Facebook" onclick="return shareFacebook('#{evento.currentUrl}')"/>
@@ -94,6 +92,9 @@
             </c:when>
             <c:otherwise>
                 <h1>EVENTO INEXISTENTE</h1>
+		<h:form>
+		    <h:commandButton value="Comprar" action="#{testBean.gotoIndex()}"/>
+		</h:form>
             </c:otherwise>
         </c:choose>
 

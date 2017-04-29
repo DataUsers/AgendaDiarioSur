@@ -5,11 +5,14 @@
  */
 package uma.informatica.sii.diarioSur.beans;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.bean.ManagedProperty;
@@ -58,7 +61,9 @@ public class EventoBean implements Serializable {
 
 	calificaciones = new ArrayList<CalificacionEvento>();
 	for (int i = 0; i < 5; ++i) {
-	    calificaciones.add(new CalificacionEvento("PACO", "UNA DESCRIPCION", i));
+	    CalificacionEvento calificacion = new CalificacionEvento("PACO", "UNA DESCRIPCION", i);
+	    calificacion.setFavorito(true);
+	    calificaciones.add(calificacion);
 	}
 	evento.setCalificaciones(calificaciones);
 
@@ -67,7 +72,7 @@ public class EventoBean implements Serializable {
 	for (int i = 0; i < 5; ++i) {
 	    Date date = new Date(System.currentTimeMillis());
 	    fechas.add(date);
-	    System.out.println("Date: " + date.toLocalDate().toString());
+	    //System.out.println("Date: " + date.toLocalDate().toString());
 	}
 	evento.setFechas(fechas);
 
@@ -172,6 +177,17 @@ public class EventoBean implements Serializable {
 	}
 
 	return validado;
+    }
+    
+    public String numeroFavoritos(){
+	int nCalificacion = 0;
+	for(CalificacionEvento calificacion : calificaciones){
+	    if(calificacion.isFavorito()){
+		++nCalificacion;
+	    }
+	}
+	
+	return Integer.toString(nCalificacion);
     }
 
 }
