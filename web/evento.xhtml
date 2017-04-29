@@ -40,23 +40,15 @@
 							     itemLabel="#{fecha.toLocalDate().toString()}" 
 							     itemValue="#{fecha.toLocalDate().toString()}" />
 					    </p:scrollPanel>
-					    <!--
-					    <p:dataList value="#{evento.evento.fechas}" var="fecha" type="unordered" itemType="none" paginator="true" rows="4" styleClass="paginated">
-                                                <f:facet name="header">
-                                                    Fechas
-                                                </f:facet>
-                                                <h:outputText value="#{fecha.toLocalDate().toString()}"/>
-                                            </p:dataList>
-					    -->
                                         </h:panelGrid>
                                         <h:panelGroup>
                                             <h:form>
                                                 <!-- Aqui se deberia comprobar la sesion para comprar -->
                                                 <h:commandButton action="index" value="Comprar"/>
-                                                <!-- Boton para popup de compartir a facebook o twitter -->
-                                                <h:button value="Compartir FB"/>
-                                                <h:button value="Compartir twitter"/>
                                             </h:form>
+					    <!-- Boton para popup de compartir a facebook o twitter -->
+					    <h:button styleClass="shareButton" value="Compartir Twitter" onclick="return shareTwitter('#{evento.currentUrl}')"/>
+					    <h:button styleClass="shareButton" value="Compartir Facebook" onclick="return shareFacebook('#{evento.currentUrl}')"/>
                                         </h:panelGroup>
                                     </p:panel>
                                 </h:panelGroup>
@@ -97,9 +89,11 @@
                         </h:panelGrid>
                     </h:panelGroup>
                 </h:panelGrid>
+
+		<script type="text/javascript" src="resources/js/evento.js"></script>
             </c:when>
             <c:otherwise>
-                <h1>NOT FOUND</h1>
+                <h1>EVENTO INEXISTENTE</h1>
             </c:otherwise>
         </c:choose>
 

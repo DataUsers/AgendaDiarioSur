@@ -14,6 +14,7 @@ import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
 import org.primefaces.model.map.DefaultMapModel;
 import org.primefaces.model.map.LatLng;
 import org.primefaces.model.map.MapModel;
@@ -36,6 +37,7 @@ public class EventoBean implements Serializable {
     private List<String> imagenes;
     private List<CalificacionEvento> calificaciones;
     private MapModel model = new DefaultMapModel();
+    private String currentUrl;
 
     //@ManagedProperty("#{param.eventId}")
     private String eventId;
@@ -79,6 +81,11 @@ public class EventoBean implements Serializable {
 	for (int i = 0; i < 5; ++i) {
 	    imagenes.add("image" + i + ".jpg");
 	}
+
+	HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+	// Hardcoded
+	eventId = request.getParameter("evento");
+	currentUrl = request.getRequestURL().toString() + "?evento=" + eventId;
     }
 
     public Publicidad getPublicidad() {
@@ -104,7 +111,7 @@ public class EventoBean implements Serializable {
     public void setEventId(String eventId) {
 	this.eventId = eventId;
     }
-    
+
     public List<String> getImagenes() {
 	return imagenes;
     }
@@ -128,7 +135,15 @@ public class EventoBean implements Serializable {
     public void setModel(MapModel model) {
 	this.model = model;
     }
-    
+
+    public String getCurrentUrl() {
+	return currentUrl;
+    }
+
+    public void setCurrentUrl(String currentUrl) {
+	this.currentUrl = currentUrl;
+    }
+
     public void redirect() {
 	FacesContext.getCurrentInstance()
 		.getApplication()
@@ -137,7 +152,6 @@ public class EventoBean implements Serializable {
 			FacesContext.getCurrentInstance(), null, "index.xhtml"
 		);
     }
-
 
     public boolean validarEvento() {
 	boolean validado = false;
