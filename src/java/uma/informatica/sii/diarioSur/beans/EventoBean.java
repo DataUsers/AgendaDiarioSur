@@ -58,6 +58,8 @@ public class EventoBean implements Serializable {
 	evento.setDescripcion("Placeholder");
 	evento.setPrecio(20);
 	evento.setGeolocalizacion("36.714040, -4.433475");
+	evento.setOrganizador("OrganizadorNombre");
+	evento.setURLOrganizador("http://127.0.0.1:8080");
 
 	calificaciones = new ArrayList<CalificacionEvento>();
 	for (int i = 0; i < 5; ++i) {
@@ -91,6 +93,55 @@ public class EventoBean implements Serializable {
 	// Hardcoded
 	eventId = request.getParameter("evento");
 	currentUrl = request.getRequestURL().toString() + "?evento=" + eventId;
+    }
+
+    public void redirect() {
+	FacesContext.getCurrentInstance()
+		.getApplication()
+		.getNavigationHandler()
+		.handleNavigation(
+			FacesContext.getCurrentInstance(), null, "index.xhtml"
+		);
+    }
+
+    public boolean validarEvento() {
+	boolean validado = false;
+
+	if (eventId != null && eventId.length() > 0) {
+	    // Deberia comprobar si el evento esta en la base de datos y asignar el
+	    // evento a la variable evento de este bean
+	    int id = 0;
+	    //System.out.println("Evento id " + eventId);
+	    try {
+		id = Integer.parseInt(eventId);
+		validado = evento.getIdEvento() == id;
+	    } catch (NumberFormatException e) {
+		validado = false;
+	    }
+	} else {
+	    //System.out.println("Vacio " + eventId);
+	}
+
+	return validado;
+    }
+
+    public String numeroFavoritos() {
+	int nCalificacion = 0;
+	for (CalificacionEvento calificacion : calificaciones) {
+	    if (calificacion.isFavorito()) {
+		++nCalificacion;
+	    }
+	}
+
+	return Integer.toString(nCalificacion);
+    }
+
+    public String marcarFavorito() {
+	// Comprobar sesion, si esta logueado, marcar favorito
+	// si no, enviar a la pagina de login
+	System.out.println("Marcar favorito");
+
+	return "login.xhtml";
     }
 
     public Publicidad getPublicidad() {
@@ -147,47 +198,6 @@ public class EventoBean implements Serializable {
 
     public void setCurrentUrl(String currentUrl) {
 	this.currentUrl = currentUrl;
-    }
-
-    public void redirect() {
-	FacesContext.getCurrentInstance()
-		.getApplication()
-		.getNavigationHandler()
-		.handleNavigation(
-			FacesContext.getCurrentInstance(), null, "index.xhtml"
-		);
-    }
-
-    public boolean validarEvento() {
-	boolean validado = false;
-
-	if (eventId != null && eventId.length() > 0) {
-	    // Deberia comprobar si el evento esta en la base de datos y asignar el
-	    // evento a la variable evento de este bean
-	    int id = 0;
-	    System.out.println("Evento id " + eventId);
-	    try {
-		id = Integer.parseInt(eventId);
-		validado = evento.getIdEvento() == id;
-	    } catch (NumberFormatException e) {
-		validado = false;
-	    }
-	} else {
-	    System.out.println("Vacio " + eventId);
-	}
-
-	return validado;
-    }
-    
-    public String numeroFavoritos(){
-	int nCalificacion = 0;
-	for(CalificacionEvento calificacion : calificaciones){
-	    if(calificacion.isFavorito()){
-		++nCalificacion;
-	    }
-	}
-	
-	return Integer.toString(nCalificacion);
     }
 
 }

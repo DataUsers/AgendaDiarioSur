@@ -13,7 +13,6 @@
         <f:metadata>
             <f:viewParam id="id" name="evento" value="#{evento.eventId}" />        
         </f:metadata>
-        <c:set var="eventoElg" value="#{evento.evento}" scope="request"></c:set>
 
         <c:choose>
             <c:when test="#{evento.validarEvento()}">
@@ -43,7 +42,11 @@
                                         </h:panelGrid>
                                         <h:panelGroup>
 					    <h:button value="Compar" outcome="index.xhtml?evento=#{evento.eventId}"></h:button>
-					    <h:button value='Favoritos #{evento.numeroFavoritos()}' onclick="return false"></h:button>
+					    <h:form>
+						<h:commandButton value="Favoritos #{evento.numeroFavoritos()}" 
+								 action="#{evento.marcarFavorito()}" immediate="true" />
+					    </h:form>
+					    <!--<h:button value='Favoritos #{evento.numeroFavoritos()}' onclick="return false"></h:button>-->
 					    <!-- Boton para popup de compartir a facebook o twitter -->
 					    <h:button styleClass="shareButton" value="Compartir Twitter" onclick="return shareTwitter('#{evento.currentUrl}')"/>
 					    <h:button styleClass="shareButton" value="Compartir Facebook" onclick="return shareFacebook('#{evento.currentUrl}')"/>
@@ -53,6 +56,8 @@
                             </h:panelGrid>
                         </h:panelGrid>
 			<p:panel header="Descripcion" styleClass="descripcionEvento">
+			    <h:outputLink value="#{evento.evento.URLOrganizador}">#{evento.evento.organizador}</h:outputLink>
+			    <br></br>
 			    <h:outputText value="#{evento.evento.descripcion}"/>
 			</p:panel>
 			<p:panel>
