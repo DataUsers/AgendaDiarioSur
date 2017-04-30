@@ -45,9 +45,10 @@
 						<h:panelGrid columns="2">
 						    <h:panelGroup>
 							<p:button value="Compar" outcome="index.xhtml?evento=#{evento.eventId}" />
-							<h:form>
-							    <p:commandButton value="Favoritos #{evento.numeroFavoritos()}" 
-									     action="#{evento.marcarFavorito()}" process="@this" immediate="true" />
+							<h:form id="fav" binding="#{evento.favoritos}">
+							    <h:message for="fav"></h:message>
+							    <p:commandButton ajax="false" type="submit" value="Favoritos #{evento.numeroFavoritos()}" 
+									     action="#{evento.marcarFavorito()}" process="@this" />
 							</h:form>
 						    </h:panelGroup>
 						    <h:panelGroup>
@@ -90,7 +91,8 @@
 				    </h:panelGroup>
 				    <h:panelGroup>
 					<p:panel header="Escribir Reseña" styleClass="containerResenia">
-					    <h:form id="calificacion">
+					    <h:form id="calificacion" binding="#{calificacionBean.formulario}">
+						<h:message for="calificacion"/>
 						<h:panelGrid columns="2">
 						    <h:outputText value="Puntuacion:"/>
 						    <p:rating value="#{calificacionBean.puntuacion}" stars="5"/>
@@ -106,7 +108,7 @@
 						    <h:message for="upload"/>
 						</h:panelGrid>
 						<h:panelGrid columns="2">
-						    <p:commandButton value="Enviar" action="#{calificacionBean.enviarCalificacion(evento.evento)}" ajax="false"/>
+						    <p:commandButton type="submit" value="Enviar" action="#{calificacionBean.enviarCalificacion(evento.evento)}" ajax="false"/>
 						    <p:commandButton value="Reestablecer" type="reset"/>
 						</h:panelGrid>
 					    </h:form>

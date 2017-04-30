@@ -15,8 +15,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import org.primefaces.model.map.DefaultMapModel;
 import org.primefaces.model.map.LatLng;
@@ -41,11 +44,12 @@ public class EventoBean implements Serializable {
     private List<CalificacionEvento> calificaciones;
     private MapModel model = new DefaultMapModel();
     private String currentUrl;
-
     private boolean validado;
-
-    //@ManagedProperty("#{param.eventId}")
     private String eventId;
+    private UIComponent favoritos;
+    
+    @Inject
+    private ControlAutorizacion ctrl;
 
     /**
      * Creates a new instance of Evento
@@ -113,15 +117,6 @@ public class EventoBean implements Serializable {
 	}
     }
 
-    public void redirect() {
-	FacesContext.getCurrentInstance()
-		.getApplication()
-		.getNavigationHandler()
-		.handleNavigation(
-			FacesContext.getCurrentInstance(), null, "index.xhtml"
-		);
-    }
-
     public boolean validarEvento() {
 	boolean validado = false;
 
@@ -159,6 +154,14 @@ public class EventoBean implements Serializable {
 	// si no, enviar a la pagina de login
 	System.out.println("Marcar favorito");
 
+	if(ctrl.sesionIniciada()){
+	    // Crear calificacion como favorito y guardarlo en la base de datos
+	}else{
+	    // Mostrar que no puede dar a favoritos a menos que este iniciado de sesion
+	    FacesContext context = FacesContext.getCurrentInstance();
+	    context.addMessage(favoritos.getClientId(), new FacesMessage("Tienes que iniciar sesion para dar a favoritos"));
+	}
+	
 	return null;
     }
 
@@ -224,5 +227,13 @@ public class EventoBean implements Serializable {
 
     public void setValidado(boolean validado) {
 	this.validado = validado;
+    }
+
+    public UIComponent getFavoritos() {
+	return favoritos;
+    }
+
+    public void setFavoritos(UIComponent favoritos) {
+	this.favoritos = favoritos;
     }
 }

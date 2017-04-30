@@ -8,7 +8,9 @@ package uma.informatica.sii.diarioSur.beans;
 import java.io.Serializable;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import org.primefaces.model.UploadedFile;
@@ -23,7 +25,7 @@ import uma.informatica.sii.diarioSur.Evento;
 public class CalificacionBean implements Serializable {
 
     @Inject
-    private EventoBean evento;
+    private ControlAutorizacion ctrl;
 
     private String titulo;          // Indica el título que el usuario ponga a su valoración
     private Integer puntuacion;      // Indica la puntuación que el usuario establezca al realizar su valoración
@@ -31,6 +33,7 @@ public class CalificacionBean implements Serializable {
     private boolean favorito;        // Si lo marca como favorito aparecerá como True, en caso contrario a False
     private UploadedFile imagen;
     private UIComponent imageComponent;
+    private UIComponent formulario;
 
     public String getTitulo() {
 	return titulo;
@@ -64,14 +67,6 @@ public class CalificacionBean implements Serializable {
 	this.favorito = favorito;
     }
 
-    public EventoBean getEvento() {
-	return evento;
-    }
-
-    public void setEvento(EventoBean evento) {
-	this.evento = evento;
-    }
-
     public UploadedFile getImagen() {
 	return imagen;
     }
@@ -88,6 +83,14 @@ public class CalificacionBean implements Serializable {
 	this.imageComponent = imageComponent;
     }
 
+    public UIComponent getFormulario() {
+	return formulario;
+    }
+
+    public void setFormulario(UIComponent formulario) {
+	this.formulario = formulario;
+    }
+
     public String enviarCalificacion(Evento evento) {
 	System.out.println("Enviado una calificacion");
 	System.out.println("Puntiacion: " + puntuacion);
@@ -98,8 +101,17 @@ public class CalificacionBean implements Serializable {
 	    System.out.println("Hay una imagen");
 	}
 
-	// Crear calificacion, guardar en la persistencia y asignarlo al evento
-	// refrescar la pagina
+	if (ctrl.sesionIniciada()) {
+	    // Crear calificacion, guardar en la persistencia y asignarlo al evento
+	    // Guardar en la base de datos y redirigir al evento
+
+	    return "evento.xhtml?evento=" + evento.getIdEvento();
+	} else {
+	    // Notificar que necesitainiciar sesion
+	    FacesContext context = FacesContext.getCurrentInstance();
+	    context.addMessage(formulario.getClientId(), new FacesMessage("Tienes que iniciar sesion para enviar una calificacion"));
+	}
+
 	return null;
     }
 
