@@ -42,6 +42,8 @@ public class EventoBean implements Serializable {
     private MapModel model = new DefaultMapModel();
     private String currentUrl;
 
+    private boolean validado;
+
     //@ManagedProperty("#{param.eventId}")
     private String eventId;
 
@@ -49,7 +51,28 @@ public class EventoBean implements Serializable {
      * Creates a new instance of Evento
      */
     public EventoBean() {
+	createPlaceholders();
+	
+	// Validar si el id del evento existe
+	HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+	// Hardcoded
+	validado = false;
+	eventId = request.getParameter("evento");
+	currentUrl = request.getRequestURL().toString();
+	if (eventId != null) {
+	    currentUrl += "?evento=" + eventId;
+	    int id = 0;
+	    System.out.println("Evento id " + eventId);
+	    try {
+		id = Integer.parseInt(eventId);
+		validado = evento.getIdEvento() == id;
+	    } catch (NumberFormatException e) {
+		validado = false;
+	    }
+	}
+    }
 
+    private void createPlaceholders() {
 	// Placeholders
 	publicidad = new Publicidad();
 	evento = new Evento();
@@ -88,11 +111,6 @@ public class EventoBean implements Serializable {
 	for (int i = 0; i < 5; ++i) {
 	    imagenes.add("image" + i + ".jpg");
 	}
-
-	HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-	// Hardcoded
-	eventId = request.getParameter("evento");
-	currentUrl = request.getRequestURL().toString() + "?evento=" + eventId;
     }
 
     public void redirect() {
@@ -141,7 +159,7 @@ public class EventoBean implements Serializable {
 	// si no, enviar a la pagina de login
 	System.out.println("Marcar favorito");
 
-	return "login.xhtml";
+	return null;
     }
 
     public Publicidad getPublicidad() {
@@ -200,4 +218,11 @@ public class EventoBean implements Serializable {
 	this.currentUrl = currentUrl;
     }
 
+    public boolean isValidado() {
+	return validado;
+    }
+
+    public void setValidado(boolean validado) {
+	this.validado = validado;
+    }
 }

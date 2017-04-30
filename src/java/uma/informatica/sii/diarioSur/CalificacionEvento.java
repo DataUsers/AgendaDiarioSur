@@ -28,6 +28,7 @@ public class CalificacionEvento implements Serializable {
     private Integer puntuacion;      // Indica la puntuación que el usuario establezca al realizar su valoración
     private String  comentario;      // Es el propio comentario acerca del evento
     private boolean favorito;        // Si lo marca como favorito aparecerá como True, en caso contrario a False
+    private byte[] imagen;
     
     @JoinColumn(nullable = false)
     @ManyToOne                       // Modelamos la relación muchos a uno con la entidad Evento
@@ -101,6 +102,14 @@ public class CalificacionEvento implements Serializable {
 
     public void setUsuarios(Usuario usuarios) {
         this.usuarios = usuarios;
+    }
+
+    public byte[] getImagen() {
+	return imagen;
+    }
+
+    public void setImagen(byte[] imagen) {
+	this.imagen = imagen;
     }
 
     @Override
