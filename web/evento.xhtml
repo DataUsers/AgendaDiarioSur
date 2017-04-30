@@ -38,6 +38,7 @@
 					</h:panelGrid>
 					<h:panelGroup>
 					    <h:button value="Compar" outcome="index.xhtml?evento=#{evento.eventId}"></h:button>
+
 					    <h:form>
 						<h:commandButton value="Favoritos #{evento.numeroFavoritos()}" 
 								 action="#{evento.marcarFavorito()}" immediate="true" />
@@ -46,6 +47,7 @@
 					    <!-- Boton para popup de compartir a facebook o twitter -->
 					    <h:button styleClass="shareButton" value="Compartir Twitter" onclick="return shareTwitter('#{evento.currentUrl}')"/>
 					    <h:button styleClass="shareButton" value="Compartir Facebook" onclick="return shareFacebook('#{evento.currentUrl}')"/>
+
 					</h:panelGroup>
 				    </p:panel>
 				</h:panelGroup>
@@ -88,20 +90,13 @@
 			</h:panelGrid>
 		    </h:panelGroup>
 		</h:panelGrid>
-
 		<script src="http://maps.google.com/maps/api/js?key=AIzaSyD4fLESI4ybh4eJh7NOxFhDxW7uCK2XHDs" type="text/javascript" ></script>
 		<script type="text/javascript" src="resources/js/evento.js"></script>
-	    </c:when>>
-
+	    </c:when>
 	    <c:otherwise>
 		<h1>NOT FOUND</h1>
-		<h:form>
-		    <h:commandButton value="Favoritos #{evento.numeroFavoritos()}" 
-				     action="#{evento.marcarFavorito()}" immediate="true" />
-		</h:form>
-	    </c:otherwise>>    
+	    </c:otherwise>
 	</c:choose>
-
     </h:body>
 </html>
 
