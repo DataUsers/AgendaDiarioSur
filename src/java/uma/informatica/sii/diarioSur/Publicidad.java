@@ -33,6 +33,9 @@ public class Publicidad implements Serializable {
     @Enumerated(EnumType.STRING)
     private Tipo tipo;
 
+    public Publicidad(){
+        
+    }
    
     public Long getIdPublicidad() {
         return idPublicidad;

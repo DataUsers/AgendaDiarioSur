@@ -21,35 +21,35 @@ public class ControlAutorizacion implements Serializable {
     private Usuario usuario;
 
     public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+	this.usuario = usuario;
     }
 
     public Usuario getUsuario() {
-        return usuario;
+	return usuario;
     }
 
     public String home() {
-        String devolver = "index.xhtml?faces-redirect=true";
-       
+	String devolver = "index.xhtml?faces-redirect=true";
 
-        return devolver;
+	return devolver;
     }
 
     public String logout() {
-        // Destruye la sesión (y con ello, el ámbito de este bean)
-        FacesContext ctx = FacesContext.getCurrentInstance();
-        ctx.getExternalContext().invalidateSession();
-        usuario = null;
-        return "login.xhtml?faces-redirect=true";
+	// Destruye la sesión (y con ello, el ámbito de este bean)
+	FacesContext ctx = FacesContext.getCurrentInstance();
+	ctx.getExternalContext().invalidateSession();
+	usuario = null;
+	return "login.xhtml?faces-redirect=true";
     }
-	public boolean sesionIniciada(){
-		return usuario!=null;
-	}
+
+    public boolean sesionIniciada() {
+	return usuario != null;
+    }
 
     /**
      * Creates a new instance of ControlAutorizacion
      */
     public ControlAutorizacion() {
-		usuario=null;
+	usuario = null;
     }
 }
