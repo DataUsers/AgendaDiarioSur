@@ -9,6 +9,10 @@
         Hello from Facelets
         <br />
         <h:link outcome="welcomePrimefaces" value="Primefaces welcome page" />
+		<br/>
+		<h:form>
+		<h:commandLink value="Salir" action="#{controlAutorizacion.logout()}"/>
+		</h:form>
     </h:body>
 </html>
 
