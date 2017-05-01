@@ -45,7 +45,7 @@ public class Evento implements Serializable {
     private String geolocalizacion;
     @Enumerated(EnumType.ORDINAL)
     private Tipo tipoEvento;
-    @ElementCollection (fetch =   FetchType.EAGER)
+    @ElementCollection (fetch =    FetchType.EAGER)
     private List<Date> fechas;
     private Time duracion;
     private Integer numero_entradas;
