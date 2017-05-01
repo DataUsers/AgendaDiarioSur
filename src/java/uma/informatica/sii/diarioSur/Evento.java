@@ -51,7 +51,6 @@ public class Evento implements Serializable {
     private Integer numero_entradas;
     private String organizador;
     private Byte[][] imagenes;
-  
     private String URLVideos;
     private String URLOrganizador;
     @OneToMany
