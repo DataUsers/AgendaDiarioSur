@@ -8,9 +8,10 @@
         <title>Facelet Title</title>
     </h:head>
     <h:body>
+	<!-- formulario normal?? -->
 	<h:form>
 	    <!-- icono de marcador aqui -->
-	    <h:inputText value="localization"></h:inputText>
+	    <h:inputText value=""></h:inputText>
 	    <h:commandButton value="Enviar"></h:commandButton>
 	</h:form>
 
@@ -18,15 +19,16 @@
 	    <!-- busqueda -->
 	    <form method="GET" action="busqueda.xhtml">
 		<!-- filtros -->
-		<select name="filtrar">
-		    <h:panelGrid columns="6">
-			<ui:repeat var="filtros" value="#{busqueda.filtros}">
-			    <option value="#{filtros}">#{filtros}</option>
-			</ui:repeat>
-		    </h:panelGrid>
-		</select>
-		<input type="text" name="q" value="Buscar por nombre, ciudad, tipo..."></input>
-		<h:commandButton type="submit" value="Enviar"></h:commandButton>
+		<h:panelGrid columns="6">
+		    <ui:repeat var="filtros" value="#{busqueda.filtros}">
+			<label for="#{filtros}">#{filtros}</label>
+			<input type="radio" id="#{filtros}" name="filtrar" value="#{filtros}" />
+		    </ui:repeat>
+		</h:panelGrid>
+		
+		<input type="text" name="q" placeholder="Buscar por nombre, ciudad, tipo..."></input>
+		<input type="submit" value="Enviar"></input>
+		<!--<h:commandButton type="submit" value="Enviar"></h:commandButton> -->
 	    </form>
 	    <h:panelGrid>
 		<!-- publicidad -->
@@ -52,7 +54,9 @@
 				    </h:panelGroup>
 				    <h:panelGroup>
 					<!-- compartir y compra -->
-					
+					<p:button styleClass="shareButton" value="Compartir Twitter" onclick="return shareTwitter('#{busqueda.construirEnlace(event.idEvento)}')"/>
+					<p:button styleClass="shareButton" value="Compartir Facebook" onclick="return shareFacebook('#{busqueda.construirEnlace(event.idEvento)}')"/>
+					<p:button styleClass="compraButton" value="Comprar" outcome="compra.xhtml"></p:button> <!-- Construir link de compra -->
 				    </h:panelGroup>
 				</h:panelGrid>
 			    </p:panel>
@@ -61,7 +65,7 @@
 		</div>
 	    </p:panel>
 	</h:panelGrid>
-
+	<script type="text/javascript" src="resources/js/share.js"></script>
     </h:body>
 </html>
 
