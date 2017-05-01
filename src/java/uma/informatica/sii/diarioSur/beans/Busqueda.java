@@ -47,6 +47,7 @@ public class Busqueda {
 	crearPlaceholder();
 
 	if (query != null && query.length() != 0) {
+            // Busqueda placeholder
 	    System.out.println("Tiene query String: " + query);
 	    eventosMostrar = new ArrayList<>();
 	    Random rnd = new Random(System.currentTimeMillis());
@@ -59,6 +60,9 @@ public class Busqueda {
 		if (filtro != null && filtro.length() != 0) {
 		    System.out.println("Tiene un filtro: " + filtro);
 		}
+                
+                // Comprobar latitud y longitud y obtener por proximidad
+                
 		if (rnd.nextBoolean()) {
 		    eventosMostrar.add(evento);
 		}
@@ -92,7 +96,7 @@ public class Busqueda {
 
 	for (int i = 0; i < 20; ++i) {
 	    Evento eventoPlaceholder = new Evento();
-	    eventoPlaceholder.setIdEvento(i);
+	    eventoPlaceholder.setIdEvento(10);
 	    eventoPlaceholder.setNombre("Placeholder Nombre evento " + i);
 	    eventoPlaceholder.setPrecio(rnd.nextInt(100));
 	    eventoPlaceholder.setDescripcion("PLACEHOLDER description del evento" + i);
@@ -128,6 +132,11 @@ public class Busqueda {
 
     public void setEventosMostrar(List<Evento> eventosMostrar) {
 	this.eventosMostrar = eventosMostrar;
+    }
+    
+    public String randomImage(){
+        Random rnd = new Random(System.currentTimeMillis());
+        return "image" + rnd.nextInt(5) + ".jpg";
     }
 
 }

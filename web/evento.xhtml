@@ -8,124 +8,124 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <h:head>
         <title>Facelet Title</title>
-	<link rel="stylesheet" type="text/css" href="resources/css/evento.css"/>
+        <link rel="stylesheet" type="text/css" href="resources/css/evento.css"/>
     </h:head>
     <h:body>
 
-	<c:choose>
-	    <c:when test="#{evento.validado}">
-		<h:panelGrid id="main" columns="1" border="1">
-		    <h:panelGroup>
-			<h1>Publicidad</h1>
-		    </h:panelGroup>
-		    <h:panelGroup id="evento">
-			<h:panelGrid columns="1">
-			    <h:panelGroup>
-				<h:panelGrid id="content" class="" columns="1">
-				    <h:panelGrid id="primeraParte" columns="2">
-					<h:panelGroup>
-					    <p:galleria value="#{evento.imagenes}" var="image" 
-							autoPlay="true" effect="fade">
-						<p:graphicImage name="imagenes/#{image}"
-								title="#{image}" alt="#{image}"
-								width="100%" height="100%" url="resources/imagenes/#{image}">
-						</p:graphicImage>
-					    </p:galleria>
-					</h:panelGroup>
-					<h:panelGroup>
-					    <p:panel header="#{evento.evento.nombre}">
-						<h:panelGrid columns="2">
-						    <p>Precio: #{evento.evento.precio}</p>
-						    <p:scrollPanel mode="native" style="width:250px;height:200px">
-							<p:orderList value="#{evento.evento.fechas}" var="fecha" disabled="true" controlsLocation="none" styleClass="listaFechas" 
-								     itemLabel="#{fecha.toLocalDate().toString()}" 
-								     itemValue="#{fecha.toLocalDate().toString()}" />
-						    </p:scrollPanel>
-						</h:panelGrid>
-						<h:panelGrid columns="2">
-						    <h:panelGroup>
-							<p:button value="Compar" outcome="index.xhtml?evento=#{evento.eventId}" />
-							<h:form id="fav" binding="#{evento.favoritos}">
-							    <h:message for="fav"></h:message>
-							    <p:commandButton ajax="false" type="submit" value="Favoritos #{evento.numeroFavoritos()}" 
-									     action="#{evento.marcarFavorito()}" process="@this" />
-							</h:form>
-						    </h:panelGroup>
-						    <h:panelGroup>
-							<!-- Boton para popup de compartir a facebook o twitter -->
-							<p:button styleClass="shareButton" value="Compartir Twitter" onclick="return shareTwitter('#{evento.currentUrl}')"/>
-							<p:button styleClass="shareButton" value="Compartir Facebook" onclick="return shareFacebook('#{evento.currentUrl}')"/>
-						    </h:panelGroup>
-						</h:panelGrid>
-					    </p:panel>
-					</h:panelGroup>
-				    </h:panelGrid>
-				</h:panelGrid>
-			    </h:panelGroup>
-			    <h:panelGroup>
-				<p:panel header="Descripcion" styleClass="descripcionEvento">
-				    <h:outputLink value="#{evento.evento.URLOrganizador}">#{evento.evento.organizador}</h:outputLink>
-				    <br></br>
-				    <h:outputText value="#{evento.evento.descripcion}"/>
-				</p:panel>
-			    </h:panelGroup>
-			    <h:panelGroup>
-				<p:panel header="Ubicacion">
-				    <p:gmap center="#{evento.evento.geolocalizacion}" zoom="15" type="hybrid" 
-					    style="width:100%;height:200px" model="#{evento.model}"/>
-				</p:panel>
-			    </h:panelGroup>
-			    <h:panelGroup>
-				<h:panelGrid id="comentarios" columns="1" border="1" styleClass="comentariosContainer">
-				    <h:panelGroup>
-					<p:panel style="overflow-y: auto;height: 100px;" header="Comentarios">
-					    <!-- ui repeat o datatable -->
-					    <ui:repeat value="#{evento.calificaciones}" var="cal">
-						<p:panel styleClass="comentario">
-						    <h4>#{cal.titulo}</h4>
-						    <p>#{cal.comentario}</p>
-						    <p>Calificacion: #{cal.puntuacion}</p>
-						</p:panel>
-					    </ui:repeat>
-					</p:panel>
-				    </h:panelGroup>
-				    <h:panelGroup>
-					<p:panel header="Escribir Reseña" styleClass="containerResenia">
-					    <h:form id="calificacion" binding="#{calificacionBean.formulario}">
-						<h:message for="calificacion"/>
-						<h:panelGrid columns="2">
-						    <h:outputText value="Puntuacion:"/>
-						    <p:rating value="#{calificacionBean.puntuacion}" stars="5"/>
-						</h:panelGrid>
-						<h:panelGrid columns="1">
-						    <p:inputText value="#{calificacionBean.titulo}" placeholder="Introduce el titulo"/>
-						    <p:inputTextarea value="#{calificacionBean.comentario}" placeholder="Introduce el comentario..."/>
-						    <p:outputLabel for="upload">Imagen a subir:</p:outputLabel>
-						    <p:fileUpload id="upload" value="#{calificacionBean.imagen}" 
-								  binding="#{calificacionBean.imageComponent}"
-								  allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
-								  ></p:fileUpload>
-						    <h:message for="upload"/>
-						</h:panelGrid>
-						<h:panelGrid columns="2">
-						    <p:commandButton type="submit" value="Enviar" action="#{calificacionBean.enviarCalificacion(evento.evento)}" ajax="false"/>
-						    <p:commandButton value="Reestablecer" type="reset"/>
-						</h:panelGrid>
-					    </h:form>
-					</p:panel>
-				    </h:panelGroup>
-				</h:panelGrid>
-			    </h:panelGroup>
-			</h:panelGrid>
-		    </h:panelGroup>
-		</h:panelGrid>
-		<script src="http://maps.google.com/maps/api/js?key=AIzaSyD4fLESI4ybh4eJh7NOxFhDxW7uCK2XHDs" type="text/javascript" ></script>
-		<script type="text/javascript" src="resources/js/share.js"></script>
-	    </c:when>
-	    <c:otherwise>
-		<h1>NOT FOUND</h1>
-	    </c:otherwise>
-	</c:choose>
+        <c:choose>
+            <c:when test="#{evento.validado}">
+                <h:panelGrid id="main" columns="1" border="1">
+                    <h:panelGroup>
+                        <h1>Publicidad</h1>
+                    </h:panelGroup>
+                    <h:panelGroup id="evento">
+                        <h:panelGrid columns="1">
+                            <h:panelGroup>
+                                <h:panelGrid id="content" class="" columns="1">
+                                    <h:panelGrid id="primeraParte" columns="2">
+                                        <h:panelGroup>
+                                            <p:galleria value="#{evento.imagenes}" var="image" 
+                                                        autoPlay="true" effect="fade">
+                                                <p:graphicImage name="imagenes/#{image}"
+                                                                title="#{image}" alt="#{image}"
+                                                                width="100%" height="100%" url="resources/imagenes/#{image}">
+                                                </p:graphicImage>
+                                            </p:galleria>
+                                        </h:panelGroup>
+                                        <h:panelGroup>
+                                            <p:panel header="#{evento.evento.nombre}">
+                                                <h:panelGrid columns="2">
+                                                    <p>Precio: #{evento.evento.precio}</p>
+                                                    <p:scrollPanel mode="native" style="width:250px;height:200px">
+                                                        <p:orderList value="#{evento.evento.fechas}" var="fecha" disabled="true" controlsLocation="none" styleClass="listaFechas" 
+                                                                     itemLabel="#{fecha.toLocalDate().toString()}" 
+                                                                     itemValue="#{fecha.toLocalDate().toString()}" />
+                                                    </p:scrollPanel>
+                                                </h:panelGrid>
+                                                <h:panelGrid columns="2">
+                                                    <h:panelGroup>
+                                                        <p:button value="Comprar" outcome="compra.xhtml?evento=#{evento.eventId}" />
+                                                        <h:form id="fav" binding="#{evento.favoritos}">
+                                                            <h:message for="fav"></h:message>
+                                                            <p:commandButton ajax="false" type="submit" value="Favoritos #{evento.numeroFavoritos()}" 
+                                                                             action="#{evento.marcarFavorito()}" process="@this" />
+                                                        </h:form>
+                                                    </h:panelGroup>
+                                                    <h:panelGroup>
+                                                        <!-- Boton para popup de compartir a facebook o twitter -->
+                                                        <p:button styleClass="shareButton" value="Compartir Twitter" onclick="return shareTwitter('#{evento.currentUrl}')"/>
+                                                        <p:button styleClass="shareButton" value="Compartir Facebook" onclick="return shareFacebook('#{evento.currentUrl}')"/>
+                                                    </h:panelGroup>
+                                                </h:panelGrid>
+                                            </p:panel>
+                                        </h:panelGroup>
+                                    </h:panelGrid>
+                                </h:panelGrid>
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <p:panel header="Descripcion" styleClass="descripcionEvento">
+                                    <h:outputLink value="#{evento.evento.URLOrganizador}">#{evento.evento.organizador}</h:outputLink>
+                                    <br></br>
+                                    <h:outputText value="#{evento.evento.descripcion}"/>
+                                </p:panel>
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <p:panel header="Ubicacion">
+                                    <p:gmap center="#{evento.evento.geolocalizacion}" zoom="15" type="hybrid" 
+                                            style="width:100%;height:200px" model="#{evento.model}"/>
+                                </p:panel>
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <h:panelGrid id="comentarios" columns="1" border="1" styleClass="comentariosContainer">
+                                    <h:panelGroup>
+                                        <p:panel style="overflow-y: auto;height: 100px;" header="Comentarios">
+                                            <!-- ui repeat o datatable -->
+                                            <ui:repeat value="#{evento.calificaciones}" var="cal">
+                                                <p:panel styleClass="comentario">
+                                                    <h4>#{cal.titulo}</h4>
+                                                    <p>#{cal.comentario}</p>
+                                                    <p>Calificacion: #{cal.puntuacion}</p>
+                                                </p:panel>
+                                            </ui:repeat>
+                                        </p:panel>
+                                    </h:panelGroup>
+                                    <h:panelGroup>
+                                        <p:panel header="Escribir Reseña" styleClass="containerResenia">
+                                            <h:form id="calificacion" binding="#{calificacionBean.formulario}">
+                                                <h:message for="calificacion"/>
+                                                <h:panelGrid columns="2">
+                                                    <h:outputText value="Puntuacion:"/>
+                                                    <p:rating value="#{calificacionBean.puntuacion}" stars="5"/>
+                                                </h:panelGrid>
+                                                <h:panelGrid columns="1">
+                                                    <p:inputText value="#{calificacionBean.titulo}" placeholder="Introduce el titulo"/>
+                                                    <p:inputTextarea value="#{calificacionBean.comentario}" placeholder="Introduce el comentario..."/>
+                                                    <p:outputLabel for="upload">Imagen a subir:</p:outputLabel>
+                                                    <p:fileUpload id="upload" value="#{calificacionBean.imagen}" 
+                                                                  binding="#{calificacionBean.imageComponent}"
+                                                                  allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
+                                                                  ></p:fileUpload>
+                                                    <h:message for="upload"/>
+                                                </h:panelGrid>
+                                                <h:panelGrid columns="2">
+                                                    <p:commandButton type="submit" value="Enviar" action="#{calificacionBean.enviarCalificacion(evento.evento)}" ajax="false"/>
+                                                    <p:commandButton value="Reestablecer" type="reset"/>
+                                                </h:panelGrid>
+                                            </h:form>
+                                        </p:panel>
+                                    </h:panelGroup>
+                                </h:panelGrid>
+                            </h:panelGroup>
+                        </h:panelGrid>
+                    </h:panelGroup>
+                </h:panelGrid>
+                <script src="http://maps.google.com/maps/api/js?key=AIzaSyD4fLESI4ybh4eJh7NOxFhDxW7uCK2XHDs" type="text/javascript" ></script>
+                <script type="text/javascript" src="resources/js/share.js"></script>
+            </c:when>
+            <c:otherwise>
+                <h1>NOT FOUND</h1>
+            </c:otherwise>
+        </c:choose>
     </h:body>
 </html>
 

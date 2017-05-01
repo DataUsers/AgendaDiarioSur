@@ -8,64 +8,69 @@
         <title>Facelet Title</title>
     </h:head>
     <h:body>
-	<!-- formulario normal?? -->
-	<h:form>
-	    <!-- icono de marcador aqui -->
-	    <h:inputText value=""></h:inputText>
-	    <h:commandButton value="Enviar"></h:commandButton>
-	</h:form>
+        <div>
+            <!--<input id="localizacion" disabled="true" value=""></input>-->
+            <p id="localizacion"></p>
+            <button onclick="getGeo()">Obtener Geolocalizacion</button>
+        </div>
 
-	<h:panelGrid columns="1">
-	    <!-- busqueda -->
-	    <form method="GET" action="busqueda.xhtml">
-		<!-- filtros -->
-		<h:panelGrid columns="6">
-		    <ui:repeat var="filtros" value="#{busqueda.filtros}">
-			<label for="#{filtros}">#{filtros}</label>
-			<input type="radio" id="#{filtros}" name="filtrar" value="#{filtros}" />
-		    </ui:repeat>
-		</h:panelGrid>
-		
-		<input type="text" name="q" placeholder="Buscar por nombre, ciudad, tipo..."></input>
-		<input type="submit" value="Enviar"></input>
-		<!--<h:commandButton type="submit" value="Enviar"></h:commandButton> -->
-	    </form>
-	    <h:panelGrid>
-		<!-- publicidad -->
-		<h1>PUBLICIDAD</h1>
-	    </h:panelGrid>
-	    <p:panel header="Resultados">
-		<div> <!-- poner scrollable a este div -->
-		    <h:dataTable id="listaEvento" value="#{busqueda.eventosMostrar}" var="event" border="1">
-			<h:column>
-			    <p:panel>
-				<h:panelGrid columns="3">
-				    <h:panelGroup>
-					<!-- imagenes -->
-				    </h:panelGroup>
-				    <h:panelGroup>
-					<p:panel header="#{event.nombre}">
-					    <h:outputText value="Precio: #{event.precio}" />
-					    <!-- fecha aqui -->
-					    <h:button outcome="evento.xhtml?evento=#{event.idEvento}" value="Ver +"/>
-					    <!-- localizacion -->
-					    <h:outputText value="#{event.descripcion}"></h:outputText>
-					</p:panel>
-				    </h:panelGroup>
-				    <h:panelGroup>
-					<!-- compartir y compra -->
-					<p:button styleClass="shareButton" value="Compartir Twitter" onclick="return shareTwitter('#{busqueda.construirEnlace(event.idEvento)}')"/>
-					<p:button styleClass="shareButton" value="Compartir Facebook" onclick="return shareFacebook('#{busqueda.construirEnlace(event.idEvento)}')"/>
-					<p:button styleClass="compraButton" value="Comprar" outcome="compra.xhtml"></p:button> <!-- Construir link de compra -->
-				    </h:panelGroup>
-				</h:panelGrid>
-			    </p:panel>
-			</h:column>
-		    </h:dataTable>
-		</div>
-	    </p:panel>
-	</h:panelGrid>
-	<script type="text/javascript" src="resources/js/share.js"></script>
+        <h:panelGrid columns="1">
+            <!-- busqueda -->
+            <form method="GET" action="busqueda.xhtml" onsubmit="">
+                <!-- filtros -->
+                <input type="hidden" id="latitud" name="latitud"></input>
+                <input type="hidden" id="longitud" name="longitud"></input>
+                <h:panelGrid columns="6">
+                    <ui:repeat var="filtros" value="#{busqueda.filtros}">
+                        <label for="#{filtros}">#{filtros}</label>
+                        <input type="radio" id="#{filtros}" name="filtrar" value="#{filtros}" />
+                    </ui:repeat>
+                </h:panelGrid>
+
+                <input type="text" name="q" placeholder="Buscar por nombre, ciudad, tipo..."></input>
+                <input type="submit" id="submitBusq" value="Enviar"></input>
+                <!--<h:commandButton type="submit" value="Enviar"></h:commandButton> -->
+            </form>
+            <h:panelGrid>
+                <!-- publicidad -->
+                <h1>PUBLICIDAD</h1>
+            </h:panelGrid>
+            <p:panel header="Resultados">
+                <div> <!-- poner scrollable a este div -->
+                    <h:dataTable id="listaEvento" value="#{busqueda.eventosMostrar}" var="event" border="1">
+                        <h:column>
+                            <p:panel>
+                                <h:panelGrid columns="3">
+                                    <h:panelGroup>
+                                        <!-- imagen -->
+                                        <p:graphicImage value="resources/imagenes/#{busqueda.randomImage()}"
+                                                        width="25%"
+                                                        height="25%"/>
+                                    </h:panelGroup>
+                                    <h:panelGroup>
+                                        <p:panel header="#{event.nombre}">
+                                            <h:outputText value="Precio: #{event.precio}" />
+                                            <!-- fecha aqui -->
+                                            <h:button outcome="evento.xhtml?evento=#{event.idEvento}" value="Ver +"/>
+                                            <!-- localizacion -->
+                                            <h:outputText value="#{event.descripcion}"></h:outputText>
+                                        </p:panel>
+                                    </h:panelGroup>
+                                    <h:panelGroup>
+                                        <!-- compartir y compra -->
+                                        <p:button styleClass="shareButton" value="Compartir Twitter" onclick="return shareTwitter('#{busqueda.construirEnlace(event.idEvento)}')"/>
+                                        <p:button styleClass="shareButton" value="Compartir Facebook" onclick="return shareFacebook('#{busqueda.construirEnlace(event.idEvento)}')"/>
+                                        <p:button styleClass="compraButton" value="Comprar" outcome="compra.xhtml"></p:button> <!-- Construir link de compra -->
+                                    </h:panelGroup>
+                                </h:panelGrid>
+                            </p:panel>
+                        </h:column>
+                    </h:dataTable>
+                </div>
+            </p:panel>
+        </h:panelGrid>
+        <script type="text/javascript" src="resources/js/share.js"></script>
+        <script type="text/javascript" src="resources/js/busqueda.js"></script>
     </h:body>
 </html>
 
