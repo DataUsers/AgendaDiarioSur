@@ -7,8 +7,6 @@ package uma.informatica.sii.diarioSur.beans;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
@@ -25,25 +23,27 @@ import uma.informatica.sii.diarioSur.Usuario;
 @RequestScoped
 public class Login {
 
-	private String usuario;
-	private String contrasenia;
-	private List<Usuario> usuarios;
+    private String usuario;
+    private String contrasenia;
+    private List<Usuario> usuarios;
 
-	@Inject
-	private ControlAutorizacion ctrl;
+    @Inject
+    private ControlAutorizacion ctrl;
 
-	/**
-	 * Creates a new instance of Login
-	 */
-	public Login() throws IOException {
-		usuarios = new ArrayList<Usuario>();
-		usuarios.add(new Usuario("pepe", "asdf", "a", Usuario.tipoUsuario.NORMAL));
-		usuarios.add(new Usuario("manolo", "qwer", "a", Usuario.tipoUsuario.PERIODISTA));
-	}
+    /**
+     * Creates a new instance of Login
+     *
+     * @throws java.io.IOException
+     */
+    public Login() throws IOException {
+        usuarios = new ArrayList<>();
+        usuarios.add(new Usuario("pepe", "asdf", "a", Usuario.tipoUsuario.NORMAL));
+        usuarios.add(new Usuario("manolo", "qwer", "a", Usuario.tipoUsuario.PERIODISTA));
+    }
 
-	@PostConstruct
-	public void close() {
-		/*
+    @PostConstruct
+    public void close() {
+        /*
 		try {
 			if (ctrl.sesionIniciada()) {
 				System.out.println("Sesion YA iniciada");
@@ -54,41 +54,42 @@ public class Login {
 		} catch (IOException ex) {
 			Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
 		}
-*/
-	}
+         */
+    }
 
-	public String getUsuario() {
-		return usuario;
-	}
+    public String getUsuario() {
+        return usuario;
+    }
 
-	public String getContrasenia() {
-		return contrasenia;
-	}
+    public String getContrasenia() {
+        return contrasenia;
+    }
 
-	public void setUsuario(String usuario) {
-		this.usuario = usuario;
-	}
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
+    }
 
-	public void setContrasenia(String contrasenia) {
-		this.contrasenia = contrasenia;
-	}
+    public void setContrasenia(String contrasenia) {
+        this.contrasenia = contrasenia;
+    }
 
-	public String autenticar() {
-		// Implementar este método
-		FacesContext ctx = FacesContext.getCurrentInstance();
-		String devolver = null;
-		for (Usuario u : usuarios) {
-			if (u.getNombre().equals(usuario)) {
-				if (u.getContrasena().equals(contrasenia)) {
-					ctrl.setUsuario(u);
-					devolver = ctrl.home();
-				}
-				break;
-			}
-		}
-		if (devolver == null) {
-			ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuario o contraseña incorrectos", "Usuario o contraseña incorrectos"));
-		}
-		return devolver;
-	}
+    public String autenticar() {
+        // Implementar este método
+        FacesContext ctx = FacesContext.getCurrentInstance();
+        String devolver = null;
+        for (Usuario u : usuarios) {
+            if (u.getNombre().equals(usuario)) {
+                if (u.getContrasena().equals(contrasenia)) {
+                    ctrl.setUsuario(u);
+                    devolver = ctrl.home();
+                }
+                break;
+            }
+        }
+        if (devolver == null) {
+            ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuario o contraseña incorrectos", "Usuario o contraseña incorrectos"));
+        }
+        return devolver;
+    }
+
 }

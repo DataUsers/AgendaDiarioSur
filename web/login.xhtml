@@ -2,30 +2,36 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-	  xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <h:head>
         <title>Login</title>
-		<script src="resources/RegisterForm.js"/>
+        <script src="resources/RegisterForm.js"/>
+
     </h:head>
     <h:body>
         Login Page
         <br />
-		<c:choose>
-			<c:when test="#{!controlAutorizacion.sesionIniciada()}">
-				<h:form>
-					<h:inputText id="nombre" value="#{login.usuario}"/>
-					<br />
-					<h:inputSecret id="pass" value="#{login.contrasenia}"/>
-					<br />
-					<h:commandButton value="Iniciar Sesion" action="#{login.autenticar()}"/>
-				</h:form>
-			</c:when>
-			<c:otherwise>
-				<h:form>
-				This should not be happening
-				</h:form>
-			</c:otherwise>
-		</c:choose>
+        <c:choose>
+            <c:when test="#{!controlAutorizacion.sesionIniciada()}">
+                <h:form onsubmit="return validateBasic()">
+                    <table>
+                        <tr>
+                            <td>Usuario:</td> 
+                            <td><h:inputText id="nombre" value="#{login.usuario}"/></td>
+                        </tr>
+                        <tr>
+                            <td>Contraseña:</td> 
+                            <td><h:inputSecret id="pass" value="#{login.contrasenia}"/></td>
+                        </tr>
+                    </table>
+                    <h:commandButton value="Iniciar Sesion" action="#{login.autenticar()}"/>
+                </h:form>
+            </c:when>
+            <c:otherwise>
+                <p>Debe salir de la aplicación si quiere entrar como otro usuario</p>
+            </c:otherwise>
+        </c:choose>
 
     </h:body>
 </html>
+
