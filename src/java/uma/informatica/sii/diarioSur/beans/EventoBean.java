@@ -64,6 +64,7 @@ public class EventoBean implements Serializable {
 	eventId = request.getParameter("evento");
 	currentUrl = request.getRequestURL().toString();
 	if (eventId != null) {
+	    // Crear current url
 	    currentUrl += "?evento=" + eventId;
 	    int id = 0;
 	    System.out.println("Evento id " + eventId);
