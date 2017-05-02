@@ -7,8 +7,10 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <h:head>
-        <title>Agenda Diario Sur</title>
         <link rel="stylesheet" type="text/css" href="resources/css/css.css"/>
+        <title>
+            <ui:insert name="title">Agenda Diario Sur</ui:insert>
+        </title>
     </h:head>
     <h:body>
         <c:choose>
@@ -44,14 +46,14 @@
         <p:button outcome="login" value="Envía tu evento" icon="ui-icon-star">
             <f:param name="productId" value="10" />
         </p:button>
-        
+
         <br />
         <br />
-        
+
         <h:graphicImage value="resources/imagenes/publi.png" style="width: 700px;" />
-    
+
         <br />
-        
+
         <div id="content" class="center_content">
             <ui:insert name="content">Content</ui:insert>
         </div>
