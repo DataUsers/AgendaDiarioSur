@@ -115,7 +115,13 @@ public class Busqueda {
     }
 
     public String construirEnlace(Integer eventoId) {
-	return "evento.xhtml?evento=" + eventoId;
+        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        String url = request.getRequestURL().toString();
+        String uri = request.getRequestURI();
+        int index = url.indexOf(uri);
+        String newUrl = url.substring(0, index+1);
+        System.out.println(newUrl);
+	return newUrl + "AgendaDiarioSur/faces/evento.xhtml?evento=" + eventoId;
     }
 
     public List<String> getFiltros() {

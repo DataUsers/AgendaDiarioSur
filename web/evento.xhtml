@@ -54,7 +54,7 @@
                                                     <h:panelGroup>
                                                         <!-- Boton para popup de compartir a facebook o twitter -->
                                                         <p:button styleClass="shareButton" value="Compartir Twitter" onclick="return shareTwitter('#{evento.currentUrl}')"/>
-                                                        <p:button styleClass="shareButton" value="Compartir Facebook" onclick="return shareFacebook('#{evento.currentUrl}')"/>
+                                                        <p:button styleClass="shareButton" value="Compartir Facebook" onclick="return shareFacebook('#{evento.eventId}')"/>
                                                     </h:panelGroup>
                                                 </h:panelGrid>
                                             </p:panel>

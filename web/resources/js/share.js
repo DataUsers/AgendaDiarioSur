@@ -4,12 +4,12 @@
  * and open the template in the editor.
  */
 
-function shareFacebook(url) {
-    var shareUrl = "https://www.facebook.com/sharer/sharer.php?u=127.0.0.1:8080/AgendaDiarioSur/faces/evento.xhtml?evento=" + '#{evento.eventId}';
+function shareFacebook(id) {
+    var shareUrl = "https://www.facebook.com/sharer/sharer.php?u=127.0.0.1:8080/AgendaDiarioSur/faces/evento.xhtml?evento=" + id;
     var title = 'Compartir en Facebook';
 
     share(shareUrl, title);
-
+    
     return false;
 }
 
@@ -17,7 +17,7 @@ function shareTwitter(url) {
     var text = "Echa un vistazo a este evento! " + url;
     var shareUrl = "https://twitter.com/intent/tweet?text=" + text;
     var title = 'Compartir en Twitter';
-
+ 
     share(shareUrl, title);
 
     return false;

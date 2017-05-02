@@ -59,7 +59,7 @@
                                     <h:panelGroup>
                                         <!-- compartir y compra -->
                                         <p:button styleClass="shareButton" value="Compartir Twitter" onclick="return shareTwitter('#{busqueda.construirEnlace(event.idEvento)}')"/>
-                                        <p:button styleClass="shareButton" value="Compartir Facebook" onclick="return shareFacebook('#{busqueda.construirEnlace(event.idEvento)}')"/>
+                                        <p:button styleClass="shareButton" value="Compartir Facebook" onclick="return shareFacebook('#{event.idEvento}')"/>
                                         <p:button styleClass="compraButton" value="Comprar" outcome="compra.xhtml"></p:button> <!-- Construir link de compra -->
                                     </h:panelGroup>
                                 </h:panelGrid>
