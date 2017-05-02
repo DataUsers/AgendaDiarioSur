@@ -35,90 +35,90 @@ public class CalificacionBean implements Serializable {
     private UIComponent imageComponent;
     private UIComponent formulario;
 
-    public String getTitulo() {
-	return titulo;
-    }
-
-    public void setTitulo(String titulo) {
-	this.titulo = titulo;
-    }
-
-    public Integer getPuntuacion() {
-	return puntuacion;
-    }
-
-    public void setPuntuacion(Integer puntuacion) {
-	this.puntuacion = puntuacion;
-    }
-
-    public String getComentario() {
-	return comentario;
-    }
-
-    public void setComentario(String comentario) {
-	this.comentario = comentario;
-    }
-
-    public boolean isFavorito() {
-	return favorito;
-    }
-
-    public void setFavorito(boolean favorito) {
-	this.favorito = favorito;
-    }
-
-    public UploadedFile getImagen() {
-	return imagen;
-    }
-
-    public void setImagen(UploadedFile imagen) {
-	this.imagen = imagen;
-    }
-
-    public UIComponent getImageComponent() {
-	return imageComponent;
-    }
-
-    public void setImageComponent(UIComponent imageComponent) {
-	this.imageComponent = imageComponent;
-    }
-
-    public UIComponent getFormulario() {
-	return formulario;
-    }
-
-    public void setFormulario(UIComponent formulario) {
-	this.formulario = formulario;
-    }
-
-    public String enviarCalificacion(Evento evento) {
-	System.out.println("Enviado una calificacion");
-	System.out.println("Puntiacion: " + puntuacion);
-	System.out.println("Titulo: " + titulo);
-	System.out.println("Comentario: " + comentario);
-	System.out.println("Evento: " + evento.getNombre());
-	if (imagen != null) {
-	    System.out.println("Hay una imagen");
-	}
-
-	if (ctrl.sesionIniciada()) {
-	    // Crear calificacion, guardar en la persistencia y asignarlo al evento
-	    // Guardar en la base de datos y redirigir al evento
-
-	    return "evento.xhtml?evento=" + evento.getIdEvento();
-	} else {
-	    // Notificar que necesitainiciar sesion
-	    FacesContext context = FacesContext.getCurrentInstance();
-	    context.addMessage(formulario.getClientId(), new FacesMessage("Tienes que iniciar sesion para enviar una calificacion"));
-	}
-
-	return null;
-    }
-
     /**
      * Creates a new instance of CalificacionBean
      */
     public CalificacionBean() {
+    }
+
+    public String enviarCalificacion(Evento evento) {
+        System.out.println("Enviado una calificacion");
+        System.out.println("Puntiacion: " + puntuacion);
+        System.out.println("Titulo: " + titulo);
+        System.out.println("Comentario: " + comentario);
+        System.out.println("Evento: " + evento.getNombre());
+        if (imagen != null) {
+            System.out.println("Hay una imagen");
+        }
+
+        if (ctrl.sesionIniciada()) {
+            // Crear calificacion, guardar en la persistencia y asignarlo al evento
+            // Guardar en la base de datos y redirigir al evento
+
+            return "evento.xhtml?evento=" + evento.getIdEvento();
+        } else {
+            // Notificar que necesitainiciar sesion
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(formulario.getClientId(), new FacesMessage("Tienes que iniciar sesion para enviar una calificacion"));
+            return null;
+        }
+
+    }
+
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
+    }
+
+    public Integer getPuntuacion() {
+        return puntuacion;
+    }
+
+    public void setPuntuacion(Integer puntuacion) {
+        this.puntuacion = puntuacion;
+    }
+
+    public String getComentario() {
+        return comentario;
+    }
+
+    public void setComentario(String comentario) {
+        this.comentario = comentario;
+    }
+
+    public boolean isFavorito() {
+        return favorito;
+    }
+
+    public void setFavorito(boolean favorito) {
+        this.favorito = favorito;
+    }
+
+    public UploadedFile getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(UploadedFile imagen) {
+        this.imagen = imagen;
+    }
+
+    public UIComponent getImageComponent() {
+        return imageComponent;
+    }
+
+    public void setImageComponent(UIComponent imageComponent) {
+        this.imageComponent = imageComponent;
+    }
+
+    public UIComponent getFormulario() {
+        return formulario;
+    }
+
+    public void setFormulario(UIComponent formulario) {
+        this.formulario = formulario;
     }
 
 }

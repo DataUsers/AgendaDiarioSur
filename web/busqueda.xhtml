@@ -30,10 +30,6 @@
                 <input type="text" name="q" placeholder="Buscar por nombre, ciudad, tipo..."></input>
                 <input type="submit" id="submitBusq" value="Enviar"></input>
             </form>
-            <h:panelGrid>
-                <!-- publicidad -->
-                <h1>PUBLICIDAD</h1>
-            </h:panelGrid>
             <p:panel header="Resultados">
                 <div style="overflow-y: scroll; height:400px;">
                     <h:dataTable id="listaEvento" value="#{busqueda.eventosMostrar}" var="event" border="1">
@@ -54,7 +50,7 @@
                                                 <p>Fecha</p>
                                                 <h:outputText value="#{busqueda.placeholderFecha()}"/>
                                             </h:panelGrid>
-                                            <h:button outcome="evento.xhtml?evento=#{event.idEvento}" value="Ver +"/>
+                                            <h:button outcome="evento.xhtml?evento=10" value="Ver +"/> <!-- hardcodeado -->
                                             <!-- localizacion -->
                                             <h:outputText value="#{event.descripcion}"></h:outputText>
                                         </p:panel>

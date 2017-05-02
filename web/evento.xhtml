@@ -15,9 +15,6 @@
         <c:choose>
             <c:when test="#{evento.validado}">
                 <h:panelGrid id="main" columns="1" border="1">
-                    <h:panelGroup>
-                        <h1>Publicidad</h1>
-                    </h:panelGroup>
                     <h:panelGroup id="evento">
                         <h:panelGrid columns="1">
                             <h:panelGroup>
@@ -47,8 +44,8 @@
                                                         <p:button value="Comprar" outcome="compra.xhtml?evento=#{evento.eventId}" />
                                                         <h:form id="fav" binding="#{evento.favoritos}">
                                                             <h:message for="fav"></h:message>
-                                                            <p:commandButton ajax="false" type="submit" value="Favoritos #{evento.numeroFavoritos()}" 
-                                                                             action="#{evento.marcarFavorito()}" process="@this" />
+                                                            <p:commandButton value="Favoritos #{evento.numeroFavoritos()}" 
+                                                                             action="#{evento.marcarFavorito()}" />
                                                         </h:form>
                                                     </h:panelGroup>
                                                     <h:panelGroup>

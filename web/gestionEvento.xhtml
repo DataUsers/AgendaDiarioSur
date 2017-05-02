@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+
+        <c:if test="#{gestionEvento.comprobarAutorizacion()}">
+            <h:panelGrid columns="1">
+                <!-- busqueda -->
+                <form method="GET" action="gestionEvento.xhtml" onsubmit="">
+                    <!-- longitud y latitud para busqueda en la bd -->
+                    <!-- filtros -->
+                    <h:panelGrid columns="6">
+                        <ui:repeat var="filtros" value="#{busqueda.filtros}">
+                            <label for="#{filtros}">#{filtros}</label>
+                            <input type="radio" id="#{filtros}" name="filtrar" value="#{filtros}" />
+                        </ui:repeat>
+                    </h:panelGrid>
+
+                    <input type="text" name="q" placeholder="Buscar por nombre, ciudad, tipo..."></input>
+                    <input type="submit" id="submitBusq" value="Enviar"></input>
+                </form>
+                <p:panel header="Eventos">
+                    <div style="overflow-y: scroll; height:400px;">
+                        <h:dataTable id="listaEvento" value="#{gestionEvento.eventosMostrar}" var="event" border="1">
+                            <h:column>
+                                <p:panel>
+                                    <h:form>
+                                        <h:panelGrid columns="3">
+                                            <h:panelGroup>
+                                                <!-- imagen -->
+                                                <p:graphicImage value="resources/imagenes/#{gestionEvento.randomImage()}"
+                                                                width="25%"
+                                                                height="25%"/>
+                                            </h:panelGroup>
+                                            <h:panelGroup>
+                                                <p:panel header="Editar #{event.nombre}">
+                                                    <h:outputLabel for="nombre#{event.idEvento}" value="Nombre"/>
+                                                    <h:inputText id="nombre#{event.idEvento}" value="#{event.nombre}" />
+                                                    <h:outputLabel for="precio#{event.idEvento}" value="Precio"/>
+                                                    <h:inputText id="precio#{event.idEvento}" value="#{event.precio}"/>
+                                                    <h:panelGrid columns="2">
+                                                        <p>Fecha</p>
+                                                        <!-- funciona esto?? -->
+                                                        <input type="date" jsf:value="#{gestionEvento.fecha}" value="#{gestionEvento.placeholderFecha()}"/>
+                                                        <input type="time" jsf:value="#{gestionEvento.tiempo}" value="#{gestionEvento.placeholderTiempo()}"/>
+                                                    </h:panelGrid>
+                                                    <h:inputTextarea label="Descripcion" value="#{event.descripcion}" />                                                
+                                                </p:panel>
+                                            </h:panelGroup>
+                                            <h:panelGroup>
+                                                <h:commandButton type="submit" value="Guardar cambios" action="#{gestionEvento.guardarCambios(event)}"/>
+                                                <h:button outcome="editEvento.xhtml?evento=10" value="Edicion avanzada"/> <!-- hardcodeado -->
+
+                                                <!-- TEST --> 
+                                                <c:if test="#{gestionEvento.comprobarAdmin()}">
+                                                    <p:commandButton id="delete" action="#{gestionEvento.borrarEvento(event)}"
+                                                                     icon="ui-icon ui-icon-trash" 
+                                                                     value="Eliminar Evento" 
+                                                                     title="EliminarEvento">
+                                                        <p:confirm header="Confirmar Eliminar" 
+                                                                   message="¿Estas seguro de querer eliminar este evento?" 
+                                                                   icon="ui-icon-alert"/>
+                                                    </p:commandButton>
+
+                                                    <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+                                                        <p:commandButton title="EliminarSi" value="Yes" styleClass="ui-confirmdialog-yes"/>
+                                                        <p:commandButton title="EliminarNo" value="No" styleClass="ui-confirmdialog-no" />
+                                                    </p:confirmDialog>
+                                                </c:if>
+
+                                            </h:panelGroup>
+                                        </h:panelGrid>
+                                    </h:form>
+                                </p:panel>
+                            </h:column>
+                        </h:dataTable>
+                    </div>
+                </p:panel>
+            </h:panelGrid>
+        </c:if>
+
+        <c:if test="#{not gestionEvento.comprobarAutorizacion()}">
+            <h1>NO ESTA AUTORIZADO PARA EDITAR EVENTOS</h1>
+        </c:if>
+        <script src="resources/js/gestionEvento.js"></script>
+    </h:body>
+</html>
+
