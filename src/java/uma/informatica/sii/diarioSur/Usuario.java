@@ -170,6 +170,10 @@ public class Usuario implements Serializable {
 	public void setEntradas(List<EntradaEvento> entradas) {
 		this.entradas = entradas;
 	}
+        
+        public void añadirEntrada(EntradaEvento entradaEvento){
+              getEntradas().add(entradaEvento);
+        }
 
     @Override
     public int hashCode() {

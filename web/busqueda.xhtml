@@ -36,7 +36,7 @@
             </h:panelGrid>
             <p:panel header="Resultados">
                 <div style="overflow-y: scroll; height:400px;">
-                    <h:dataTable id="listaEvento" value="#{busqueda.eventosMostrar}" var="event" border="1">
+                        <h:dataTable id="listaEvento" value="#{busqueda.eventosMostrar}" var="event" border="1">
                         <h:column>
                             <p:panel>
                                 <h:panelGrid columns="3">
@@ -63,7 +63,7 @@
                                         <!-- compartir y compra -->
                                         <p:button styleClass="shareButton" value="Compartir Twitter" onclick="return shareTwitter('#{busqueda.construirEnlace(event.idEvento)}')"/>
                                         <p:button styleClass="shareButton" value="Compartir Facebook" onclick="return shareFacebook('#{event.idEvento}')"/>
-                                        <p:button styleClass="compraButton" value="Comprar" outcome="compra.xhtml"></p:button> <!-- Construir link de compra -->
+                                        <p:button styleClass="compraButton" value="Comprar" outcome="compraEntradas.xhtml"></p:button> 
                                     </h:panelGroup>
                                 </h:panelGrid>
                             </p:panel>
