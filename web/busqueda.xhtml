@@ -9,7 +9,6 @@
     </h:head>
     <h:body>
         <div>
-            <!--<input id="localizacion" disabled="true" value=""></input>-->
             <p id="localizacion"></p>
             <button onclick="getGeo()">Obtener Geolocalizacion</button>
         </div>
@@ -17,9 +16,10 @@
         <h:panelGrid columns="1">
             <!-- busqueda -->
             <form method="GET" action="busqueda.xhtml" onsubmit="">
-                <!-- filtros -->
+                <!-- longitud y latitud para busqueda en la bd -->
                 <input type="hidden" id="latitud" name="latitud"></input>
                 <input type="hidden" id="longitud" name="longitud"></input>
+                <!-- filtros -->
                 <h:panelGrid columns="6">
                     <ui:repeat var="filtros" value="#{busqueda.filtros}">
                         <label for="#{filtros}">#{filtros}</label>
@@ -29,14 +29,13 @@
 
                 <input type="text" name="q" placeholder="Buscar por nombre, ciudad, tipo..."></input>
                 <input type="submit" id="submitBusq" value="Enviar"></input>
-                <!--<h:commandButton type="submit" value="Enviar"></h:commandButton> -->
             </form>
             <h:panelGrid>
                 <!-- publicidad -->
                 <h1>PUBLICIDAD</h1>
             </h:panelGrid>
             <p:panel header="Resultados">
-                <div> <!-- poner scrollable a este div -->
+                <div style="overflow-y: scroll; height:400px;">
                     <h:dataTable id="listaEvento" value="#{busqueda.eventosMostrar}" var="event" border="1">
                         <h:column>
                             <p:panel>
@@ -51,6 +50,10 @@
                                         <p:panel header="#{event.nombre}">
                                             <h:outputText value="Precio: #{event.precio}" />
                                             <!-- fecha aqui -->
+                                            <h:panelGrid columns="2">
+                                                <p>Fecha</p>
+                                                <h:outputText value="#{busqueda.placeholderFecha()}"/>
+                                            </h:panelGrid>
                                             <h:button outcome="evento.xhtml?evento=#{event.idEvento}" value="Ver +"/>
                                             <!-- localizacion -->
                                             <h:outputText value="#{event.descripcion}"></h:outputText>

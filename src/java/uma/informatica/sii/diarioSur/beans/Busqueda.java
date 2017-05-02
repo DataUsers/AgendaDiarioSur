@@ -5,6 +5,9 @@
  */
 package uma.informatica.sii.diarioSur.beans;
 
+import java.sql.Date;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -122,6 +125,20 @@ public class Busqueda {
         String newUrl = url.substring(0, index+1);
         System.out.println(newUrl);
 	return newUrl + "AgendaDiarioSur/faces/evento.xhtml?evento=" + eventoId;
+    }
+    
+    public String placeholderFecha(){
+        Random rnd = new Random(System.currentTimeMillis());
+        
+        // Crear dia random
+        LocalDateTime date = LocalDateTime.now().plusDays(rnd.nextInt(10));
+        date.plusHours(rnd.nextInt(24));
+        
+        // Formatear la salida
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String outDate = date.format(formatter);
+        
+        return outDate;
     }
 
     public List<String> getFiltros() {
