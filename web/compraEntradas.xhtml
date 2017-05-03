@@ -82,8 +82,8 @@
                             <td><h:inputSecret id="codSeguridad" value="#{compraEventos.numSecreto}"/></td>
                         </tr>
                     </h:panelGroup>
-                    <h:commandButton value="Validar compra" action="#{compraEventos.validarCompra()}"/>
-                    <h:commandButton value="Cancelar compra" action="#{compraEventos.cancelarCompra(getURLParamater(event))}"/>
+                    <h:commandButton value="Validar compra"  action="#{compraEventos.validarCompra()}"/>
+                    <h:commandButton value="Cancelar compra" action="#{compraEventos.cancelarCompra()}"/>
              </p:panel>
             </h:form>
         </c:when>
