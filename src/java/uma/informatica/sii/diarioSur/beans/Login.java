@@ -41,7 +41,9 @@ public class Login {
         usuarios.add(new Usuario("pepe", "asdf", "pepe@hotmail.com", Usuario.tipoUsuario.NORMAL));
         usuarios.add(new Usuario("manolo", "qwer", "manolo@gmail.com", Usuario.tipoUsuario.PERIODISTA));
         usuarios.add(new Usuario("marisa", "kirisame", "a", Usuario.tipoUsuario.PERIODISTA));
-
+        usuarios.add(new Usuario("manolo", "qwer", "a", Usuario.tipoUsuario.PERIODISTA));
+        usuarios.add(new Usuario("eiki", "shiki", "a", Usuario.tipoUsuario.ADMINISTRADOR));
+    
     }
 
     @PostConstruct
