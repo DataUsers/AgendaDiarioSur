@@ -6,3 +6,8 @@ a:link{
 body {
     background: #eeeae7
 }
+
+.titulo{
+    color:rgb(190,18,25);
+    font-size: 60pt;
+}
