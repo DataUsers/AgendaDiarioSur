@@ -9,11 +9,12 @@
     <ui:define name="title">Agenda Diario Sur - Home</ui:define>
     <ui:define name="subtitulo">Destacados</ui:define>
     <ui:define name="content">
-        
+
         <p:contentFlow value="#{index.images}" var="image">
 
             <p:graphicImage value="resources/imagenes/#{image}" styleClass="content"/>
-            <div class="caption"><p:link outcome="evento?evento=10" value="#{image}"/> </div>
+            
+            <div class="caption"><a class="descripcion" href="evento?evento=10"> #{image}</a></div>
 
         </p:contentFlow>
 
