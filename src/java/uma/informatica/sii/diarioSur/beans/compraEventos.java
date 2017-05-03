@@ -36,6 +36,7 @@ public class compraEventos  implements Serializable {
     @Inject
     private ControlAutorizacion ctrl;
     
+    
     public Evento getEvento() {
         return evento;
     }
@@ -122,24 +123,18 @@ public class compraEventos  implements Serializable {
                ctrl.getUsuario().añadirEntrada(evento.getEntradas().get(evento.getEntradas().size()+1));
             } 
             
-           return "AgendaDiarioSur/faces/evento.xhtml";
+           return "index.xhtml";
         }
          return null;
     }
 
-     public String construirEnlace(Integer eventoId) {
+    public String cancelarCompra(){
+        //JSF no nos coge bien la url y por ello he tenido que ponerlo manual pero el método para regresar al evento es este 
         HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-        String url = request.getRequestURL().toString();
-        String uri = request.getRequestURI();
-        int index = url.indexOf(uri);
-        String newUrl = url.substring(0, index+1);
-        System.out.println(newUrl);
-	return newUrl + "AgendaDiarioSur/faces/evento.xhtml?evento=" + eventoId;
-    }
-
-  
-    public String cancelarCompra(Evento ev){
-       return "evento.xhtml?evento=" + ev.getIdEvento();
+        String url = "";
+        url=request.getParameter("evento");
+       //Metodo para cuando tengamos el evento en La BD         return "evento.xhtml?evento=" + eventoId;
+       return "evento.xhtml?evento="+url;
     }
     
 }
