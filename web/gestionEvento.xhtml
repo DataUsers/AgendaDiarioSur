@@ -8,7 +8,7 @@
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
                 xmlns:jsf="http://xmlns.jcp.org/jsf">
     <ui:define name="title">Agenda Diario Sur - Gestion Evento</ui:define>
-    <ui:define name="subtitulo">Gestion eventos</ui:define>
+    <ui:define name="subtitulo">Gestión eventos</ui:define>
     <ui:define name="content">
 
         <c:if test="#{gestionEvento.comprobarAutorizacion()}">
@@ -93,7 +93,7 @@
         </c:if>
 
         <c:if test="#{not gestionEvento.comprobarAutorizacion()}">
-            <h1>NO ESTA AUTORIZADO PARA EDITAR EVENTOS</h1>
+            <h3>No está autorizado a editar eventos</h3>
         </c:if>
 
     </ui:define>

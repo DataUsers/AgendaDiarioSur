@@ -23,8 +23,9 @@
 
                             Hola, #{controlAutorizacion.usuario.nombre} |
                             <h:form> 
-                                <h:commandLink action="#{controlAutorizacion.logout()}" value="Cerrar sesión "/>|
-                                <h:commandLink action="perfil" value="Tu perfil"/>
+                                <h:commandLink action="perfil" value="Tu perfil"/> |
+                                <h:commandLink action="#{controlAutorizacion.logout()}" value="Cerrar sesión "/>
+                                
                             </h:form>
 
 
