@@ -39,6 +39,8 @@ public class Login {
         usuarios = new ArrayList<>();
         usuarios.add(new Usuario("pepe", "asdf", "a", Usuario.tipoUsuario.NORMAL));
         usuarios.add(new Usuario("manolo", "qwer", "a", Usuario.tipoUsuario.PERIODISTA));
+        usuarios.add(new Usuario("eiki", "shiki", "a", Usuario.tipoUsuario.ADMINISTRADOR));
+        usuarios.add(new Usuario("marisa", "kirisame", "a", Usuario.tipoUsuario.PERIODISTA));
     }
 
     @PostConstruct
