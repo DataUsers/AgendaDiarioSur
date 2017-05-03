@@ -19,7 +19,7 @@ and open the template in the editor.
     </h:head>
     <h:body>
         <c:choose>
-            <c:when test="#{controlAutorizacion.sesionIniciada()}">
+            <c:when test="#{!controlAutorizacion.sesionIniciada()}">
                 <div style="text-align: right;">
                     Hola, #{controlAutorizacion.usuario.nombre}
                     <h:form> 
@@ -44,6 +44,7 @@ and open the template in the editor.
         <p:button outcome="busqueda" value="Buscador" icon="ui-icon-star">
             <f:param name="productId" value="10" />
         </p:button>
+
         <p:button outcome="login" value="Próximos eventos" icon="ui-icon-star">
             <f:param name="productId" value="10" />
         </p:button>
@@ -59,8 +60,89 @@ and open the template in the editor.
 
         <br />
 
-        <div id="content" class="center_content">
-            <ui:insert name="content">Content</ui:insert>
-        </div>
+        <c:choose>
+            <c:when test="#{!controlAutorizacion.sesionIniciada()}">
+                <br /> 
+                <br />
+                <p:panel header="Datos de tu perfil" id="panel">
+                    <h:form>
+                        <h:outputLabel for="textinput">Nombre</h:outputLabel>
+                        <div>
+                            <h:inputText value="#{controlAutorizacion.getUsuario().getApellidos()}"> </h:inputText>
+                        </div>
+                        <div>
+                            <h:outputLabel  for="textinput">Apellidos</h:outputLabel>
+                            <div>
+                                <h:inputText value="#{controlAutorizacion.getUsuario().getApellidos()}"></h:inputText>
+                            </div>
+                        </div> 
+                        <div>
+                            <h:outputLabel>Fecha Nacimiento</h:outputLabel>
+                            <div>
+                                <h:inputText value="#{backingBean.someDate}">   
+                                    <f:convertDateTime pattern="yyyy-MM-dd"/>  
+                                </h:inputText>
+                            </div>
+                        </div>
+                        <div>
+                            <h:outputLabel>Email</h:outputLabel>
+                            <div>
+                                <h:inputText  value="#{controlAutorizacion.getUsuario().getEmail()}"></h:inputText>
+                            </div>
+                        </div>
+                        <div>
+                            <h:outputLabel>Tipo de Usuario</h:outputLabel>
+                            <div>
+                                <h:inputText  value="#{controlAutorizacion.getUsuario().getTipoUsuario()}"></h:inputText>
+                            </div>
+                        </div>
+                        <div>
+                            <h:outputLabel>Cuenta Twitter</h:outputLabel>
+                            <div>
+                                <h:inputText value="#{controlAutorizacion.getUsuario().getCuentaTwitter()}"></h:inputText>
+                            </div>
+                            <h:outputLabel>Cuenta Facebook</h:outputLabel>
+                            <div>
+                                <h:inputText value="#{controlAutorizacion.getUsuario().getCuentaFacebook()}" ></h:inputText>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div>
+                                <div>
+                                    <p:button  value="Guardar Cambios"></p:button>
+                                    <p:button  value="Cancelar cambios"></p:button>
+                                </div>
+                            </div>
+                        </div>
+                    </h:form>
+                </p:panel>
+                <p:panel header="Gestionar Constraseña" id="panel1">
+                    <h:form>
+                        <h:outputLabel>Tu contraseña actual</h:outputLabel>
+                        <div>
+                            <h:inputSecret value="#{controlAutorizacion.getUsuario().getApellidos()}"> </h:inputSecret>    
+                        </div>
+                       <h:outputLabel>Nueva Contraseña</h:outputLabel>
+                            <div>
+                                <h:inputSecret value="#{controlAutorizacion.getUsuario().getCuentaTwitter()}"></h:inputSecret>
+                            </div>
+                       <h:outputLabel>Confirmar Nueva Contraseña </h:outputLabel>
+                            <div>
+                                <h:inputSecret value="#{controlAutorizacion.getUsuario().getCuentaTwitter()}"></h:inputSecret>
+                            </div>
+                       
+                        <div>
+                            <div>
+                                <div>
+                                    <p:button  value="Actualizar Contraseña"></p:button>
+                                    <p:commandButton value="Reestablecer" type="reset"></p:commandButton>
+                                </div>
+                            </div>
+                        </div>
+                    </h:form>  
+                </p:panel>
+            </c:when>
+        </c:choose>
     </h:body>  
 </html>
