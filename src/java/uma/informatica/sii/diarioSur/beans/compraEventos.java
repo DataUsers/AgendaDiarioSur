@@ -123,7 +123,7 @@ public class compraEventos  implements Serializable {
                ctrl.getUsuario().añadirEntrada(evento.getEntradas().get(evento.getEntradas().size()+1));
             } 
             
-           return "index.xhtml";
+           return null;
         }
          return null;
     }
@@ -134,7 +134,8 @@ public class compraEventos  implements Serializable {
         String url = "";
         url=request.getParameter("evento");
        //Metodo para cuando tengamos el evento en La BD         return "evento.xhtml?evento=" + eventoId;
-       return "evento.xhtml?evento="+url;
+       
+       return null;
     }
     
 }
