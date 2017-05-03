@@ -1,13 +1,13 @@
-/*
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
-*/
-/* 
-    Created on : 02-may-2017, 12:20:52
-    Author     : alumno
-*/
 
 a:link{
     text-decoration: none;
+}
+
+body {
+    background: #eeeae7
+}
+
+.titulo{
+    color:rgb(190,18,25);
+    font-size: 60pt;
 }

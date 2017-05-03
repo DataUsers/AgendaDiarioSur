@@ -31,7 +31,6 @@ public class ControlAutorizacion implements Serializable {
 
     public String home() {
         String devolver = "index.xhtml?faces-redirect=true";
-       
 
         return devolver;
     }
@@ -41,18 +40,18 @@ public class ControlAutorizacion implements Serializable {
         FacesContext ctx = FacesContext.getCurrentInstance();
         ctx.getExternalContext().invalidateSession();
         usuario = null;
-        return "login.xhtml?faces-redirect=true";
+        return "index.xhtml?faces-redirect=true";
     }
-	  public boolean sesionIniciada(){
-		return usuario!=null;
-	}
 
+    public boolean sesionIniciada() {
+        return usuario != null;
+    }
 
     /**
      * Creates a new instance of ControlAutorizacion
      */
     public ControlAutorizacion() {
 
-	usuario = null;
+        usuario = null;
     }
 }

@@ -1,14 +1,16 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
-    <h:head>
-        <title>Login</title>
-        <script src="resources/RegisterForm.js"/>
+<ui:composition template="/plantilla.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:define name="title">Agenda Diario Sur - Login</ui:define>
 
-    </h:head>
-    <h:body>
+    <ui:define name="content">
+        <h:outputScript name="js/RegisterForm.js" target="head"/>
         Login Page
         <br />
         <c:choose>
@@ -32,6 +34,6 @@
             </c:otherwise>
         </c:choose>
 
-    </h:body>
-</html>
+    </ui:define>
 
+</ui:composition>

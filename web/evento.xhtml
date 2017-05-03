@@ -41,7 +41,7 @@
                                                 </h:panelGrid>
                                                 <h:panelGrid columns="2">
                                                     <h:panelGroup>
-                                                        <p:button value="Comprar" outcome="compra.xhtml?evento=#{evento.eventId}" />
+                                                        <p:button value="Comprar" outcome="compraEntradas.xhtml?evento=#{evento.eventId}" />
                                                         <h:form id="fav" binding="#{evento.favoritos}">
                                                             <h:message for="fav"></h:message>
                                                             <p:commandButton value="Favoritos #{evento.numeroFavoritos()}" 
