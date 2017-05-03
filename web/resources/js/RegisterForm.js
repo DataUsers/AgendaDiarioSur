@@ -12,17 +12,17 @@ function validateEmail(email) {
 
 function validateBasic(){
 //    alert("Metodo validateBasic invocado");
-     var login=document.getElementById('j_idt6:nombre').value;
-     var pass=document.getElementById('j_idt6:pass').value;
+     var login=document.getElementById('nombre').value;
+     var pass=document.getElementById('pass').value;
       if(login.trim().length<=0){
         alert("El nombre de usuario esta vacio");
-        document.getElementById('j_idt6:nombre').focus();
+        document.getElementById('nombre').focus();
         return false;
     }
     
    if(pass.trim().length<=0){
         alert("La password esta vacia");
-        document.getElementById('j_idt6:pass').focus();
+        document.getElementById('pass').focus();
         return false;
     }
     return true;
@@ -30,32 +30,32 @@ function validateBasic(){
 
 function validate(){
   //  alert("Metodo validate invocado");
-    var pass=document.getElementById('j_idt6:pass').value;
-    var email=document.getElementById('j_idt6:email').value;
-    var nombre=document.getElementById('j_idt6:nombre').value;
-    var apellido=document.getElementById('j_idt6:apellido').value;
+    var pass=document.getElementById('pass').value;
+    var email=document.getElementById('email').value;
+    var nombre=document.getElementById('nombre').value;
+    var apellido=document.getElementById('apellido').value;
     
        if(nombre.trim().length<=0){
         alert("El campo nombre esta vacio");
-        document.getElementById('j_idt6:nombre').focus();
+        document.getElementById('nombre').focus();
         return false;
     }
       if(apellido.trim().length<=0){
         alert("El campo apellido esta vacio");
-        document.getElementById('j_idt6:apellido').focus();
+        document.getElementById('apellido').focus();
         return false;
     }
    
     
    if(pass.trim().length<=0){
         alert("La password esta vacia");
-        document.getElementById('j_idt6:pass').focus();
+        document.getElementById('pass').focus();
         return false;
     }
 
      if(!validateEmail(email)){
         alert("El email no es correcto");
-        document.getElementById('j_idt6:email').focus();
+        document.getElementById('email').focus();
         return false;
     }
 
