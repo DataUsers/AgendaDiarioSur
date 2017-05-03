@@ -10,9 +10,10 @@
 
     <ui:define name="title">Agenda Diario Sur - Registro</ui:define>
 
+	<ui:define name="subtitulo">Registrarse</ui:define>
+
     <ui:define name="content">
         <h:outputScript name="js/RegisterForm.js" target="head"/>
-        Register Page
         <br />
         <c:choose>
             <c:when test="#{!controlAutorizacion.sesionIniciada()}">
