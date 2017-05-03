@@ -84,17 +84,18 @@
                     <!--Botones para cuando la web sea funcional-->
                     <!--<h:commandButton  type="submit" value="Validar compra"  action="#{compraEventos.validarCompra()}"/> -->
                     <!--<h:commandButton  type="submit" value="Cancelar compra" action="#{compraEventos.cancelarCompra()}"/> -->
-                    <h:commandButton  type="submit" value="Validar compra"  action="null"/> 
+                    <h:commandButton  type="submit" value="Validar compra"  action="index.html"/> 
                     <h:commandButton  type="submit" value="Cancelar compra" action="evento.xhtml?evento=10"/>
                 </p:panel>
             </h:form>
         </c:when>
-       </c:choose>
         <c:otherwise> 
             <p:panel header="Acción no válida" >
                 <p>Necesita logearse en la web para realizar compras de entradas</p>
             </p:panel>
         </c:otherwise>
+       </c:choose>
+        
 
     </ui:define>
 </ui:composition>
