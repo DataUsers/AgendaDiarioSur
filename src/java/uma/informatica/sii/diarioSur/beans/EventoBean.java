@@ -5,20 +5,13 @@
  */
 package uma.informatica.sii.diarioSur.beans;
 
-import java.io.IOException;
+
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
-import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.component.UIComponent;
-import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -29,7 +22,6 @@ import org.primefaces.model.map.Marker;
 import uma.informatica.sii.diarioSur.CalificacionEvento;
 import uma.informatica.sii.diarioSur.Evento;
 import uma.informatica.sii.diarioSur.Publicidad;
-import uma.informatica.sii.diarioSur.Usuario;
 
 /**
  *
@@ -76,21 +68,6 @@ public class EventoBean implements Serializable {
                 validado = false;
             }
         }
-
-        /*
-        if (validado) {
-            System.out.println("Validado");
-            
-        }else{
-            System.out.println("NO validado");
-            ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
-            try {
-                externalContext.redirect("index.xhtml");
-            } catch (IOException ex) {
-                Logger.getLogger(EventoBean.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        */
     }
 
     private void createPlaceholders() {
