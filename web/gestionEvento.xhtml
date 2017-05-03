@@ -12,7 +12,7 @@
     <h:body>
 
         <c:if test="#{gestionEvento.comprobarAutorizacion()}">
-            <h:panelGrid columns="1">
+            <h:panelGrid columns="1" style="margin: 0 auto;"> <!-- Crear css -->
                 <!-- busqueda -->
                 <form method="GET" action="gestionEvento.xhtml" onsubmit="">
                     <!-- longitud y latitud para busqueda en la bd -->
@@ -27,62 +27,67 @@
                     <input type="text" name="q" placeholder="Buscar por nombre, ciudad, tipo..."></input>
                     <input type="submit" id="submitBusq" value="Enviar"></input>
                 </form>
-                <p:panel header="Eventos">
-                    <div style="overflow-y: scroll; height:400px;">
-                        <h:dataTable id="listaEvento" value="#{gestionEvento.eventosMostrar}" var="event" border="1">
-                            <h:column>
-                                <p:panel>
-                                    <h:form>
-                                        <h:panelGrid columns="3">
-                                            <h:panelGroup>
-                                                <!-- imagen -->
-                                                <p:graphicImage value="resources/imagenes/#{gestionEvento.randomImage()}"
-                                                                width="25%"
-                                                                height="25%"/>
-                                            </h:panelGroup>
-                                            <h:panelGroup>
-                                                <p:panel header="Editar #{event.nombre}">
-                                                    <h:outputLabel for="nombre#{event.idEvento}" value="Nombre"/>
-                                                    <h:inputText id="nombre#{event.idEvento}" value="#{event.nombre}" />
-                                                    <h:outputLabel for="precio#{event.idEvento}" value="Precio"/>
-                                                    <h:inputText id="precio#{event.idEvento}" value="#{event.precio}"/>
-                                                    <h:panelGrid columns="2">
-                                                        <p>Fecha</p>
-                                                        <!-- funciona esto?? -->
-                                                        <input type="date" jsf:value="#{gestionEvento.fecha}" value="#{gestionEvento.placeholderFecha()}"/>
-                                                        <input type="time" jsf:value="#{gestionEvento.tiempo}" value="#{gestionEvento.placeholderTiempo()}"/>
-                                                    </h:panelGrid>
-                                                    <h:inputTextarea label="Descripcion" value="#{event.descripcion}" />                                                
-                                                </p:panel>
-                                            </h:panelGroup>
-                                            <h:panelGroup>
-                                                <h:commandButton type="submit" value="Guardar cambios" action="#{gestionEvento.guardarCambios(event)}"/>
-                                                <h:button outcome="editEvento.xhtml?evento=10" value="Edicion avanzada"/> <!-- hardcodeado -->
+                <p:panel header="Gestion Eventos">
 
-                                                <!-- TEST --> 
-                                                <c:if test="#{gestionEvento.comprobarAdmin()}">
-                                                    <p:commandButton id="delete" action="#{gestionEvento.borrarEvento(event)}"
-                                                                     icon="ui-icon ui-icon-trash" 
-                                                                     value="Eliminar Evento" 
-                                                                     title="EliminarEvento">
-                                                        <p:confirm header="Confirmar Eliminar" 
-                                                                   message="¿Estas seguro de querer eliminar este evento?" 
-                                                                   icon="ui-icon-alert"/>
-                                                    </p:commandButton>
+                    <h:dataTable id="listaEvento" value="#{gestionEvento.eventosMostrar}" var="event" border="1">
+                        <h:column>
+                            <p:panel>
+                                <h:form>
+                                    <h:panelGrid columns="3">
+                                        <h:panelGroup>
+                                            <!-- imagen -->
+                                            <p:graphicImage value="resources/imagenes/#{gestionEvento.randomImage()}"
+                                                            width="250px"
+                                                            height="200px"/>
+                                        </h:panelGroup>
+                                        <h:panelGroup>
+                                            <p:panel header="Editar #{event.nombre}">
+                                                <h:outputLabel value="Nombre"/>
+                                                <br></br>
+                                                <h:inputText value="#{event.nombre}" />
+                                                <br></br>
+                                                <h:outputLabel value="Precio"/>
+                                                <br></br>
+                                                <h:inputText value="#{event.precio}"/>
+                                                <br></br>
+                                                <h:panelGrid columns="2">
+                                                    <p>Fecha</p>
+                                                    <!-- funciona esto?? -->
+                                                    <input type="date" jsf:value="#{gestionEvento.fecha}" value="#{gestionEvento.placeholderFecha()}"/>
+                                                    <input type="time" jsf:value="#{gestionEvento.tiempo}" value="#{gestionEvento.placeholderTiempo()}"/>
+                                                </h:panelGrid>
+                                                <h3>Descripcion</h3>
+                                                <h:inputTextarea label="Descripcion" value="#{event.descripcion}" />                                                
+                                            </p:panel>
+                                        </h:panelGroup>
+                                        <h:panelGroup>
+                                            <p:commandButton type="submit" value="Guardar cambios" action="#{gestionEvento.guardarCambios(event)}"/>
+                                            <br></br>
+                                            <p:button outcome="editEvento.xhtml?evento=10" value="Edicion avanzada"/> <!-- hardcodeado -->
+                                            <br></br>
+                                            <!-- TEST --> 
+                                            <c:if test="#{gestionEvento.comprobarAdmin()}">
+                                                <p:commandButton id="delete" action="#{gestionEvento.borrarEvento(event)}"
+                                                                 icon="ui-icon ui-icon-trash" 
+                                                                 value="Eliminar Evento" 
+                                                                 title="EliminarEvento">
+                                                    <p:confirm header="Confirmar Eliminar" 
+                                                               message="¿Estas seguro de querer eliminar este evento?" 
+                                                               icon="ui-icon-alert"/>
+                                                </p:commandButton>
 
-                                                    <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
-                                                        <p:commandButton title="EliminarSi" value="Yes" styleClass="ui-confirmdialog-yes"/>
-                                                        <p:commandButton title="EliminarNo" value="No" styleClass="ui-confirmdialog-no" />
-                                                    </p:confirmDialog>
-                                                </c:if>
+                                                <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+                                                    <p:commandButton title="EliminarSi" value="Yes" styleClass="ui-confirmdialog-yes"/>
+                                                    <p:commandButton title="EliminarNo" value="No" styleClass="ui-confirmdialog-no" />
+                                                </p:confirmDialog>
+                                            </c:if>
 
-                                            </h:panelGroup>
-                                        </h:panelGrid>
-                                    </h:form>
-                                </p:panel>
-                            </h:column>
-                        </h:dataTable>
-                    </div>
+                                        </h:panelGroup>
+                                    </h:panelGrid>
+                                </h:form>
+                            </p:panel>
+                        </h:column>
+                    </h:dataTable>
                 </p:panel>
             </h:panelGrid>
         </c:if>

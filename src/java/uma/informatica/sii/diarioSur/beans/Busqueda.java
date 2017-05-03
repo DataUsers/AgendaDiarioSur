@@ -41,7 +41,9 @@ public class Busqueda {
         HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         String query = request.getParameter("q");
         String filtro = request.getParameter("filtrar");
-
+        String latitud = request.getParameter("latitud");
+        String longitud = request.getParameter("longitud");
+        
         // obtener cookies y asignar filtros
         crearFiltroPredeterminado();
         filtros = filtrosPredeterminados;
@@ -55,8 +57,8 @@ public class Busqueda {
             eventosMostrar = new ArrayList<>();
             Random rnd = new Random(System.currentTimeMillis());
 
-            System.out.println("Numero de eventos placeholder: " + placeholderEvents.size());
-
+            // Si los strings de longitud y latitud no son nulos o == 0 tambien se busca por localizacion en la BD
+            
             for (Evento evento : placeholderEvents) {
                 // busqueda normal por nombre, el query deberia de hacerce con el ejb
                 // Busqueda placeholder
@@ -122,7 +124,7 @@ public class Busqueda {
         String uri = request.getRequestURI();
         int index = url.indexOf(uri);
         String newUrl = url.substring(0, index + 1);
-        System.out.println(newUrl);
+        
         return newUrl + "AgendaDiarioSur/faces/evento.xhtml?evento=" + eventoId;
     }
 
