@@ -11,6 +11,7 @@ function validateEmail(email) {
 }
 
 function validateBasic(){
+//    alert("Metodo validateBasic invocado");
      var login=document.getElementById('j_idt6:nombre').value;
      var pass=document.getElementById('j_idt6:pass').value;
       if(login.trim().length<=0){
@@ -28,6 +29,7 @@ function validateBasic(){
 }
 
 function validate(){
+  //  alert("Metodo validate invocado");
     var pass=document.getElementById('j_idt6:pass').value;
     var email=document.getElementById('j_idt6:email').value;
     var nombre=document.getElementById('j_idt6:nombre').value;
