@@ -86,4 +86,9 @@ public class GeoLoc {
 
         return latitud + ", " + longitud;
     }
+    
+    public static String obtenerCoordenada(String direccion){
+        // TODO
+        return "36.714040, -4.433475";
+    }
 }
