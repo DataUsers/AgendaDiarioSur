@@ -15,7 +15,7 @@
         <br />
         <c:choose>
             <c:when test="#{!controlAutorizacion.sesionIniciada()}">
-                <h:form onsubmit="return validateBasic()">
+                <h:form prependId="false" onsubmit="return validateBasic()">
                     <table>
                         <tr>
                             <td>Usuario:</td> 

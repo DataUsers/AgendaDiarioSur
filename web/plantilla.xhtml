@@ -13,45 +13,62 @@
         </title>
     </h:head>
     <h:body>
-        <c:choose>
-            <c:when test="#{controlAutorizacion.sesionIniciada()}">
-                <div style="text-align: right;">
-                    Hola, #{controlAutorizacion.usuario.nombre}
-                    <h:form> 
-                        <h:commandLink action="#{controlAutorizacion.logout()}" value="Cerrar sesión"/>
-                    </h:form>
+        <div class="pagina">
+            <div class="cabecera">
+                <div class="sesion">
+                    <c:choose>
+
+                        <c:when test="#{controlAutorizacion.sesionIniciada()}">
+
+
+                            Hola, #{controlAutorizacion.usuario.nombre} |
+                            <h:form> 
+                                <h:commandLink action="#{controlAutorizacion.logout()}" value="Cerrar sesión "/>|
+                                <h:commandLink action="perfil" value="Tu perfil"/>
+                            </h:form>
+
+
+                        </c:when>
+                        <c:otherwise>
+                            
+                                <p:link outcome="login" value="Iniciar sesión"/> | <p:link outcome="register" value="Regístrate"/>
+                            
+                        </c:otherwise>
+
+                    </c:choose>
                 </div>
 
-            </c:when>
-            <c:otherwise>
-                <div style="text-align: right;">
-                    <p:link outcome="login" value="Iniciar sesión "/><p:link outcome="register" value="Regístrate"/>
+                <object type="image/svg+xml" data="resources/imagenes/logomedio.svg" style="width: 400px;"/>
+
+                <div class="agenda">
+                    <p:link outcome="index" value="AGENDA"/>
                 </div>
-            </c:otherwise>
-        </c:choose>
 
-        <object type="image/svg+xml" data="resources/imagenes/logomedio.svg" style="width: 400px;"/>
-        <div class="titulo">
-            AGENDA
-        </div>
-        <p:button outcome="busqueda" value="Buscador" icon="ui-icon-star">
-            <f:param name="productId" value="10" />
-        </p:button>
+                <div class="botones">
+                    <p:button outcome="busqueda" value="Buscador">
+                        <f:param name="productId" value="10" />
+                    </p:button>
 
 
-        <p:button outcome="login" value="Envía un evento" icon="ui-icon-star">
-            <f:param name="productId" value="10" />
-        </p:button>
+                    <p:button outcome="login" value="Envía un evento">
+                        <f:param name="productId" value="10" />
+                    </p:button>
+                </div>
+            </div>
+            <br />
 
-        <br/>
-        <br/>
+            <div align="center" margin="0px">
+                <h:graphicImage  value="resources/imagenes/publi.png" style="width:700px"/>
+            </div>
 
-        <h:graphicImage value="resources/imagenes/publi.png" style="width: 700px;" />
+            <br />
 
-        <br/>
-
-        <div id="content" class="center_content">
-            <ui:insert name="content">Content</ui:insert>
+            <div id="content" class="center_content">
+                <div class="subtitulo">
+                    <ui:insert name="subtitulo">Subtitulo</ui:insert>
+                </div>
+                <ui:insert name="content">Content</ui:insert>
+            </div>
         </div>
     </h:body>   
 </html>

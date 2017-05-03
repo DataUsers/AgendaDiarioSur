@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:head>
+        <link rel="stylesheet" type="text/css" href="resources/css/css.css"/>
+        <title>
+            <ui:insert name="title">Agenda Diario Sur</ui:insert>
+        </title>
+    </h:head>
+    <h:body>
+        <c:choose>
+            <c:when test="#{!controlAutorizacion.sesionIniciada()}">
+                <div style="text-align: right;">
+                    Hola, #{controlAutorizacion.usuario.nombre}
+                    <h:form> 
+                        <h:commandLink action="#{controlAutorizacion.logout()}" value="Cerrar sesión"/>
+                    </h:form>
+                </div>
+
+            </c:when>
+            <c:otherwise>
+                <div style="text-align: right;">
+                    <p:link outcome="login" value="Iniciar sesión "/><p:link outcome="register" value="Regístrate"/>
+                </div>
+            </c:otherwise>
+        </c:choose>
+
+        <object type="image/svg+xml" data="resources/imagenes/logomedio.svg" style="width: 400px;"/>
+
+        <br />
+        AGENDA
+
+        <br />
+        <p:button outcome="busqueda" value="Buscador" icon="ui-icon-star">
+            <f:param name="productId" value="10" />
+        </p:button>
+
+        <p:button outcome="login" value="Próximos eventos" icon="ui-icon-star">
+            <f:param name="productId" value="10" />
+        </p:button>
+
+        <p:button outcome="login" value="Envía un evento" icon="ui-icon-star">
+            <f:param name="productId" value="10" />
+        </p:button>
+
+        <br />
+        <br />
+
+        <h:graphicImage value="resources/imagenes/publi.png" style="width: 700px;" />
+
+        <br />
+
+        <c:choose>
+            <c:when test="#{!controlAutorizacion.sesionIniciada()}">
+                <br /> 
+                <br />
+                <p:panel header="Datos de tu perfil" id="panel">
+                    <h:form>
+                        <h:outputLabel for="textinput">Nombre</h:outputLabel>
+                        <div>
+                            <h:inputText value="#{controlAutorizacion.getUsuario().getApellidos()}"> </h:inputText>
+                        </div>
+                        <div>
+                            <h:outputLabel  for="textinput">Apellidos</h:outputLabel>
+                            <div>
+                                <h:inputText value="#{controlAutorizacion.getUsuario().getApellidos()}"></h:inputText>
+                            </div>
+                        </div> 
+                        <div>
+                            <h:outputLabel>Fecha Nacimiento</h:outputLabel>
+                            <div>
+                                <h:inputText value="#{backingBean.someDate}">   
+                                    <f:convertDateTime pattern="yyyy-MM-dd"/>  
+                                </h:inputText>
+                            </div>
+                        </div>
+                        <div>
+                            <h:outputLabel>Email</h:outputLabel>
+                            <div>
+                                <h:inputText  value="#{controlAutorizacion.getUsuario().getEmail()}"></h:inputText>
+                            </div>
+                        </div>
+                        <div>
+                            <h:outputLabel>Tipo de Usuario</h:outputLabel>
+                            <div>
+                                <h:inputText  value="#{controlAutorizacion.getUsuario().getTipoUsuario()}"></h:inputText>
+                            </div>
+                        </div>
+                        <div>
+                            <h:outputLabel>Cuenta Twitter</h:outputLabel>
+                            <div>
+                                <h:inputText value="#{controlAutorizacion.getUsuario().getCuentaTwitter()}"></h:inputText>
+                            </div>
+                            <h:outputLabel>Cuenta Facebook</h:outputLabel>
+                            <div>
+                                <h:inputText value="#{controlAutorizacion.getUsuario().getCuentaFacebook()}" ></h:inputText>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div>
+                                <div>
+                                    <p:button  value="Guardar Cambios"></p:button>
+                                    <p:button  value="Cancelar cambios"></p:button>
+                                </div>
+                            </div>
+                        </div>
+                    </h:form>
+                </p:panel>
+                <p:panel header="Gestionar Constraseña" id="panel1">
+                    <h:form>
+                        <h:outputLabel>Tu contraseña actual</h:outputLabel>
+                        <div>
+                            <h:inputSecret value="#{controlAutorizacion.getUsuario().getApellidos()}"> </h:inputSecret>    
+                        </div>
+                       <h:outputLabel>Nueva Contraseña</h:outputLabel>
+                            <div>
+                                <h:inputSecret value="#{controlAutorizacion.getUsuario().getCuentaTwitter()}"></h:inputSecret>
+                            </div>
+                       <h:outputLabel>Confirmar Nueva Contraseña </h:outputLabel>
+                            <div>
+                                <h:inputSecret value="#{controlAutorizacion.getUsuario().getCuentaTwitter()}"></h:inputSecret>
+                            </div>
+                       
+                        <div>
+                            <div>
+                                <div>
+                                    <p:button  value="Actualizar Contraseña"></p:button>
+                                    <p:commandButton value="Reestablecer" type="reset"></p:commandButton>
+                                </div>
+                            </div>
+                        </div>
+                    </h:form>  
+                </p:panel>
+            </c:when>
+        </c:choose>
+    </h:body>  
+</html>

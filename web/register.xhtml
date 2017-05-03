@@ -7,7 +7,7 @@
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
-    <ui:define name="title">Agenda Diario Sur - Login</ui:define>
+    <ui:define name="title">Agenda Diario Sur - Registro</ui:define>
     
     <ui:define name="content">
         <h:outputScript name="js/RegisterForm.js" target="head"/>
@@ -15,7 +15,7 @@
         <br />
         <c:choose>
             <c:when test="#{!controlAutorizacion.sesionIniciada()}">
-                <h:form onsubmit="return validate()">
+                <h:form prependId="false" onsubmit="return validate()">
                     <table>
                         <tr>
 
