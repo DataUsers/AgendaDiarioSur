@@ -18,6 +18,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.component.UIComponent;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -56,7 +57,7 @@ public class EventoBean implements Serializable {
      */
     public EventoBean() {
         createPlaceholders();
-
+        
         // Validar si el id del evento existe
         HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         // Hardcoded
@@ -75,6 +76,21 @@ public class EventoBean implements Serializable {
                 validado = false;
             }
         }
+
+        /*
+        if (validado) {
+            System.out.println("Validado");
+            
+        }else{
+            System.out.println("NO validado");
+            ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+            try {
+                externalContext.redirect("index.xhtml");
+            } catch (IOException ex) {
+                Logger.getLogger(EventoBean.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        */
     }
 
     private void createPlaceholders() {
@@ -145,27 +161,6 @@ public class EventoBean implements Serializable {
         }
 
         return Integer.toString(nCalificacion);
-    }
-
-    public String marcarFavorito() {
-        // Comprobar sesion, si esta logueado, marcar favorito
-        // si no, enviar a la pagina de login
-        System.out.println("Marcar favorito");
-
-        if (ctrl.sesionIniciada()) {
-            // Crear calificacion como favorito y guardarlo en la base de datos
-            System.out.println("Sesion iniciada, se va a marcar favorito");
-            
-            
-        } else {
-            System.out.println("NO iniciad sesion");
-            // Mostrar que no puede dar a favoritos a menos que este iniciado de sesion
-            //FacesContext context = FacesContext.getCurrentInstance();
-            //context.addMessage(favoritos.getClientId(), new FacesMessage("Tienes que iniciar sesion para dar a favoritos"));
-
-        }
-        
-        return "evento?faces-redirect=true&evento=" + eventId;        
     }
 
     public Publicidad getPublicidad() {
@@ -240,5 +235,5 @@ public class EventoBean implements Serializable {
     public void setFavoritos(UIComponent favoritos) {
         this.favoritos = favoritos;
     }
-    */
+     */
 }

@@ -12,12 +12,9 @@
     <ui:define name="content">
         <h:outputStylesheet name="css/evento.css" />
 
-
-        <c:if test="#{evento.validado}">
             <p:panel header="#{evento.evento.nombre}">
                 <h:panelGrid columns="1" style="margin: 0 auto;">
-
-
+                    
                     <h:panelGrid columns="2">
                         <h:panelGroup>
                             <p:galleria value="#{evento.imagenes}" var="image" 
@@ -45,7 +42,7 @@
                                         <br></br>
                                         <h:form>
                                             <p:commandButton type="submit" value="Favoritos #{evento.numeroFavoritos()}" 
-                                                             action="#{evento.marcarFavorito()}" />
+                                                             action="#{calificacionBean.marcarFavorito(evento.evento)}" />
                                         </h:form>
                                     </h:panelGroup>
                                     <h:panelGroup>
@@ -85,7 +82,7 @@
                         </h:panelGroup>
                         <h:panelGroup>
                             <p:panel header="Escribir Reseña" styleClass="containerResenia">
-                                <h:form>
+                                <h:form enctype="multipart/form-data">
                                     <h:panelGrid columns="2">
                                         <h:outputText value="Puntuacion:"/>
                                         <p:rating value="#{calificacionBean.puntuacion}" stars="5"/>
@@ -112,11 +109,6 @@
                 </h:panelGrid>
 
             </p:panel>
-        </c:if>
-
-        <c:if test="#{not evento.validado}">
-            <h1>NOT FOUND</h1>
-        </c:if>
 
         <script src="http://maps.google.com/maps/api/js?key=AIzaSyD4fLESI4ybh4eJh7NOxFhDxW7uCK2XHDs" type="text/javascript" ></script>
         <script type="text/javascript" src="resources/js/share.js"></script>

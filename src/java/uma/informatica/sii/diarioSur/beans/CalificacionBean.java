@@ -56,16 +56,37 @@ public class CalificacionBean implements Serializable {
             // Guardar en la base de datos y redirigir al evento
 
             System.out.println("Sesion iniciada, enviando calificacion");
-            
-            return "evento.xhtml?evento=" + evento.getIdEvento();
+
+            return "evento.xhtml?faces-redirect=true&includeViewParams=true&evento=" + evento.getIdEvento();
         } else {
             // Notificar que necesitainiciar sesion
             //FacesContext context = FacesContext.getCurrentInstance();
             //context.addMessage(formulario.getClientId(), new FacesMessage("Tienes que iniciar sesion para enviar una calificacion"));
             System.out.println("Sesion no iniciada");
-            return "evento.xhtml?evento=" + evento.getIdEvento();
+            return "evento.xhtml?faces-redirect=true&includeViewParams=true&evento=" + evento.getIdEvento();
         }
 
+    }
+
+    public String marcarFavorito(Evento evento) {
+        // Comprobar sesion, si esta logueado, marcar favorito
+        // si no, enviar a la pagina de login
+        String eventId = evento.getIdEvento().toString();
+        System.out.println("Marcar favorito al evento: " + eventId);   
+
+        if (ctrl.sesionIniciada()) {
+            // Crear calificacion como favorito y guardarlo en la base de datos
+            System.out.println("Sesion iniciada, se va a marcar favorito");
+
+            return "evento?faces-redirect=true&includeViewParams=true&evento=" + eventId;
+        } else {
+            System.out.println("NO iniciad sesion");
+            // Mostrar que no puede dar a favoritos a menos que este iniciado de sesion
+            //FacesContext context = FacesContext.getCurrentInstance();
+            //context.addMessage(favoritos.getClientId(), new FacesMessage("Tienes que iniciar sesion para dar a favoritos"));
+
+            return "evento?faces-redirect=true&includeViewParams=true&evento=" + eventId;
+        }
     }
 
     public String getTitulo() {
@@ -124,6 +145,5 @@ public class CalificacionBean implements Serializable {
     public void setFormulario(UIComponent formulario) {
         this.formulario = formulario;
     }
-    */
-
+     */
 }
