@@ -41,7 +41,7 @@
                 <object type="image/svg+xml" data="resources/imagenes/logomedio.svg" style="width: 400px;"/>
 
                 <div class="agenda">
-                    <p:link outcome="index" value="AGENDA"/>
+                    <p:link outcome="index.xhtml" value="AGENDA"/>
                 </div>
 
                 <div class="botones">
@@ -49,10 +49,15 @@
                         <f:param name="productId" value="10" />
                     </p:button>
 
-
-                    <p:button outcome="login" value="Envía un evento">
+                    <p:button outcome="SubmitEvent" value="Envía un evento">
                         <f:param name="productId" value="10" />
                     </p:button>
+                    
+                    <p:button outcome="gestionEvento" value="Gestionar eventos">
+                        <f:param name="productId" value="10" />
+                    </p:button>
+                    
+                    
                 </div>
             </div>
             <br />
