@@ -40,7 +40,7 @@ public class Usuario implements Serializable {
     private String nombre;
     private String apellidos;
 	@Column(nullable = false)
-	private String contrasena;
+    private String contrasena;
     @Column(nullable = false)
     private String email;
     @Column(nullable = false)
