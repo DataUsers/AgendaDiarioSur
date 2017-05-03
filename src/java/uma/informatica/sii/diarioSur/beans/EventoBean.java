@@ -46,7 +46,7 @@ public class EventoBean implements Serializable {
     private String currentUrl;
     private boolean validado;
     private String eventId;
-    private UIComponent favoritos;
+    //private UIComponent favoritos;
 
     @Inject
     private ControlAutorizacion ctrl;
@@ -154,16 +154,18 @@ public class EventoBean implements Serializable {
 
         if (ctrl.sesionIniciada()) {
             // Crear calificacion como favorito y guardarlo en la base de datos
-
-            return "evento?faces-redirect=true&evento=" + eventId;
+            System.out.println("Sesion iniciada, se va a marcar favorito");
+            
+            
         } else {
+            System.out.println("NO iniciad sesion");
             // Mostrar que no puede dar a favoritos a menos que este iniciado de sesion
-            FacesContext context = FacesContext.getCurrentInstance();
-            context.addMessage(favoritos.getClientId(), new FacesMessage("Tienes que iniciar sesion para dar a favoritos"));
+            //FacesContext context = FacesContext.getCurrentInstance();
+            //context.addMessage(favoritos.getClientId(), new FacesMessage("Tienes que iniciar sesion para dar a favoritos"));
 
-            return null;
         }
         
+        return "evento?faces-redirect=true&evento=" + eventId;        
     }
 
     public Publicidad getPublicidad() {
@@ -230,6 +232,7 @@ public class EventoBean implements Serializable {
         this.validado = validado;
     }
 
+    /*
     public UIComponent getFavoritos() {
         return favoritos;
     }
@@ -237,4 +240,5 @@ public class EventoBean implements Serializable {
     public void setFavoritos(UIComponent favoritos) {
         this.favoritos = favoritos;
     }
+    */
 }

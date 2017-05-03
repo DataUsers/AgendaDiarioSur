@@ -33,7 +33,7 @@ public class CalificacionBean implements Serializable {
     private boolean favorito;        // Si lo marca como favorito aparecerá como True, en caso contrario a False
     private UploadedFile imagen;
     private UIComponent imageComponent;
-    private UIComponent formulario;
+    //private UIComponent formulario;
 
     /**
      * Creates a new instance of CalificacionBean
@@ -55,12 +55,15 @@ public class CalificacionBean implements Serializable {
             // Crear calificacion, guardar en la persistencia y asignarlo al evento
             // Guardar en la base de datos y redirigir al evento
 
+            System.out.println("Sesion iniciada, enviando calificacion");
+            
             return "evento.xhtml?evento=" + evento.getIdEvento();
         } else {
             // Notificar que necesitainiciar sesion
-            FacesContext context = FacesContext.getCurrentInstance();
-            context.addMessage(formulario.getClientId(), new FacesMessage("Tienes que iniciar sesion para enviar una calificacion"));
-            return null;
+            //FacesContext context = FacesContext.getCurrentInstance();
+            //context.addMessage(formulario.getClientId(), new FacesMessage("Tienes que iniciar sesion para enviar una calificacion"));
+            System.out.println("Sesion no iniciada");
+            return "evento.xhtml?evento=" + evento.getIdEvento();
         }
 
     }
@@ -113,6 +116,7 @@ public class CalificacionBean implements Serializable {
         this.imageComponent = imageComponent;
     }
 
+    /*
     public UIComponent getFormulario() {
         return formulario;
     }
@@ -120,5 +124,6 @@ public class CalificacionBean implements Serializable {
     public void setFormulario(UIComponent formulario) {
         this.formulario = formulario;
     }
+    */
 
 }
