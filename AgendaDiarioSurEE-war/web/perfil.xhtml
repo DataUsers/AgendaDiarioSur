@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html>
+<ui:composition template="/plantilla.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:define name="title">Agenda Diario Sur - Perfil</ui:define>
+    <ui:define name="subtitulo">Tu Perfil</ui:define>
+    <ui:define name="content">
+        <c:choose>
+            <c:when test="#{controlAutorizacion.sesionIniciada()}">
+                <br /> 
+                <br />
+                <p:panel header="Datos de tu perfil" id="panel">
+                    <h:form onsubmit="return validate()" >
+
+                        <h:outputLabel for="textinput">Nombre</h:outputLabel>
+                        <div>
+                            <h:inputText value="#{controlAutorizacion.getUsuario().getNombre()}"> </h:inputText>
+                        </div>
+
+                        <div>
+                            <h:outputLabel  for="textinput">Apellidos</h:outputLabel>
+                            <div>
+                                <h:inputText value="#{controlAutorizacion.getUsuario().getApellidos()}"></h:inputText>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h:outputLabel>Fecha Nacimiento</h:outputLabel>
+                            <div>
+                                <h:inputText value="#{controlAutorizacion.getUsuario().getApellidos()}">   
+                                    <f:convertDateTime pattern="dd-MM-yyy" > </f:convertDateTime>
+                                </h:inputText>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h:outputLabel>Email</h:outputLabel>
+                            <div>
+                                <h:inputText  value="#{controlAutorizacion.getUsuario().getEmail()}"></h:inputText>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h:outputLabel>Tipo de Usuario</h:outputLabel>
+                            <div>
+                                <h:inputText disabled="true" value="#{controlAutorizacion.getUsuario().getTipoUsuario()}"></h:inputText>
+                            </div>
+                        </div>
+                        <div>
+
+                            <h:outputLabel>Cuenta Twitter</h:outputLabel>
+                            <div>
+                                <h:inputText value="#{controlAutorizacion.getUsuario().getCuentaTwitter()}"></h:inputText>
+                            </div>
+
+                            <h:outputLabel>Cuenta Facebook</h:outputLabel>
+                            <div>
+                                <h:inputText value="#{controlAutorizacion.getUsuario().getCuentaFacebook()}" ></h:inputText>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div>
+                                <div>
+                                    <p:commandButton type="submit" value="Guardar Cambios"></p:commandButton>
+                                    <p:commandButton  value="Cancelar cambios" type="reset" ></p:commandButton>
+                                </div>
+                            </div>
+                        </div>
+                    </h:form>
+                </p:panel>
+
+
+                <p:panel header="Gestionar Constraseña" id="panel1">
+                    <h:form>
+
+                        <h:outputLabel>Tu contraseña actual</h:outputLabel>
+                        <div>
+                            <h:inputSecret id="oldPass" value="#{perfil.oldPassword}"> </h:inputSecret>    
+                        </div>
+
+                        <h:outputLabel>Nueva Contraseña</h:outputLabel>
+                        <div>
+                            <h:inputSecret id="Pass" value="#{perfil.password}"></h:inputSecret>
+                        </div>
+
+                        <h:outputLabel>Confirmar Nueva Contraseña </h:outputLabel>
+                        <div>
+                            <h:inputSecret id="newPass" value="#{perfil.newPassword}"></h:inputSecret>
+                        </div>
+
+                        <div>
+                            <div>
+                                <div>
+                                    <p:commandButton value="Actualizar Contraseña" action="#{Perfil.cambiarContrasenia()}"></p:commandButton>
+                                    <p:commandButton value="Reestablecer" type="reset"></p:commandButton>
+                                </div>
+                            </div>
+                        </div>
+                    </h:form>  
+                </p:panel>
+            </c:when>
+        </c:choose>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,27 @@
+
+<ui:composition template="/plantilla.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:define name="title">Agenda Diario Sur - Home</ui:define>
+   
+    <ui:define name="content">
+
+        <p:contentFlow value="#{index.images}" var="image">
+
+            <p:graphicImage value="resources/imagenes/#{image}" styleClass="content"/>
+            
+
+            <div class="caption"> <p:link outcome="evento?evento=10" value="Ver evento"/></div>
+
+
+        </p:contentFlow>
+
+        <br />
+    </ui:define>
+
+</ui:composition>
+

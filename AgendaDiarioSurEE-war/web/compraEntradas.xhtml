@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html>
+<ui:composition template="/plantilla.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:define name="title">Agenda Diario Sur - Compra Entradas</ui:define>
+    <ui:define name="subtitulo">Comprar Entradas</ui:define>
+    <ui:define name="content">
+        <c:choose>
+        <c:when test="#{controlAutorizacion.sesionIniciada()}">
+            <h:form onsubmit="return validate()">
+                <p:panel header="Compra de Entradas para eventos" id="panel">
+                    <h:dataTable id="listaEvento" value="#{busqueda.eventosMostrar.get(1)}" var="event" border="1">
+                        <h:column>
+                            <p:panel>
+                                <h:panelGrid columns="2">
+                                    <h:panelGroup>
+                                        <p:panel header="Evento #{event.nombre}">
+                                            <p:graphicImage value="resources/imagenes/#{busqueda.randomImage()}" width="25%"  height="25%"/>
+                                        </p:panel> 
+                                    </h:panelGroup>
+                                    <h:panelGroup>
+                                        <p:panel header="Detalles de compra ">
+                                            <h:outputText value="Fecha: #{busqueda.placeholderFecha()}" />
+                                            <p>Tipo Evento:
+                                                <h:outputText value="#{event.tipoEvento}" />
+                                            </p>
+                                            <h:panelGrid>
+                                                <h:outputText value="Número Entradas: 2"/>  <!--Estará en el body de la request -->
+                                                <h:outputText value="Total: #{event.precio*2} €" />
+                                            </h:panelGrid>
+
+                                        </p:panel>
+                                    </h:panelGroup>
+                                    <h:panelGroup>
+                                        <p:panel header="Descripción del evento">
+                                            <h:outputText value="#{event.descripcion}" />
+                                        </p:panel> 
+                                    </h:panelGroup>   
+
+                                </h:panelGrid>
+                            </p:panel>
+                        </h:column>
+                    </h:dataTable>
+
+                    <h:panelGroup>
+
+                        <br></br>  
+                        <br></br>
+                        <p:panel header="Forma de pago" id="panel1">
+                            <h:outputText value="Por favor seleccione su tipo de tarjeta de crédito y rellene los datos" />                
+                            <h:panelGrid >
+                                <br></br>
+                                <p:panel> 
+                                    <p:graphicImage value="resources/imagenes/mastercard.jpg"  width="25%"  height="25%"/>
+                                    <h:selectOneRadio  id="tarjetaMasterCard" >
+                                        <f:selectItem itemValue="Mastercard" itemLabel="Mastercard" /> 
+                                    </h:selectOneRadio>
+                                </p:panel>
+                                <p:panel> 
+                                    <p:graphicImage value="resources/imagenes/visa.jpg"  width="25%"  height="62%"/>
+                                    <h:selectOneRadio  id="tarjetaVisa" >
+                                        <f:selectItem itemValue="Visa" itemLabel="Visa" />
+                                    </h:selectOneRadio>
+                                </p:panel>
+                            </h:panelGrid>
+
+                        </p:panel>
+
+                        <tr>
+                            <td>Numero Tarjeta:</td>
+                            <td><h:inputText id="numTarjeta" value="#{compraEventos.numTarjeta}"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Codigo Seguridad:</td>
+                            <td><h:inputSecret id="codSeguridad" value="#{compraEventos.numSecreto}"/></td>
+                        </tr>
+                    </h:panelGroup>
+                    <!--Botones para cuando la web sea funcional-->
+                    <!--<h:commandButton  type="submit" value="Validar compra"  action="#{compraEventos.validarCompra()}"/> -->
+                    <!--<h:commandButton  type="submit" value="Cancelar compra" action="#{compraEventos.cancelarCompra()}"/> -->
+                    <h:commandButton  type="submit" value="Validar compra"  action="index.html"/> 
+                    <h:commandButton  type="submit" value="Cancelar compra" action="evento.xhtml?evento=10"/>
+                </p:panel>
+            </h:form>
+        </c:when>
+        <c:otherwise> 
+            <p:panel header="Acción no válida" >
+                <p>Necesita logearse en la web para realizar compras de entradas</p>
+            </p:panel>
+        </c:otherwise>
+       </c:choose>
+        
+
+    </ui:define>
+</ui:composition>

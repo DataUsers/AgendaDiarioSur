@@ -1,3 +1,8 @@
-/nbproject/private/
+/AgendaDiarioSurEE-ejb/build/
+/AgendaDiarioSurEE-ejb/dist/
+/AgendaDiarioSurEE-war/build/
 /build/
-/dist/
+/nbproject/private/
+/AgendaDiarioSurEE-war/dist/
+/AgendaDiarioSurEE-ejb/nbproject/private/
+/AgendaDiarioSurEE-war/nbproject/private/
