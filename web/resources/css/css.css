@@ -1,0 +1,60 @@
+
+a{
+    text-decoration: none;
+    color:rgb(190,18,25);
+}
+
+
+body {
+    background: #eeeae7;
+    font-family: Arial, sans-serif;
+}
+
+.pagina{
+    width: 67em;
+    margin: auto;
+    
+}
+
+.agenda{
+    color:rgb(190,18,25);
+    font-size: 30pt;
+    font-weight: bold;
+    font-family: Arial, sans-serif;
+}
+
+.cabecera {
+    background-color: rgb(255, 255, 255);
+    padding:10px;
+    border-radius: 10px;
+}
+
+.botones{
+    background-color: black;
+    padding: 5px;
+    border-radius: 10px;
+}
+form{
+    display: inline;
+}
+.sesion{
+    float:right;
+    display: inline;
+}
+
+.center_content{
+    background-color: white;
+    border-radius: 10px;
+    padding:10px;
+    
+}
+.subtitulo{
+    color:rgb(190,18,25);
+    font-size: 20pt;
+    font-weight: bold;
+    
+}
+
+.caption{
+    font-size:20pt;
+}

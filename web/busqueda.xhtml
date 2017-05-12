@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/plantilla.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <ui:define name="title">Agenda Diario Sur - Busqueda</ui:define>
+    <ui:define name="subtitulo">Busqueda de eventos</ui:define>
+    
+    <ui:define name="content">
+        <div style="text-align: center;">
+            <p id="localizacion"></p>
+            <button onclick="getGeo()">Obtener Geolocalizacion</button>
+        </div>
+
+        <h:panelGrid columns="1" style="margin: 0 auto;"> <!-- Poner en css -->
+            <!-- busqueda -->
+            <form method="GET" action="busqueda.xhtml" onsubmit="">
+                <!-- longitud y latitud para busqueda en la bd -->
+                <input type="hidden" id="latitud" name="latitud"></input>
+                <input type="hidden" id="longitud" name="longitud"></input>
+                <!-- filtros -->
+                <h:panelGrid columns="6">
+                    <ui:repeat var="filtros" value="#{busqueda.filtros}">
+                        <label for="#{filtros}">#{filtros}</label>
+                        <input type="radio" id="#{filtros}" name="filtrar" value="#{filtros}" />
+                    </ui:repeat>
+                </h:panelGrid>
+
+                <input type="text" name="q" placeholder="Buscar por nombre, ciudad, tipo..."></input>
+                <input type="submit" id="submitBusq" value="Enviar"></input>
+            </form>
+            <p:panel header="Resultados">
+
+                <h:dataTable id="listaEvento" value="#{busqueda.eventosMostrar}" var="event" border="1">
+                    <h:column>
+                        <p:panel>
+                            <h:panelGrid columns="3">
+                                <h:panelGroup>
+                                    <!-- imagen -->
+                                    <p:graphicImage value="resources/imagenes/#{busqueda.randomImage()}"
+                                                    width="250px"
+                                                    height="200px"/>
+                                </h:panelGroup>
+                                <h:panelGroup>
+                                    <p:panel header="#{event.nombre}">
+                                        <h:outputText value="Precio: #{event.precio}" />
+                                        <!-- fecha aqui -->
+                                        <h:panelGrid columns="2">
+                                            <p>Fecha</p>
+                                            <h:outputText value="#{busqueda.placeholderFecha()}"/>
+                                        </h:panelGrid>
+                                        <!-- localizacion -->
+                                        <p:button outcome="evento.xhtml?evento=10" value="Ver +"/> <!-- hardcodeado -->
+                                        <p:panel header="Descripcion">
+                                            <h:outputText value="#{event.descripcion}"></h:outputText>    
+                                        </p:panel>
+                                    </p:panel>
+                                </h:panelGroup>
+                                <h:panelGroup>
+                                    <!-- compartir y compra -->
+                                    <p:button styleClass="shareButton" value="Compartir Twitter" onclick="return shareTwitter('#{busqueda.construirEnlace(event.idEvento)}')"/>
+                                    <br></br>
+                                    <p:button styleClass="shareButton" value="Compartir Facebook" onclick="return shareFacebook('#{event.idEvento}')"/>
+                                    <br></br>
+                                    <p:button styleClass="compraButton" value="Comprar" outcome="compraEntradas.xhtml"></p:button> <!-- Construir link de compra -->
+                                </h:panelGroup>
+                            </h:panelGrid>
+                        </p:panel>
+                    </h:column>
+                </h:dataTable>
+
+            </p:panel>
+        </h:panelGrid>
+        <script type="text/javascript" src="resources/js/share.js"></script>
+        <script type="text/javascript" src="resources/js/busqueda.js"></script>
+    </ui:define>
+</ui:composition>

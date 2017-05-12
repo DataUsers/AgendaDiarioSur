@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/plantilla.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:define name="title">Agenda Diario Sur - Subir evento</ui:define>
+	<ui:define name="subtitulo">Subir evento</ui:define>
+    <ui:define name="content">
+        <h:outputScript name="js/UploadForm.js" target="head"/>
+
+        <br />
+        <c:choose>
+            <c:when test="#{controlAutorizacion.sesionIniciada()}">
+                <c:choose>
+                    <c:when test="#{controlAutorizacion.usuario.tipoUsuario==Usuario.tipo.NORMAL}">
+                        No tienes suficientes privilegios para subir un evento
+                    </c:when>
+                    <c:otherwise>
+                        <h:form prependId="false">
+                            <table>
+                                <tr>
+                                    <td>Nombre:</td>
+                                    <td><h:inputText id="nombre" value="#{submitEvent.evento.nombre}"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Descripción:</td>
+                                    <td><h:inputTextarea id="desc" value="#{submitEvent.evento.descripcion}"/></td>
+                                </tr>
+                                <tr>
+                                    <td>Precio:</td>
+                                    <td><h:inputText id="precio" value="#{submitEvent.evento.precio}"/></td>
+                                </tr>
+                                <tr>
+                                    <td>Calle/Coordenadas: </td>
+                                    <td><h:inputText id="localizacion" value="#{submitEvent.localizacion}"/></td>
+                                </tr>
+                                <tr>
+                                    <td>Tipo de evento:</td>
+                                    <td><h:selectOneMenu value="#{submitEvent.evento.tipoEvento}" >
+                                            <f:selectItems value="#{submitEvent.genderValues}" />
+                                        </h:selectOneMenu></td>
+                                </tr>
+                                <tr>
+                                    <td>Fecha: </td>
+                                    <td><h:inputText value="#{submitEvent.fecha}">  
+                                            <f:convertDateTime pattern="dd-MM-yyyy"/>  
+                                        </h:inputText></td>
+                                </tr>
+                                <tr>
+                                    <td>Numero de entradas:</td>
+                                    <td><h:inputText converterMessage="Por favor introduzca solo digitos."  
+                                                     value="#{submitEvent.evento.numero_entradas}"/></td>
+                                </tr>
+                                <tr>
+                                    <td>Organizador:</td>
+                                    <td><h:inputText value="#{submitEvent.evento.organizador}"/></td>
+                                </tr>
+                                <tr>
+                                    <td>URL-Organizador:</td>
+                                    <td><h:inputText value="#{submitEvent.evento.URLOrganizador}"/></td>
+                                </tr>
+                                <tr>
+                                    <td>Enlace a los vídeos:</td>
+                                    <td><h:inputText value="#{submitEvent.evento.URLVideos}"/></td>
+                                </tr>
+                                
+                            </table>
+                            <p:commandButton value="Subir" onclick="return validate()" action="#{submitEvent.upload()}"/>
+
+
+                        </h:form>
+                    </c:otherwise>
+                </c:choose>
+            </c:when>
+            <c:otherwise>
+                <p>Debe iniciar sesión para subir eventos</p>
+            </c:otherwise>
+        </c:choose>
+    </ui:define>
+</ui:composition>
