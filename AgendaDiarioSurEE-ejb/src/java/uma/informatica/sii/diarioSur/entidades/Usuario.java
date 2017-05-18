@@ -26,12 +26,12 @@ import javax.persistence.TemporalType;
 @Entity
 public class Usuario implements Serializable {
 
-	public enum tipoUsuario{
-		PERIODISTA,
-		NORMAL,
-		ADMINISTRADOR
-	}
-	
+    public enum tipoUsuario {
+        PERIODISTA,
+        NORMAL,
+        ADMINISTRADOR
+    }
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -39,12 +39,11 @@ public class Usuario implements Serializable {
     @Column(nullable = false)
     private String nombre;
     private String apellidos;
-	@Column(nullable = false)
+    @Column(nullable = false)
     private String contrasena;
     @Column(nullable = false)
     private String email;
     @Column(nullable = false)
-    
     private String dni;
     @Temporal(TemporalType.DATE)
     private Date fechaNacimiento;
@@ -55,18 +54,20 @@ public class Usuario implements Serializable {
     private List<CalificacionEvento> calificaciones;
     @OneToMany
     private List<EntradaEvento> entradas;
-	@Enumerated(EnumType.ORDINAL)
-	private tipoUsuario tipoUsuario;
-	
+    @Enumerated(EnumType.ORDINAL)
+    private tipoUsuario tipoUsuario;
 
-	public Usuario(String nombre, String contrasena, String email, tipoUsuario tipoUsuario) {
-		this.nombre = nombre;
-		this.contrasena = contrasena;
-		this.email = email;
-		this.tipoUsuario = tipoUsuario;
-	}
+    public Usuario(){
+        
+    }
+    
+    public Usuario(String nombre, String contrasena, String email, tipoUsuario tipoUsuario) {
+        this.nombre = nombre;
+        this.contrasena = contrasena;
+        this.email = email;
+        this.tipoUsuario = tipoUsuario;
+    }
 
-	
     public Long getId() {
         return id;
     }
@@ -146,34 +147,34 @@ public class Usuario implements Serializable {
     public void setCuentaTwitter(String cuentaTwitter) {
         this.cuentaTwitter = cuentaTwitter;
     }
-	
-	public String getContrasena() {
-		return contrasena;
-	}
 
-	public void setContrasena(String contrasena) {
-		this.contrasena = contrasena;
-	}
+    public String getContrasena() {
+        return contrasena;
+    }
 
-	public List<CalificacionEvento> getCalificaciones() {
-		return calificaciones;
-	}
+    public void setContrasena(String contrasena) {
+        this.contrasena = contrasena;
+    }
 
-	public void setCalificaciones(List<CalificacionEvento> calificaciones) {
-		this.calificaciones = calificaciones;
-	}
+    public List<CalificacionEvento> getCalificaciones() {
+        return calificaciones;
+    }
 
-	public List<EntradaEvento> getEntradas() {
-		return entradas;
-	}
+    public void setCalificaciones(List<CalificacionEvento> calificaciones) {
+        this.calificaciones = calificaciones;
+    }
 
-	public void setEntradas(List<EntradaEvento> entradas) {
-		this.entradas = entradas;
-	}
-        
-        public void añadirEntrada(EntradaEvento entradaEvento){
-              getEntradas().add(entradaEvento);
-        }
+    public List<EntradaEvento> getEntradas() {
+        return entradas;
+    }
+
+    public void setEntradas(List<EntradaEvento> entradas) {
+        this.entradas = entradas;
+    }
+
+    public void añadirEntrada(EntradaEvento entradaEvento) {
+        getEntradas().add(entradaEvento);
+    }
 
     @Override
     public int hashCode() {
@@ -199,5 +200,5 @@ public class Usuario implements Serializable {
     public String toString() {
         return "uma.informatica.sii.diarioSur.Usuario[ id=" + id + " ]";
     }
-    
+
 }

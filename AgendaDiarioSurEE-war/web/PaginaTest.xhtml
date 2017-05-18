@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        Hello from Facelets
+        <h:form>
+            <h:outputLabel for="nombre" value="Nombre"/>
+            <h:inputText label="nombre" value="#{paginaTestBean.nombre}"/>
+            <h:outputLabel for="apellido" value="Apellido"/>
+            <h:inputText label="apellido" value="#{paginaTestBean.contrasena}"/>
+            <h:outputLabel for="email" value="Email"/>
+            <h:inputText label="email" value="#{paginaTestBean.email}" />
+            <h:outputLabel for="dni" value="DNI"/>
+            <h:inputText label="dni" value="#{paginaTestBean.dni}"/>
+            <h:commandButton action="#{paginaTestBean.crearUsuario()}" value="Crear usuario"></h:commandButton>
+        </h:form>
+        <h:form>
+            <h:inputText value="#{paginaTestBean.id}" />
+            <h:commandButton value="Obtener usuario" action="#{paginaTestBean.obtenerUsuario()}"/>
+        </h:form>
+    </h:body>
+</html>
+
