@@ -6,8 +6,10 @@
 package uma.informatica.sii.diarioSur.negocio;
 
 import javax.ejb.Stateless;
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import uma.informatica.sii.diarioSur.entidades.Evento;
 
 /**
@@ -24,7 +26,7 @@ public class NegocioEventoImpl implements NegocioEvento {
     // "Insert Code > Add Business Method")
     
     @Override
-    public Evento findEvento(long idEvento) throws DiarioSurException{
+    public Evento findEvento(Integer idEvento) throws DiarioSurException{
         Evento eventFound = em.find(Evento.class, idEvento);
         
         if(eventFound == null){
@@ -33,5 +35,38 @@ public class NegocioEventoImpl implements NegocioEvento {
         
         return eventFound;
     }
+
+    @Override
+    public void insertarEvento(Evento evento) throws DiarioSurException {
+        
+        try{
+            em.persist(evento);
+            System.out.println("EVento nuevo creado id: " + evento.getIdEvento());
+        }catch(EntityExistsException e){
+            throw new EventoExistenteException();
+        }
+        
+        System.out.println("Evento guardado en la BD");
+    }
+
+    @Override
+    public Long obtenerNumFav(Evento evento) throws DiarioSurException {
+        // Comprobar antes si esta en la BD??
+        
+        Evento eventoFound = em.find(Evento.class, evento.getIdEvento());
+        
+        if(eventoFound == null){
+            throw new EventoNoEncException();
+        }
+        
+        Query query = em.createNamedQuery("findFavoritos");
+        query.setParameter("idEvento", evento.getIdEvento());
+        
+        long count = (Long) query.getSingleResult();
+        
+        return count;
+    }
+    
+    
     
 }

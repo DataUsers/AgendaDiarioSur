@@ -15,6 +15,10 @@ import uma.informatica.sii.diarioSur.entidades.Evento;
 @Local
 public interface NegocioEvento {
 
-    Evento findEvento(long idEvento) throws DiarioSurException;
+    Evento findEvento(Integer idEvento) throws DiarioSurException;
+
+    void insertarEvento(Evento evento) throws DiarioSurException;
+
+    Long obtenerNumFav(Evento evento) throws DiarioSurException;
     
 }

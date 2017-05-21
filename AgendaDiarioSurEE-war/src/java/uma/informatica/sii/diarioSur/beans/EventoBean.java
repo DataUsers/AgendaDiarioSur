@@ -5,7 +5,6 @@
  */
 package uma.informatica.sii.diarioSur.beans;
 
-
 import java.io.IOException;
 import java.io.Serializable;
 import java.sql.Date;
@@ -13,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
@@ -51,7 +51,7 @@ public class EventoBean implements Serializable {
 
     @Inject
     private ControlAutorizacion ctrl;
-    
+
     @EJB
     private NegocioEvento negocio;
 
@@ -59,11 +59,29 @@ public class EventoBean implements Serializable {
      * Creates a new instance of Evento
      */
     public EventoBean() {
-        createPlaceholders();
-        
+        //createPlaceholders(); // Alomejor no lo necesito
+    }
+
+    @PostConstruct
+    public void addMoreInfo() {
+        if (evento != null) {
+            // Setear marcador del mapa
+            String[] coord = evento.getGeolocalizacion().split(",");
+            Double latitud = Double.parseDouble(coord[0]);
+            Double longitud = Double.parseDouble(coord[1]);
+            model.addOverlay(new Marker(new LatLng(latitud, longitud), evento.getNombre()));
+
+            imagenes = new ArrayList<>();
+            for (int i = 0; i < 5; ++i) {
+                imagenes.add("image" + i + ".jpg");
+            }
+        }
+    }
+
+    public void onLoad() {
+
         // Validar si el id del evento existe
         HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-        HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
         // Hardcoded
         validado = false;
         eventId = request.getParameter("evento");
@@ -71,38 +89,27 @@ public class EventoBean implements Serializable {
         if (eventId != null) {
             // Crear current url
             currentUrl += "?evento=" + eventId;
-            long id = 0;
+            int id = 0;
             System.out.println("Evento id " + eventId);
             try {
-                id = Long.parseLong(eventId);
-                
-                if(negocio == null){
+                id = Integer.parseInt(eventId);
+
+                if (negocio == null) {
                     System.out.println("Negocio a null");
                 }
-                
+
                 evento = negocio.findEvento(id);
-                
-                //validado = evento.getIdEvento() == id;
+                System.out.println("ENCONTRADO");
+                validado = true;
+
             } catch (NumberFormatException e) {
                 /* TODO http://stackoverflow.com/questions/2451154/invoke-jsf-managed-bean-action-on-page-load*/
-                /*
-                try {
-                    //validado = false;
-                    // Hacer redireccion
-                    //response.sendRedirect("index.xhtml");
-                } catch (IOException ex) {
-                    Logger.getLogger(EventoBean.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                */
-            }catch(DiarioSurException e){
-                /*
-                try {
-                    // Hacer redireccion
-                    //response.sendRedirect("index.xhtml");
-                } catch (IOException ex) {
-                    Logger.getLogger(EventoBean.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                */
+
+                System.out.println("NO ENCONTRADO, FORMAT NUMBER");
+                validado = false;
+            } catch (DiarioSurException e) {
+                System.out.println("no ENCONTRADO, DIARIOSUR ");
+                validado = false;
             }
         }
     }
@@ -119,6 +126,7 @@ public class EventoBean implements Serializable {
         evento.setOrganizador("OrganizadorNombre");
         evento.setURLOrganizador("http://127.0.0.1:8080");
 
+        /*
         calificaciones = new ArrayList<CalificacionEvento>();
         for (int i = 0; i < 5; ++i) {
             CalificacionEvento calificacion = new CalificacionEvento("PACO", "UNA DESCRIPCION", i);
@@ -126,7 +134,8 @@ public class EventoBean implements Serializable {
             calificaciones.add(calificacion);
         }
         evento.setCalificaciones(calificaciones);
-
+         */
+ /*
         // Crear fechas ficticias
         List<Date> fechas = new ArrayList<>();
         for (int i = 0; i < 5; ++i) {
@@ -135,7 +144,7 @@ public class EventoBean implements Serializable {
             //System.out.println("Date: " + date.toLocalDate().toString());
         }
         evento.setFechas(fechas);
-
+         */
         // Setear marcador del mapa, compobar errores aqui
         String[] coord = evento.getGeolocalizacion().split(",");
         Double latitud = Double.parseDouble(coord[0]);
@@ -148,33 +157,17 @@ public class EventoBean implements Serializable {
         }
     }
 
-    public boolean validarEvento() {
-        boolean validado = false;
-
-        if (eventId != null && eventId.length() > 0) {
-            // Deberia comprobar si el evento esta en la base de datos y asignar el
-            // evento a la variable evento de este bean
-            int id = 0;
-            try {
-                id = Integer.parseInt(eventId);
-                validado = evento.getIdEvento() == id;
-            } catch (NumberFormatException e) {
-                validado = false;
-            }
-        }
-
-        return validado;
-    }
-
     public String numeroFavoritos() {
-        int nCalificacion = 0;
-        for (CalificacionEvento calificacion : calificaciones) {
-            if (calificacion.isFavorito()) {
-                ++nCalificacion;
-            }
+        long nCalificacion = 0;
+
+        try {
+            // TODO
+            nCalificacion = negocio.obtenerNumFav(evento);
+        } catch (DiarioSurException ex) {
+            Logger.getLogger(EventoBean.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        return Integer.toString(nCalificacion);
+        return Long.toString(nCalificacion);
     }
 
     public Publicidad getPublicidad() {
