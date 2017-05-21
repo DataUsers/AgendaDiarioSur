@@ -26,6 +26,10 @@ public class CalificacionBean implements Serializable {
 
     @Inject
     private ControlAutorizacion ctrl;
+    
+    /* TODO
+    @EJB
+    private */
 
     private String titulo;          // Indica el título que el usuario ponga a su valoración
     private Integer puntuacion;      // Indica la puntuación que el usuario establezca al realizar su valoración

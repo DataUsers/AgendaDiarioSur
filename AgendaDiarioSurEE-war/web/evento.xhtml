@@ -26,9 +26,9 @@
                             <h:panelGroup>
                                 <p:galleria value="#{evento.imagenes}" var="image" 
                                             autoPlay="true" effect="fade">
-                                    <p:graphicImage name="imagenes/#{image}"
+                                    <p:graphicImage
                                                     title="#{image}" alt="#{image}"
-                                                    width="100%" height="100%" url="resources/imagenes/#{image}">
+                                                    width="100%" height="100%" value="#{image}">
                                     </p:graphicImage>
                                 </p:galleria>
                             </h:panelGroup>

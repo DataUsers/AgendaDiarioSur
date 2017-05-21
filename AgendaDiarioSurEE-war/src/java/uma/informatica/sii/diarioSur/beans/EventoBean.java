@@ -40,14 +40,13 @@ import uma.informatica.sii.diarioSur.negocio.NegocioEvento;
 public class EventoBean implements Serializable {
 
     private Publicidad publicidad;
-    private Evento evento; // event placeholder
+    private Evento evento; 
     private List<String> imagenes;
     private List<CalificacionEvento> calificaciones;
     private MapModel model = new DefaultMapModel();
     private String currentUrl;
     private boolean validado;
     private String eventId;
-    //private UIComponent favoritos;
 
     @Inject
     private ControlAutorizacion ctrl;
@@ -59,9 +58,9 @@ public class EventoBean implements Serializable {
      * Creates a new instance of Evento
      */
     public EventoBean() {
-        //createPlaceholders(); // Alomejor no lo necesito
     }
 
+    /*
     @PostConstruct
     public void addMoreInfo() {
         if (evento != null) {
@@ -77,6 +76,7 @@ public class EventoBean implements Serializable {
             }
         }
     }
+    */
 
     public void onLoad() {
 
@@ -101,6 +101,19 @@ public class EventoBean implements Serializable {
                 evento = negocio.findEvento(id);
                 System.out.println("ENCONTRADO");
                 validado = true;
+
+                // Setear marcador del mapa e imagenes placeholder
+                String[] coord = evento.getGeolocalizacion().split(",");
+                Double latitud = Double.parseDouble(coord[0]);
+                Double longitud = Double.parseDouble(coord[1]);
+                model.addOverlay(new Marker(new LatLng(latitud, longitud), evento.getNombre()));
+
+                imagenes = new ArrayList<>();
+                if(evento.getImagenes().length > 0){
+                    for(String img : evento.getImagenes()){
+                        imagenes.add(img);
+                    }
+                }
 
             } catch (NumberFormatException e) {
                 /* TODO http://stackoverflow.com/questions/2451154/invoke-jsf-managed-bean-action-on-page-load*/
@@ -233,14 +246,4 @@ public class EventoBean implements Serializable {
     public void setValidado(boolean validado) {
         this.validado = validado;
     }
-
-    /*
-    public UIComponent getFavoritos() {
-        return favoritos;
-    }
-
-    public void setFavoritos(UIComponent favoritos) {
-        this.favoritos = favoritos;
-    }
-     */
 }

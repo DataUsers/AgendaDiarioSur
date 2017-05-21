@@ -67,11 +67,11 @@ public class PaginaTestBean {
 
     public String crearEvento() {
         evento = new Evento();
-        evento.setNombre("Placeholder");
-        evento.setDescripcion("Placeholder");
+        evento.setNombre("Placeholder 2");
+        evento.setDescripcion("Placeholder 2");
         evento.setPrecio(20);
         evento.setGeolocalizacion("36.714040, -4.433475");
-        evento.setOrganizador("OrganizadorNombre");
+        evento.setOrganizador("OrganizadorNombre 2");
         evento.setURLOrganizador("http://127.0.0.1:8080");
 
         /*
@@ -91,6 +91,14 @@ public class PaginaTestBean {
             //System.out.println("Date: " + date.toLocalDate().toString());
         }
         evento.setFechas(fechas);
+        
+        // Test images
+        String[] imagenes = new String[3];
+        imagenes[0] = "http://i.imgur.com/93vHumH.png";
+        imagenes[1] = "http://i.imgur.com/H1SW1Rj.png";
+        imagenes[2] = "http://i.imgur.com/pojHJNc.jpg";
+        
+        evento.setImagenes(imagenes);
 
         /*
             // Setear marcador del mapa, compobar errores aqui
