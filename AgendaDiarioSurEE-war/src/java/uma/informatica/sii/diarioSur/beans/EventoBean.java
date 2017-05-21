@@ -6,15 +6,20 @@
 package uma.informatica.sii.diarioSur.beans;
 
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.primefaces.model.map.DefaultMapModel;
 import org.primefaces.model.map.LatLng;
 import org.primefaces.model.map.MapModel;
@@ -22,6 +27,9 @@ import org.primefaces.model.map.Marker;
 import uma.informatica.sii.diarioSur.entidades.CalificacionEvento;
 import uma.informatica.sii.diarioSur.entidades.Evento;
 import uma.informatica.sii.diarioSur.entidades.Publicidad;
+import uma.informatica.sii.diarioSur.negocio.DiarioSurException;
+import uma.informatica.sii.diarioSur.negocio.EventoNoEncException;
+import uma.informatica.sii.diarioSur.negocio.NegocioEvento;
 
 /**
  *
@@ -43,6 +51,9 @@ public class EventoBean implements Serializable {
 
     @Inject
     private ControlAutorizacion ctrl;
+    
+    @EJB
+    private NegocioEvento negocio;
 
     /**
      * Creates a new instance of Evento
@@ -52,6 +63,7 @@ public class EventoBean implements Serializable {
         
         // Validar si el id del evento existe
         HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
         // Hardcoded
         validado = false;
         eventId = request.getParameter("evento");
@@ -59,13 +71,38 @@ public class EventoBean implements Serializable {
         if (eventId != null) {
             // Crear current url
             currentUrl += "?evento=" + eventId;
-            int id = 0;
+            long id = 0;
             System.out.println("Evento id " + eventId);
             try {
-                id = Integer.parseInt(eventId);
-                validado = evento.getIdEvento() == id;
+                id = Long.parseLong(eventId);
+                
+                if(negocio == null){
+                    System.out.println("Negocio a null");
+                }
+                
+                evento = negocio.findEvento(id);
+                
+                //validado = evento.getIdEvento() == id;
             } catch (NumberFormatException e) {
-                validado = false;
+                /* TODO http://stackoverflow.com/questions/2451154/invoke-jsf-managed-bean-action-on-page-load*/
+                /*
+                try {
+                    //validado = false;
+                    // Hacer redireccion
+                    //response.sendRedirect("index.xhtml");
+                } catch (IOException ex) {
+                    Logger.getLogger(EventoBean.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                */
+            }catch(DiarioSurException e){
+                /*
+                try {
+                    // Hacer redireccion
+                    //response.sendRedirect("index.xhtml");
+                } catch (IOException ex) {
+                    Logger.getLogger(EventoBean.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                */
             }
         }
     }

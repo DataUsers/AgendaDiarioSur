@@ -33,6 +33,9 @@ public class PaginaTestBean {
      * Creates a new instance of PaginaTestBean
      */
     public PaginaTestBean() {
+        if(negocio == null){
+            System.out.println("Esta a null el negocio");
+        }
     }
     
     public String crearUsuario(){
