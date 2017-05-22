@@ -19,6 +19,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -40,7 +41,7 @@ import uma.informatica.sii.diarioSur.negocio.NegocioEvento;
  * @author darylfed
  */
 @Named(value = "evento")
-@RequestScoped
+@ViewScoped
 public class EventoBean implements Serializable {
 
     // Dependencias
