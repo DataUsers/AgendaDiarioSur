@@ -6,6 +6,9 @@
 package uma.informatica.sii.diarioSur.beans;
 
 import java.io.Serializable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
@@ -14,7 +17,10 @@ import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import org.primefaces.model.UploadedFile;
+import uma.informatica.sii.diarioSur.entidades.CalificacionEvento;
 import uma.informatica.sii.diarioSur.entidades.Evento;
+import uma.informatica.sii.diarioSur.negocio.CalificacionNegocio;
+import uma.informatica.sii.diarioSur.negocio.DiarioSurException;
 
 /**
  *
@@ -27,14 +33,11 @@ public class CalificacionBean implements Serializable {
     @Inject
     private ControlAutorizacion ctrl;
     
-    /* TODO
     @EJB
-    private */
-
-    private String titulo;          // Indica el título que el usuario ponga a su valoración
-    private Integer puntuacion;      // Indica la puntuación que el usuario establezca al realizar su valoración
-    private String comentario;      // Es el propio comentario acerca del evento
-    private boolean favorito;        // Si lo marca como favorito aparecerá como True, en caso contrario a False
+    private CalificacionNegocio negocio; 
+    
+    private CalificacionEvento calificacion;
+    
     private UploadedFile imagen;
     private UIComponent imageComponent;
     //private UIComponent formulario;
@@ -43,14 +46,17 @@ public class CalificacionBean implements Serializable {
      * Creates a new instance of CalificacionBean
      */
     public CalificacionBean() {
+        calificacion = new CalificacionEvento();
     }
 
     public String enviarCalificacion(Evento evento) {
+        /*
         System.out.println("Enviado una calificacion");
         System.out.println("Puntiacion: " + puntuacion);
         System.out.println("Titulo: " + titulo);
         System.out.println("Comentario: " + comentario);
         System.out.println("Evento: " + evento.getNombre());
+        */
         if (imagen != null) {
             System.out.println("Hay una imagen");
         }
@@ -59,15 +65,18 @@ public class CalificacionBean implements Serializable {
             // Crear calificacion, guardar en la persistencia y asignarlo al evento
             // Guardar en la base de datos y redirigir al evento
 
+            calificacion.setEventos(evento);
+            calificacion.setUsuarios(ctrl.getUsuario()); // CTRL DEBERIA DE DEVOLVER BIEN AL USER
+            
             System.out.println("Sesion iniciada, enviando calificacion");
 
-            return "evento.xhtml?faces-redirect=true&includeViewParams=true&evento=" + evento.getIdEvento();
+            return null; // hacer feedback al usuario
         } else {
             // Notificar que necesitainiciar sesion
             //FacesContext context = FacesContext.getCurrentInstance();
             //context.addMessage(formulario.getClientId(), new FacesMessage("Tienes que iniciar sesion para enviar una calificacion"));
             System.out.println("Sesion no iniciada");
-            return "evento.xhtml?faces-redirect=true&includeViewParams=true&evento=" + evento.getIdEvento();
+            return null; // Hacer feedback al usuario
         }
 
     }
@@ -81,48 +90,37 @@ public class CalificacionBean implements Serializable {
         if (ctrl.sesionIniciada()) {
             // Crear calificacion como favorito y guardarlo en la base de datos
             System.out.println("Sesion iniciada, se va a marcar favorito");
+            
+            try {
+                calificacion = new CalificacionEvento(); // Crear nueva calificacion por si acaso
+                calificacion.setEventos(evento);
+                calificacion.setUsuarios(ctrl.getUsuario()); // CTRL.GETUSUARIO DEBERIA DE FUNCIONAR
+                calificacion.setFavorito(true);
+                
+                negocio.insertarCalificacion(calificacion);
+            } catch (DiarioSurException ex) {
+                // CAMBIAR
+                Logger.getLogger(CalificacionBean.class.getName()).log(Level.SEVERE, null, ex);
+                return null; // Refrescar pagina
+            }
 
-            return "evento?faces-redirect=true&includeViewParams=true&evento=" + eventId;
+            return null; // refrescar pagina
         } else {
-            System.out.println("NO iniciad sesion");
+            System.out.println("NO iniciada sesion");
             // Mostrar que no puede dar a favoritos a menos que este iniciado de sesion
             //FacesContext context = FacesContext.getCurrentInstance();
             //context.addMessage(favoritos.getClientId(), new FacesMessage("Tienes que iniciar sesion para dar a favoritos"));
 
-            return "evento?faces-redirect=true&includeViewParams=true&evento=" + eventId;
+            return null; // refrescar pagina
         }
     }
 
-    public String getTitulo() {
-        return titulo;
+    public CalificacionEvento getCalificacion() {
+        return calificacion;
     }
 
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
-    }
-
-    public Integer getPuntuacion() {
-        return puntuacion;
-    }
-
-    public void setPuntuacion(Integer puntuacion) {
-        this.puntuacion = puntuacion;
-    }
-
-    public String getComentario() {
-        return comentario;
-    }
-
-    public void setComentario(String comentario) {
-        this.comentario = comentario;
-    }
-
-    public boolean isFavorito() {
-        return favorito;
-    }
-
-    public void setFavorito(boolean favorito) {
-        this.favorito = favorito;
+    public void setCalificacion(CalificacionEvento calificacion) {
+        this.calificacion = calificacion;
     }
 
     public UploadedFile getImagen() {

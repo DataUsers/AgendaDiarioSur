@@ -92,11 +92,11 @@
                                     <h:form enctype="multipart/form-data">
                                         <h:panelGrid columns="2">
                                             <h:outputText value="Puntuacion:"/>
-                                            <p:rating value="#{calificacionBean.puntuacion}" stars="5"/>
+                                            <p:rating value="#{calificacionBean.calificacion.puntuacion}" stars="5"/>
                                         </h:panelGrid>
                                         <h:panelGrid columns="1">
-                                            <p:inputText value="#{calificacionBean.titulo}" placeholder="Introduce el titulo"/>
-                                            <p:inputTextarea value="#{calificacionBean.comentario}" placeholder="Introduce el comentario..."/>
+                                            <p:inputText value="#{calificacionBean.calificacion.titulo}" placeholder="Introduce el titulo"/>
+                                            <p:inputTextarea value="#{calificacionBean.calificacion.comentario}" placeholder="Introduce el comentario..."/>
                                             <p:outputLabel for="upload">Imagen a subir:</p:outputLabel>
                                             <p:fileUpload id="upload" value="#{calificacionBean.imagen}" 
                                                           binding="#{calificacionBean.imageComponent}"

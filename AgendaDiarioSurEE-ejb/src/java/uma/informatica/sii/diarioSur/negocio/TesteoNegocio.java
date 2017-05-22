@@ -47,5 +47,17 @@ public class TesteoNegocio implements TesteoNegocioLocal {
         }
         return usuario;
     }
+
+    @Override
+    public void registrarUsuario(Usuario usuario) throws DiarioSurException {
+        
+        Usuario userFound = em.find(Usuario.class, usuario.getId());
+        
+        if(userFound == null){
+            System.out.println("No esta en la BD");
+        }
+    }
+    
+    
     
 }
