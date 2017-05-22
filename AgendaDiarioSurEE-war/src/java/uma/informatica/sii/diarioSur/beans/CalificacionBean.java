@@ -19,8 +19,8 @@ import javax.inject.Inject;
 import org.primefaces.model.UploadedFile;
 import uma.informatica.sii.diarioSur.entidades.CalificacionEvento;
 import uma.informatica.sii.diarioSur.entidades.Evento;
-import uma.informatica.sii.diarioSur.negocio.CalificacionNegocio;
 import uma.informatica.sii.diarioSur.negocio.DiarioSurException;
+import uma.informatica.sii.diarioSur.negocio.NegocioCalificacion;
 
 /**
  *
@@ -34,7 +34,7 @@ public class CalificacionBean implements Serializable {
     private ControlAutorizacion ctrl;
     
     @EJB
-    private CalificacionNegocio negocio; 
+    private NegocioCalificacion negocio; 
     
     private CalificacionEvento calificacion;
     
@@ -47,6 +47,7 @@ public class CalificacionBean implements Serializable {
      */
     public CalificacionBean() {
         calificacion = new CalificacionEvento();
+        System.out.println("Se ha creado el calificacion bean");
     }
 
     public String enviarCalificacion(Evento evento) {

@@ -5,23 +5,20 @@
  */
 package uma.informatica.sii.diarioSur.negocio;
 
-import java.util.List;
 import javax.ejb.Local;
+import uma.informatica.sii.diarioSur.entidades.CalificacionEvento;
 import uma.informatica.sii.diarioSur.entidades.Evento;
+import uma.informatica.sii.diarioSur.entidades.Usuario;
 
 /**
  *
  * @author darylfed
  */
 @Local
-public interface NegocioEvento {
+public interface NegocioCalificacion {
 
-    Evento findEvento(Integer idEvento) throws DiarioSurException;
+    void insertarCalificacion(CalificacionEvento calificacion) throws DiarioSurException;
 
-    void insertarEvento(Evento evento) throws DiarioSurException;
-
-    Long obtenerNumFav(Evento evento) throws DiarioSurException;
-
-    List getCalificaciones(int pagina, int maxCalificaciones, Evento evento) throws DiarioSurException;
+    void compruebaLogin(Usuario usuario) throws DiarioSurException;
     
 }

@@ -6,8 +6,6 @@
 package uma.informatica.sii.diarioSur.negocio;
 
 import javax.ejb.Local;
-import uma.informatica.sii.diarioSur.entidades.CalificacionEvento;
-import uma.informatica.sii.diarioSur.entidades.Evento;
 import uma.informatica.sii.diarioSur.entidades.Usuario;
 
 /**
@@ -15,10 +13,8 @@ import uma.informatica.sii.diarioSur.entidades.Usuario;
  * @author darylfed
  */
 @Local
-public interface CalificacionNegocio {
+public interface NegocioLoginTest {
 
-    void insertarCalificacion(CalificacionEvento calificacion) throws DiarioSurException;
-
-    void compruebaLogin(Usuario usuario) throws DiarioSurException;
+    Usuario obtenerCuenta(long id) throws DiarioSurException;
     
 }

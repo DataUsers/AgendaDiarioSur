@@ -18,7 +18,7 @@ import uma.informatica.sii.diarioSur.entidades.Usuario;
  * @author darylfed
  */
 @Stateless
-public class CalificacionNegocioImpl implements CalificacionNegocio {
+public class NegocioCalificacionImpl implements NegocioCalificacion {
 
     @PersistenceContext
     private EntityManager em;
@@ -36,7 +36,19 @@ public class CalificacionNegocioImpl implements CalificacionNegocio {
             throw new EventoNoEncException();
         }
         
+        // Guardar calificacion
         em.persist(calificacion);
+        
+        // Actualizar las relaciones
+        // Usuario
+        Usuario userFound = em.find(Usuario.class, calificacion.getUsuarios().getId());
+        userFound.getCalificaciones().add(calificacion);
+        em.merge(userFound);
+        
+        // Evento
+        eventoBusc.getCalificaciones().add(calificacion);
+        em.merge(eventoBusc);
+        
     }
     
     // QUITAR DESPUES
@@ -47,7 +59,7 @@ public class CalificacionNegocioImpl implements CalificacionNegocio {
         Usuario userFind = em.find(Usuario.class, usuario.getId());
         
         if(userFind == null){
-            throw new DiarioSurException();
+            throw new CuentaInexistenteException();
         }
         
     }

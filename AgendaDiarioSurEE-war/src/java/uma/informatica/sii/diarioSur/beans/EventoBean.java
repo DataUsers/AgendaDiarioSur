@@ -47,6 +47,9 @@ public class EventoBean implements Serializable {
     private String currentUrl;
     private boolean validado;
     private String eventId;
+    
+    private int commentPage;
+    private final int MAX_CALIFICACIONES = 5;
 
     @Inject
     private ControlAutorizacion ctrl;
@@ -59,24 +62,6 @@ public class EventoBean implements Serializable {
      */
     public EventoBean() {
     }
-
-    /*
-    @PostConstruct
-    public void addMoreInfo() {
-        if (evento != null) {
-            // Setear marcador del mapa
-            String[] coord = evento.getGeolocalizacion().split(",");
-            Double latitud = Double.parseDouble(coord[0]);
-            Double longitud = Double.parseDouble(coord[1]);
-            model.addOverlay(new Marker(new LatLng(latitud, longitud), evento.getNombre()));
-
-            imagenes = new ArrayList<>();
-            for (int i = 0; i < 5; ++i) {
-                imagenes.add("image" + i + ".jpg");
-            }
-        }
-    }
-    */
 
     public void onLoad() {
 
@@ -114,6 +99,9 @@ public class EventoBean implements Serializable {
                         imagenes.add(img);
                     }
                 }
+                
+                // Settear calificaciones
+                calificaciones = negocio.getCalificaciones(0, MAX_CALIFICACIONES, evento);
 
             } catch (NumberFormatException e) {
                 /* TODO http://stackoverflow.com/questions/2451154/invoke-jsf-managed-bean-action-on-page-load*/
@@ -246,4 +234,14 @@ public class EventoBean implements Serializable {
     public void setValidado(boolean validado) {
         this.validado = validado;
     }
+
+    public int getCommentPage() {
+        return commentPage;
+    }
+
+    public void setCommentPage(int commentPage) {
+        this.commentPage = commentPage;
+    }
+    
+    
 }

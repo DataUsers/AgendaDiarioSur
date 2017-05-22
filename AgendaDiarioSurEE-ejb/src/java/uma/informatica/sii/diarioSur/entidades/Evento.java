@@ -29,7 +29,9 @@ import javax.persistence.OneToMany;
 @Entity
 @NamedQueries({
     @NamedQuery(name="findFavoritos", 
-            query="select count(*) from CalificacionEvento c where c.eventos.idEvento = :idEvento and c.favorito = TRUE")
+            query="select count(*) from CalificacionEvento c where c.eventos.idEvento = :idEvento and c.favorito = TRUE"),
+    @NamedQuery(name="findCalificaciones",
+            query="select c from CalificacionEvento c where c.eventos.idEvento = :idEvento")
 })
 public class Evento implements Serializable {
 

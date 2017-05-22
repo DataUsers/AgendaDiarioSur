@@ -48,7 +48,7 @@
                                             <p:button value="Comprar" outcome="compraEntradas.xhtml?evento=#{evento.eventId}" />
                                             <br></br>
                                             <h:form>
-                                                <p:commandButton type="submit" value="Favoritos #{evento.numeroFavoritos()}" 
+                                                <p:commandButton type="submit" ajax="false" value="Favoritos #{evento.numeroFavoritos()}" 
                                                                  action="#{calificacionBean.marcarFavorito(evento.evento)}" />
                                             </h:form>
                                         </h:panelGroup>
@@ -89,7 +89,7 @@
                             </h:panelGroup>
                             <h:panelGroup>
                                 <p:panel header="Escribir Reseña" styleClass="containerResenia">
-                                    <h:form enctype="multipart/form-data">
+                                    <h:form>
                                         <h:panelGrid columns="2">
                                             <h:outputText value="Puntuacion:"/>
                                             <p:rating value="#{calificacionBean.calificacion.puntuacion}" stars="5"/>
@@ -97,15 +97,9 @@
                                         <h:panelGrid columns="1">
                                             <p:inputText value="#{calificacionBean.calificacion.titulo}" placeholder="Introduce el titulo"/>
                                             <p:inputTextarea value="#{calificacionBean.calificacion.comentario}" placeholder="Introduce el comentario..."/>
-                                            <p:outputLabel for="upload">Imagen a subir:</p:outputLabel>
-                                            <p:fileUpload id="upload" value="#{calificacionBean.imagen}" 
-                                                          binding="#{calificacionBean.imageComponent}"
-                                                          allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
-                                                          ></p:fileUpload>
-                                            <h:message for="upload"/>
                                         </h:panelGrid>
                                         <h:panelGrid columns="2">
-                                            <p:commandButton type="submit" value="Enviar" action="#{calificacionBean.enviarCalificacion(evento.evento)}"/>
+                                            <p:commandButton ajax="false" type="submit" value="Enviar" action="#{calificacionBean.enviarCalificacion(evento.evento)}"/>
                                             <p:commandButton value="Reestablecer" type="reset"/>
                                         </h:panelGrid>
                                     </h:form>
