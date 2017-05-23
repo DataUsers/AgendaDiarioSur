@@ -88,14 +88,27 @@ public class NegocioEventoImpl implements NegocioEvento {
     }
 
     @Override
-    public Evento obtenerEventos(int id) throws DiarioSurException {
-        return null;
+    public List obtenerEventos(int maxResult) throws DiarioSurException {
+        
+        Query query = em.createQuery("SELECT e from Evento e");
+        query.setMaxResults(maxResult);
+        
+        return query.getResultList();
     }
 
     @Override
-    public List queryEventos(String q, String filtro) throws DiarioSurException {
+    public List queryEventos(String q, String filtro, int pagina, int maxResult) throws DiarioSurException {
+        
+        
+        
+        
         return null;
-    }    
+    }  
+
+    @Override
+    public List queryEventos(String q, String filtro, String latitud, String longitud, int pagina, int maxResult) throws DiarioSurException {
+        return null;
+    }
     
     
 }
