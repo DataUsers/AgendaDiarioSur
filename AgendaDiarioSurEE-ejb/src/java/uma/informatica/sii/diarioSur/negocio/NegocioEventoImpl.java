@@ -79,6 +79,7 @@ public class NegocioEventoImpl implements NegocioEvento {
         query.setParameter("idEvento", evento.getIdEvento());
 
         query.setFirstResult(pagina * maxCalificaciones);
+        query.setMaxResults(maxCalificaciones);
 
         return query.getResultList();
     }

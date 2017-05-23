@@ -23,6 +23,7 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 import org.primefaces.model.map.DefaultMapModel;
 import org.primefaces.model.map.LatLng;
@@ -64,10 +65,12 @@ public class EventoBean implements Serializable {
     private String currentURI;
     private boolean validado;
     private String eventId;
+    private boolean hasGeo;
 
     // Para calificaciones
     private CalificacionEvento calificacion;
     private int commentPage;
+    private boolean hasMoreComments;
     private final int MAX_CALIFICACIONES = 5;
     private UploadedFile imagen;
     private UIComponent imageComponent;
@@ -77,6 +80,8 @@ public class EventoBean implements Serializable {
      */
     public EventoBean() {
         calificacion = new CalificacionEvento();
+        hasMoreComments = false;
+        commentPage = 0;
     }
 
     public void onLoad() {
@@ -88,6 +93,9 @@ public class EventoBean implements Serializable {
         eventId = request.getParameter("evento");
         currentUrl = request.getRequestURL().toString();
         currentURI = "evento";
+        
+        System.out.println("comment page: " + commentPage);
+        
         System.out.println("URI: " + currentUrl);
         if (eventId != null) {
             // Crear current url
@@ -111,6 +119,8 @@ public class EventoBean implements Serializable {
                 validado = true;
 
                 // Setear marcador del mapa e imagenes placeholder
+                
+                // Comprobar si tiene geolocalizacion
                 String[] coord = evento.getGeolocalizacion().split(",");
                 Double latitud = Double.parseDouble(coord[0]);
                 Double longitud = Double.parseDouble(coord[1]);
@@ -125,6 +135,12 @@ public class EventoBean implements Serializable {
 
                 // Settear calificaciones
                 calificaciones = negocio.getCalificaciones(commentPage, MAX_CALIFICACIONES, evento);
+                
+                if(calificaciones.size() < MAX_CALIFICACIONES){
+                    hasMoreComments = false;
+                }else{
+                    hasMoreComments = true;
+                }
 
             } catch (NumberFormatException e) {
                 System.out.println("NO ENCONTRADO, FORMAT NUMBER");
@@ -134,6 +150,13 @@ public class EventoBean implements Serializable {
                 validado = false;
             }
         }
+    }
+    
+    public String nextCommentPage(){
+        System.out.println("comment page antes: " + commentPage);
+        ++commentPage;
+        System.out.println("comment page despues: " + commentPage);
+        return currentURI + "&commentPage=" + commentPage + "&faces-redirect=true";
     }
 
     private void createPlaceholders() {
@@ -194,7 +217,9 @@ public class EventoBean implements Serializable {
 
     public String enviarCalificacion() {
         if (imagen != null) {
-            System.out.println("Hay una imagen");
+            System.out.println("Hay una imagen: " + imagen.getFileName());
+        }else{
+            System.out.println("NO hay una imagen");
         }
 
         if (ctrl.sesionIniciada()) {
@@ -203,6 +228,8 @@ public class EventoBean implements Serializable {
 
             calificacion.setEventos(evento);
             calificacion.setUsuarios(ctrl.getUsuario()); // CTRL DEBERIA DE DEVOLVER BIEN AL USER
+            
+            // Guardar imagen y path de la imagen
 
             try {
                 negocioCal.insertarCalificacion(calificacion);
@@ -360,6 +387,22 @@ public class EventoBean implements Serializable {
 
     public void setImagen(UploadedFile imagen) {
         this.imagen = imagen;
+    }
+
+    public boolean isHasMoreComments() {
+        return hasMoreComments;
+    }
+
+    public void setHasMoreComments(boolean hasMoreComments) {
+        this.hasMoreComments = hasMoreComments;
+    }
+
+    public boolean isHasGeo() {
+        return hasGeo;
+    }
+
+    public void setHasGeo(boolean hasGeo) {
+        this.hasGeo = hasGeo;
     }
 
     public UIComponent getImageComponent() {

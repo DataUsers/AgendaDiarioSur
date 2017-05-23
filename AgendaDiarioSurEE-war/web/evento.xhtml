@@ -13,6 +13,7 @@
     <ui:define name="content">
         <f:metadata>
             <f:viewParam name="evento" value="#{evento.eventId}"/>
+            <f:viewParam name="commentPage" value="#{evento.commentPage}"/>
             <f:viewAction action="#{evento.onLoad()}" />
         </f:metadata>
         <h:outputStylesheet name="css/evento.css" />
@@ -86,11 +87,14 @@
                                             <p>Calificacion: #{cal.puntuacion}</p>
                                         </p:panel>
                                     </ui:repeat>
+                                    <c:if test="#{evento.hasMoreComments}">
+                                        <p:commandButton value="Cargar Mas" action="#{evento.nextCommentPage()}"></p:commandButton>
+                                    </c:if>
                                 </p:panel>
                             </h:panelGroup>
                             <h:panelGroup>
                                 <p:panel header="Escribir Reseña" styleClass="containerResenia">
-                                    <h:form>
+                                    <h:form enctype="multipart/form-data">
                                         <h:panelGrid columns="2">
                                             <h:outputText value="Puntuacion:"/>
                                             <p:rating value="#{evento.calificacion.puntuacion}" stars="5"/>
@@ -98,9 +102,15 @@
                                         <h:panelGrid columns="1">
                                             <p:inputText value="#{evento.calificacion.titulo}" placeholder="Introduce el titulo"/>
                                             <p:inputTextarea value="#{evento.calificacion.comentario}" placeholder="Introduce el comentario..."/>
+                                            <p:fileUpload
+                                                allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
+                                                multiple="false"
+                                                value="#{evento.imagen}"
+                                                mode="simple"
+                                                ></p:fileUpload>
                                         </h:panelGrid>
                                         <h:panelGrid columns="2">
-                                            <p:commandButton type="submit" value="Enviar" action="#{evento.enviarCalificacion()}"/>
+                                            <p:commandButton value="Enviar" ajax="false" action="#{evento.enviarCalificacion()}"/>
                                             <p:commandButton value="Reestablecer" type="reset"/>
                                         </h:panelGrid>
                                     </h:form>
