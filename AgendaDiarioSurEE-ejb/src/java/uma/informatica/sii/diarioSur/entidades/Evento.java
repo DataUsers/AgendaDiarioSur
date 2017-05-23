@@ -31,7 +31,13 @@ import javax.persistence.OneToMany;
     @NamedQuery(name="findFavoritos", 
             query="select count(*) from CalificacionEvento c where c.eventos.idEvento = :idEvento and c.favorito = TRUE"),
     @NamedQuery(name="findCalificaciones",
-            query="select c from CalificacionEvento c where c.eventos.idEvento = :idEvento")
+            query="select c from CalificacionEvento c where c.eventos.idEvento = :idEvento"),
+    @NamedQuery(name="queryBusqueda",
+            query="select e from Evento e where e.tipoEvento = :filtro and e.nombre like "
+                    + "concat('%', concat(:query, '%'))"),
+    @NamedQuery(name="queryBusquedaGeo",
+            query="select e from Evento e where e.tipoEvento = :filtro and e.nombre "
+                    + "like concat('%', concat(:query, '%'))") // TODO
 })
 public class Evento implements Serializable {
 
