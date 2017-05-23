@@ -18,7 +18,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import uma.informatica.sii.diarioSur.entidades.Usuario;
 import uma.informatica.sii.diarioSur.negocio.DiarioSurException;
-import uma.informatica.sii.diarioSur.negocio.NegocioLoginTest;
+import uma.informatica.sii.diarioSur.negocio.NegocioLogin;
 
 /**
  *
@@ -36,7 +36,7 @@ public class Login {
     private ControlAutorizacion ctrl;
     
     @EJB
-    private NegocioLoginTest negocio;
+    private NegocioLogin negocio;
 
     /**
      * Creates a new instance of Login

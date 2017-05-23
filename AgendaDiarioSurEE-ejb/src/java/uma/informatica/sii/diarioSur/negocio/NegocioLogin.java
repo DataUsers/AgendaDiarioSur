@@ -13,7 +13,7 @@ import uma.informatica.sii.diarioSur.entidades.Usuario;
  * @author darylfed
  */
 @Local
-public interface NegocioLoginTest {
+public interface NegocioLogin {
 
     Usuario obtenerCuenta(long id) throws DiarioSurException;
     

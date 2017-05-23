@@ -15,7 +15,7 @@ import uma.informatica.sii.diarioSur.entidades.Usuario;
  * @author darylfed
  */
 @Stateless
-public class NegocioLoginTestImpl implements NegocioLoginTest {
+public class NegocioLoginImpl implements NegocioLogin {
 
     @PersistenceContext
     private EntityManager em;

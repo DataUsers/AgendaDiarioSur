@@ -23,5 +23,9 @@ public interface NegocioEvento {
     Long obtenerNumFav(Evento evento) throws DiarioSurException;
 
     List getCalificaciones(int pagina, int maxCalificaciones, Evento evento) throws DiarioSurException;
+
+    Evento obtenerEventos(int id) throws DiarioSurException;
+
+    List queryEventos(String q, String filtro) throws DiarioSurException;
     
 }

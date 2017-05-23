@@ -86,5 +86,16 @@ public class NegocioEventoImpl implements NegocioEvento {
         
         return query.getResultList();
     }
+
+    @Override
+    public Evento obtenerEventos(int id) throws DiarioSurException {
+        return null;
+    }
+
+    @Override
+    public List queryEventos(String q, String filtro) throws DiarioSurException {
+        return null;
+    }    
+    
     
 }
