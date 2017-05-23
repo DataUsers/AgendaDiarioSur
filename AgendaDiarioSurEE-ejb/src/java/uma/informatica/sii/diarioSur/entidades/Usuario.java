@@ -50,7 +50,7 @@ public class Usuario implements Serializable {
     private String gustos;
     private String cuentaFacebook;
     private String cuentaTwitter;
-    @OneToMany
+    @OneToMany(mappedBy = "usuarios")
     private List<CalificacionEvento> calificaciones;
     @OneToMany
     private List<EntradaEvento> entradas;

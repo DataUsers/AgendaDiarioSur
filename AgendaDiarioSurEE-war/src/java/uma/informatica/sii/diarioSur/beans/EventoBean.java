@@ -61,6 +61,7 @@ public class EventoBean implements Serializable {
     private List<CalificacionEvento> calificaciones;
     private MapModel model = new DefaultMapModel();
     private String currentUrl;
+    private String currentURI;
     private boolean validado;
     private String eventId;
 
@@ -76,7 +77,6 @@ public class EventoBean implements Serializable {
      */
     public EventoBean() {
         calificacion = new CalificacionEvento();
-        System.out.println("Se ha creado el calificacion bean");
     }
 
     public void onLoad() {
@@ -87,9 +87,16 @@ public class EventoBean implements Serializable {
         validado = false;
         eventId = request.getParameter("evento");
         currentUrl = request.getRequestURL().toString();
+        currentURI = "evento";
+        System.out.println("URI: " + currentUrl);
         if (eventId != null) {
             // Crear current url
             currentUrl += "?evento=" + eventId;
+            currentURI += "?evento=" + eventId;
+            
+            System.out.println("current URL: " + currentUrl);
+            System.out.println("current URI: " + currentURI);
+
             int id = 0;
             System.out.println("Evento id " + eventId);
             try {
@@ -117,11 +124,9 @@ public class EventoBean implements Serializable {
                 }
 
                 // Settear calificaciones
-                calificaciones = negocio.getCalificaciones(0, MAX_CALIFICACIONES, evento);
+                calificaciones = negocio.getCalificaciones(commentPage, MAX_CALIFICACIONES, evento);
 
             } catch (NumberFormatException e) {
-                /* TODO http://stackoverflow.com/questions/2451154/invoke-jsf-managed-bean-action-on-page-load*/
-
                 System.out.println("NO ENCONTRADO, FORMAT NUMBER");
                 validado = false;
             } catch (DiarioSurException e) {
@@ -186,15 +191,8 @@ public class EventoBean implements Serializable {
 
         return Long.toString(nCalificacion);
     }
-    
+
     public String enviarCalificacion() {
-        /*
-        System.out.println("Enviado una calificacion");
-        System.out.println("Puntiacion: " + puntuacion);
-        System.out.println("Titulo: " + titulo);
-        System.out.println("Comentario: " + comentario);
-        System.out.println("Evento: " + evento.getNombre());
-        */
         if (imagen != null) {
             System.out.println("Hay una imagen");
         }
@@ -205,10 +203,19 @@ public class EventoBean implements Serializable {
 
             calificacion.setEventos(evento);
             calificacion.setUsuarios(ctrl.getUsuario()); // CTRL DEBERIA DE DEVOLVER BIEN AL USER
-            
+
+            try {
+                negocioCal.insertarCalificacion(calificacion);
+            } catch (DiarioSurException ex) {
+                Logger.getLogger(EventoBean.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
             System.out.println("Sesion iniciada, enviando calificacion");
 
-            return null; // hacer feedback al usuario
+            currentURI += "&faces-redirect=true";
+            System.out.println("currentURL: " + currentURI);
+
+            return currentURI; // hacer feedback al usuario
         } else {
             // Notificar que necesitainiciar sesion
             //FacesContext context = FacesContext.getCurrentInstance();
@@ -218,27 +225,27 @@ public class EventoBean implements Serializable {
         }
 
     }
-    
+
     public String marcarFavorito() {
         // Comprobar sesion, si esta logueado, marcar favorito
         // si no, enviar a la pagina de login
-        if(evento == null){
+        if (evento == null) {
             System.out.println("Esta a null");
             System.out.println("id: " + eventId);
         }
         String eventId = evento.getIdEvento().toString();
-        System.out.println("Marcar favorito al evento: " + eventId);   
+        System.out.println("Marcar favorito al evento: " + eventId);
 
         if (ctrl.sesionIniciada()) {
             // Crear calificacion como favorito y guardarlo en la base de datos
             System.out.println("Sesion iniciada, se va a marcar favorito");
-            
+
             try {
                 calificacion = new CalificacionEvento(); // Crear nueva calificacion por si acaso
                 calificacion.setEventos(evento);
                 calificacion.setUsuarios(ctrl.getUsuario()); // CTRL.GETUSUARIO DEBERIA DE FUNCIONAR
                 calificacion.setFavorito(true);
-                
+
                 negocioCal.insertarCalificacion(calificacion);
             } catch (DiarioSurException ex) {
                 // CAMBIAR
@@ -246,7 +253,9 @@ public class EventoBean implements Serializable {
                 return null; // Refrescar pagina
             }
 
-            return null; // refrescar pagina
+            currentURI += "&faces-redirect=true";
+            
+            return currentURI; // refrescar pagina
         } else {
             System.out.println("NO iniciada sesion");
             // Mostrar que no puede dar a favoritos a menos que este iniciado de sesion
@@ -311,6 +320,14 @@ public class EventoBean implements Serializable {
 
     public void setCurrentUrl(String currentUrl) {
         this.currentUrl = currentUrl;
+    }
+
+    public String getCurrentURI() {
+        return currentURI;
+    }
+
+    public void setCurrentURI(String currentURI) {
+        this.currentURI = currentURI;
     }
 
     public boolean isValidado() {

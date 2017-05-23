@@ -31,7 +31,7 @@ import javax.persistence.OneToMany;
     @NamedQuery(name="findFavoritos", 
             query="select count(*) from CalificacionEvento c where c.eventos.idEvento = :idEvento and c.favorito = TRUE"),
     @NamedQuery(name="findCalificaciones",
-            query="select c from CalificacionEvento c where c.eventos.idEvento = :idEvento"),
+            query="select c from CalificacionEvento c where c.eventos.idEvento = :idEvento and c.favorito = FALSE"),
     @NamedQuery(name="queryBusqueda",
             query="select e from Evento e where e.tipoEvento = :filtro and e.nombre like "
                     + "concat('%', concat(:query, '%'))"),
@@ -68,7 +68,7 @@ public class Evento implements Serializable {
     private String[] imagenes;
     private String URLVideos;
     private String URLOrganizador;
-    @OneToMany
+    @OneToMany(mappedBy = "eventos")
     private List<CalificacionEvento> calificaciones;
     @OneToMany
     private List<EntradaEvento> entradas;

@@ -23,8 +23,6 @@ public class NegocioEventoImpl implements NegocioEvento {
     @PersistenceContext
     private EntityManager em;
 
-    // Add business logic below. (Right-click in editor and choose
-    // "Insert Code > Add Business Method")
     @Override
     public Evento findEvento(Integer idEvento) throws DiarioSurException {
         Evento eventFound = em.find(Evento.class, idEvento);
