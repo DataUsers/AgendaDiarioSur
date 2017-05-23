@@ -18,6 +18,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
 /**
@@ -25,6 +27,12 @@ import javax.persistence.OneToMany;
  * @author Luis Mayo
  */
 @Entity
+@NamedQueries({
+    @NamedQuery(name="findFavoritos", 
+            query="select count(*) from CalificacionEvento c where c.eventos.idEvento = :idEvento and c.favorito = TRUE"),
+    @NamedQuery(name="findCalificaciones",
+            query="select c from CalificacionEvento c where c.eventos.idEvento = :idEvento")
+})
 public class Evento implements Serializable {
 
     public enum Tipo {

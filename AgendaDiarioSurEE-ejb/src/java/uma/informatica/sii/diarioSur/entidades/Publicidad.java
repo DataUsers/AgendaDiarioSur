@@ -20,27 +20,31 @@ import javax.persistence.Id;
  */
 @Entity
 public class Publicidad implements Serializable {
-   private static final long serialVersionUID = 1L;
-   public enum Tipo {ANIMOLUCRO, INSTITUCIONAL, MARCA, NEGOCIO, PRODUCTOLOCAL, SERVICIOPUBLICO };   // Distinguimos según el tipo de publicidad 
+
+    private static final long serialVersionUID = 1L;
+
+    public enum Tipo {
+        ANIMOLUCRO, INSTITUCIONAL, MARCA, NEGOCIO, PRODUCTOLOCAL, SERVICIOPUBLICO
+    };   // Distinguimos según el tipo de publicidad 
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long idPublicidad;       // Es el identificador de cada objeto de la clase Publicidad
     @Column(nullable = false)
     private String ubicacionWeb;     // Indica la URL a la que se debería redirigir si un usuario accede a él.
-    private Byte[][] imagen;         // Si es una imagen estática se guardará como tal
+    private String[] imagen;         // Si es una imagen estática se guardará como tal
     private String video;            // Si es una video el anuncio se guardará el enlace a la plataforma de video.
     @Enumerated(EnumType.STRING)
     private Tipo tipo;
 
-    public Publicidad(){
-        
+    public Publicidad() {
+
     }
-   
+
     public Long getIdPublicidad() {
         return idPublicidad;
     }
-    
+
     public void setIdPublicidad(Long idPublicidad) {
         this.idPublicidad = idPublicidad;
     }
@@ -53,11 +57,11 @@ public class Publicidad implements Serializable {
         this.ubicacionWeb = ubicacion;
     }
 
-    public Byte[][] getImagen() {
+    public String[] getImagen() {
         return imagen;
     }
 
-    public void setImagen(Byte[][] imagen) {
+    public void setImagen(String[] imagen) {
         this.imagen = imagen;
     }
 
@@ -76,9 +80,7 @@ public class Publicidad implements Serializable {
     public void setTipo(Tipo tipo) {
         this.tipo = tipo;
     }
-    
-    
-    
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -100,6 +102,5 @@ public class Publicidad implements Serializable {
     public String toString() {
         return "uma.informatica.sii.diarioSur.Usuario[ idPublicidad=" + idPublicidad + " ]";
     }
-     
-    
+
 }

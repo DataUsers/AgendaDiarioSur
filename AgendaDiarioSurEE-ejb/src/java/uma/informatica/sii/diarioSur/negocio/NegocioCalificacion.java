@@ -6,6 +6,8 @@
 package uma.informatica.sii.diarioSur.negocio;
 
 import javax.ejb.Local;
+import uma.informatica.sii.diarioSur.entidades.CalificacionEvento;
+import uma.informatica.sii.diarioSur.entidades.Evento;
 import uma.informatica.sii.diarioSur.entidades.Usuario;
 
 /**
@@ -13,12 +15,10 @@ import uma.informatica.sii.diarioSur.entidades.Usuario;
  * @author darylfed
  */
 @Local
-public interface TesteoNegocioLocal {
+public interface NegocioCalificacion {
 
-    void crearUsuario(String nombre, String contrasena, String email, String dni);
+    void insertarCalificacion(CalificacionEvento calificacion) throws DiarioSurException;
 
-    Usuario obtenerUsuario(long id);
-
-    void registrarUsuario(Usuario usuario) throws DiarioSurException;
+    void compruebaLogin(Usuario usuario) throws DiarioSurException;
     
 }

@@ -13,12 +13,8 @@ import uma.informatica.sii.diarioSur.entidades.Usuario;
  * @author darylfed
  */
 @Local
-public interface TesteoNegocioLocal {
+public interface NegocioLogin {
 
-    void crearUsuario(String nombre, String contrasena, String email, String dni);
-
-    Usuario obtenerUsuario(long id);
-
-    void registrarUsuario(Usuario usuario) throws DiarioSurException;
+    Usuario obtenerCuenta(long id) throws DiarioSurException;
     
 }
