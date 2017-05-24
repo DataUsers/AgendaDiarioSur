@@ -17,7 +17,7 @@
             <f:viewAction action="#{evento.onLoad()}" />
         </f:metadata>
         <h:outputStylesheet name="css/evento.css" />
-        
+
         <c:choose>
             <c:when test="#{evento.validado}">
                 <p:panel header="#{evento.evento.nombre}">
@@ -70,26 +70,25 @@
                             <h:outputText value="#{evento.evento.descripcion}"/>
                         </p:panel>
 
-                        <p:panel header="Ubicacion">
-                            <p:gmap center="#{evento.evento.geolocalizacion}" zoom="15" type="hybrid" 
-                                    style="width:100%;height:200px" model="#{evento.model}"/>
-                        </p:panel>
+                        <c:if test="#{not empty evento.evento.geolocalizacion}">
+                            <p:panel header="Ubicacion">
+                                <p:gmap center="#{evento.evento.geolocalizacion}" zoom="15" type="hybrid" 
+                                        style="width:100%;height:200px" model="#{evento.model}"/>
+                            </p:panel>
+                        </c:if>
 
                         <h:panelGrid columns="1" style="margin: 0 auto;">
                             <h:panelGroup>
                                 <p:panel style="overflow-y: auto; margin: 0 auto;" header="Comentarios">
                                     <!-- ui repeat o datatable -->
                                     <ui:repeat value="#{evento.calificaciones}" var="cal">
-                                        <p:panel styleClass="comentario">
-                                            <h4>#{cal.titulo}</h4>
-                                            <h4>#{cal.usuarios.nombre}</h4>
+                                        <p:panel styleClass="comentario" header="#{cal.titulo}">
+                                            <h4>Usuario: #{cal.usuarios.nombre}</h4>
                                             <p>#{cal.comentario}</p>
                                             <p>Calificacion: #{cal.puntuacion}</p>
                                             <c:if test="#{not empty cal.imagen}">
                                                 <p:graphicImage value="#{cal.imagen}"/>
                                             </c:if>
-                                            <p:graphicImage value="#{cal.imagen}"/>
-                                            <h:outputText value="imagen: #{cal.imagen}"></h:outputText>
                                         </p:panel>
                                     </ui:repeat>
                                     <c:if test="#{evento.hasMoreComments}">
@@ -99,14 +98,14 @@
                             </h:panelGroup>
                             <h:panelGroup>
                                 <p:panel header="Escribir Reseña" styleClass="containerResenia">
-                                    <h:form enctype="multipart/form-data">
+                                    <h:form enctype="multipart/form-data" id="comentario" onsubmit="return validate()">
                                         <h:panelGrid columns="2">
                                             <h:outputText value="Puntuacion:"/>
                                             <p:rating value="#{evento.calificacion.puntuacion}" stars="5"/>
                                         </h:panelGrid>
                                         <h:panelGrid columns="1">
-                                            <p:inputText value="#{evento.calificacion.titulo}" placeholder="Introduce el titulo"/>
-                                            <p:inputTextarea value="#{evento.calificacion.comentario}" placeholder="Introduce el comentario..."/>
+                                            <p:inputText id="title" value="#{evento.calificacion.titulo}" placeholder="Introduce el titulo"/>
+                                            <p:inputTextarea id="texto" value="#{evento.calificacion.comentario}" placeholder="Introduce el comentario..."/>
                                             <p:fileUpload
                                                 allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
                                                 multiple="false"
@@ -128,12 +127,13 @@
                 </p:panel>
             </c:when>
             <c:otherwise>
-                <h1>NOT FOUND EVENT</h1>
+                <h1>EVENT NOT FOUND</h1>
             </c:otherwise>
         </c:choose>
 
         <script src="http://maps.google.com/maps/api/js?key=AIzaSyD4fLESI4ybh4eJh7NOxFhDxW7uCK2XHDs" type="text/javascript" ></script>
         <script type="text/javascript" src="resources/js/share.js"></script>
+        <script type="text/javascript" src="resources/js/evento.js"></script>
     </ui:define>
 </ui:composition>
 
