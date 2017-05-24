@@ -22,80 +22,101 @@ public class NegocioEventoImpl implements NegocioEvento {
 
     @PersistenceContext
     private EntityManager em;
-    
-    // Add business logic below. (Right-click in editor and choose
-    // "Insert Code > Add Business Method")
-    
+
     @Override
-    public Evento findEvento(Integer idEvento) throws DiarioSurException{
+    public Evento findEvento(Integer idEvento) throws DiarioSurException {
         Evento eventFound = em.find(Evento.class, idEvento);
-        
-        if(eventFound == null){
+
+        if (eventFound == null) {
             throw new EventoNoEncException();
         }
-        
+
         return eventFound;
     }
 
     @Override
     public void insertarEvento(Evento evento) throws DiarioSurException {
-        
-        try{
+
+        try {
             em.persist(evento);
             System.out.println("EVento nuevo creado id: " + evento.getIdEvento());
-        }catch(EntityExistsException e){
+        } catch (EntityExistsException e) {
             throw new EventoExistenteException();
         }
-        
+
         System.out.println("Evento guardado en la BD");
     }
 
     @Override
     public Long obtenerNumFav(Evento evento) throws DiarioSurException {
         // Comprobar antes si esta en la BD??
-        
+
         Evento eventoFound = em.find(Evento.class, evento.getIdEvento());
-        
-        if(eventoFound == null){
+
+        if (eventoFound == null) {
             throw new EventoNoEncException();
         }
-        
+
         Query query = em.createNamedQuery("findFavoritos");
         query.setParameter("idEvento", evento.getIdEvento());
-        
+
         //query.setFirstResult(0) // ESTO PUEDE SER UTIL 
-        
         long count = (Long) query.getSingleResult();
-        
+
         return count;
     }
 
     @Override
     public List getCalificaciones(int pagina, int maxCalificaciones, Evento evento) throws DiarioSurException {
-        
+
         Evento eventoFound = em.find(Evento.class, evento.getIdEvento());
-        
-        if(eventoFound == null){
+
+        if (eventoFound == null) {
             throw new EventoNoEncException();
         }
-        
+
         Query query = em.createNamedQuery("findCalificaciones");
         query.setParameter("idEvento", evento.getIdEvento());
-        
+
         query.setFirstResult(pagina * maxCalificaciones);
-        
+        query.setMaxResults(maxCalificaciones);
+
         return query.getResultList();
     }
 
     @Override
-    public Evento obtenerEventos(int id) throws DiarioSurException {
-        return null;
+    public List obtenerEventos(int maxResult) throws DiarioSurException {
+
+        Query query = em.createQuery("SELECT e from Evento e");
+        query.setMaxResults(maxResult);
+
+        return query.getResultList();
     }
 
     @Override
-    public List queryEventos(String q, String filtro) throws DiarioSurException {
-        return null;
-    }    
-    
-    
+    public List queryEventos(String q, String filtro, int pagina, int maxResult) throws DiarioSurException {
+
+        Query query = em.createNamedQuery("queryBusqueda");
+        query.setParameter("query", q);
+        query.setParameter("filtro", filtro);
+
+        query.setMaxResults(maxResult);
+        query.setFirstResult(pagina * maxResult);
+
+        return query.getResultList();
+    }
+
+    @Override
+    public List queryEventos(String q, String filtro, String latitud, String longitud, int pagina, int maxResult) throws DiarioSurException {
+        
+        Query query = em.createNamedQuery("queryBusquedaGeo");
+        query.setParameter("query", q);
+        query.setParameter("filtro", filtro);
+
+        query.setMaxResults(maxResult);
+        query.setFirstResult(pagina * maxResult);
+
+        return query.getResultList();
+    }
+
 }
