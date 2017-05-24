@@ -11,25 +11,42 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.Dependent;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.servlet.http.HttpServletRequest;
 import uma.informatica.sii.diarioSur.entidades.Evento;
+import uma.informatica.sii.diarioSur.negocio.DiarioSurException;
+import uma.informatica.sii.diarioSur.negocio.NegocioBusqueda;
 
 /**
  *
  * @author Daryl
  */
 @Named(value = "busqueda")
-@RequestScoped
+@ViewScoped
 public class Busqueda {
 
+    @EJB
+    private NegocioBusqueda negocio;
+    
     private List<String> filtrosPredeterminados;
     private List<String> filtros;
     private List<Evento> placeholderEvents;
     private List<Evento> eventosMostrar;
+
+    private String queryString = "";
+    private Double latitud;
+    private Double longitud;
+    private List<String> filtrar;
+    
+    private int currentPage;
+    private final int MAX_EVENTO = 5;
 
     /**
      * Creates a new instance of Busqueda
@@ -43,7 +60,7 @@ public class Busqueda {
         String filtro = request.getParameter("filtrar");
         String latitud = request.getParameter("latitud");
         String longitud = request.getParameter("longitud");
-        
+
         // obtener cookies y asignar filtros
         crearFiltroPredeterminado();
         filtros = filtrosPredeterminados;
@@ -58,7 +75,6 @@ public class Busqueda {
             Random rnd = new Random(System.currentTimeMillis());
 
             // Si los strings de longitud y latitud no son nulos o == 0 tambien se busca por localizacion en la BD
-            
             for (Evento evento : placeholderEvents) {
                 // busqueda normal por nombre, el query deberia de hacerce con el ejb
                 // Busqueda placeholder
@@ -73,6 +89,30 @@ public class Busqueda {
             }
         } else {
             eventosMostrar = placeholderEvents.subList(0, 5);
+        }
+    }
+
+    public void onLoad() {
+        // TODO
+        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        String[] filtrosBusq = request.getParameterValues("q");
+
+        if (queryString.length() > 0 || latitud != null && longitud != null) {
+            // realizar busqueda
+            if (filtrosBusq != null) {
+                // busqueda por varios filtros
+
+            } else {
+                // busqueda sin filtros
+
+            }
+        }
+        
+        try {
+            // no realizar busqueda, obtener lista normal
+            negocio.obtenerEventos(0, 0);
+        } catch (DiarioSurException ex) {
+            Logger.getLogger(Busqueda.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -124,7 +164,7 @@ public class Busqueda {
         String uri = request.getRequestURI();
         int index = url.indexOf(uri);
         String newUrl = url.substring(0, index + 1);
-        
+
         return newUrl + "AgendaDiarioSur/faces/evento.xhtml?evento=" + eventoId;
     }
 
@@ -140,6 +180,11 @@ public class Busqueda {
         String outDate = date.format(formatter);
 
         return outDate;
+    }
+
+    public String randomImage() {
+        Random rnd = new Random(System.currentTimeMillis());
+        return "image" + rnd.nextInt(5) + ".jpg";
     }
 
     public List<String> getFiltros() {
@@ -158,9 +203,44 @@ public class Busqueda {
         this.eventosMostrar = eventosMostrar;
     }
 
-    public String randomImage() {
-        Random rnd = new Random(System.currentTimeMillis());
-        return "image" + rnd.nextInt(5) + ".jpg";
+    public String getQueryString() {
+        return queryString;
+    }
+
+    public void setQueryString(String queryString) {
+        this.queryString = queryString;
+    }
+
+    public Double getLatitud() {
+        return latitud;
+    }
+
+    public void setLatitud(Double latitud) {
+        this.latitud = latitud;
+    }
+
+    public Double getLongitud() {
+        return longitud;
+    }
+
+    public void setLongitud(Double longitud) {
+        this.longitud = longitud;
+    }
+
+    public List<String> getFiltrar() {
+        return filtrar;
+    }
+
+    public void setFiltrar(List<String> filtrar) {
+        this.filtrar = filtrar;
+    }
+
+    public int getCurrentPage() {
+        return currentPage;
+    }
+
+    public void setCurrentPage(int currentPage) {
+        this.currentPage = currentPage;
     }
 
 }
