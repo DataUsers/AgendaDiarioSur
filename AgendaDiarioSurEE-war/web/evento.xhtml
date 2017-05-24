@@ -17,7 +17,7 @@
             <f:viewAction action="#{evento.onLoad()}" />
         </f:metadata>
         <h:outputStylesheet name="css/evento.css" />
-
+        
         <c:choose>
             <c:when test="#{evento.validado}">
                 <p:panel header="#{evento.evento.nombre}">
@@ -85,6 +85,11 @@
                                             <h4>#{cal.usuarios.nombre}</h4>
                                             <p>#{cal.comentario}</p>
                                             <p>Calificacion: #{cal.puntuacion}</p>
+                                            <c:if test="#{not empty cal.imagen}">
+                                                <p:graphicImage value="#{cal.imagen}"/>
+                                            </c:if>
+                                            <p:graphicImage value="#{cal.imagen}"/>
+                                            <h:outputText value="imagen: #{cal.imagen}"></h:outputText>
                                         </p:panel>
                                     </ui:repeat>
                                     <c:if test="#{evento.hasMoreComments}">

@@ -5,7 +5,10 @@
  */
 package uma.informatica.sii.diarioSur.beans;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -93,15 +96,15 @@ public class EventoBean implements Serializable {
         eventId = request.getParameter("evento");
         currentUrl = request.getRequestURL().toString();
         currentURI = "evento";
-        
+
         System.out.println("comment page: " + commentPage);
-        
+
         System.out.println("URI: " + currentUrl);
         if (eventId != null) {
             // Crear current url
             currentUrl += "?evento=" + eventId;
             currentURI += "?evento=" + eventId;
-            
+
             System.out.println("current URL: " + currentUrl);
             System.out.println("current URI: " + currentURI);
 
@@ -119,7 +122,6 @@ public class EventoBean implements Serializable {
                 validado = true;
 
                 // Setear marcador del mapa e imagenes placeholder
-                
                 // Comprobar si tiene geolocalizacion
                 String[] coord = evento.getGeolocalizacion().split(",");
                 Double latitud = Double.parseDouble(coord[0]);
@@ -135,10 +137,10 @@ public class EventoBean implements Serializable {
 
                 // Settear calificaciones
                 calificaciones = negocio.getCalificaciones(commentPage, MAX_CALIFICACIONES, evento);
-                
-                if(calificaciones.size() < MAX_CALIFICACIONES){
+
+                if (calificaciones.size() < MAX_CALIFICACIONES) {
                     hasMoreComments = false;
-                }else{
+                } else {
                     hasMoreComments = true;
                 }
 
@@ -151,8 +153,8 @@ public class EventoBean implements Serializable {
             }
         }
     }
-    
-    public String nextCommentPage(){
+
+    public String nextCommentPage() {
         System.out.println("comment page antes: " + commentPage);
         ++commentPage;
         System.out.println("comment page despues: " + commentPage);
@@ -206,7 +208,6 @@ public class EventoBean implements Serializable {
         long nCalificacion = 0;
 
         try {
-            // TODO
             nCalificacion = negocio.obtenerNumFav(evento);
         } catch (DiarioSurException ex) {
             Logger.getLogger(EventoBean.class.getName()).log(Level.SEVERE, null, ex);
@@ -216,21 +217,48 @@ public class EventoBean implements Serializable {
     }
 
     public String enviarCalificacion() {
-        if (imagen != null) {
-            System.out.println("Hay una imagen: " + imagen.getFileName());
-        }else{
-            System.out.println("NO hay una imagen");
-        }
 
         if (ctrl.sesionIniciada()) {
             // Crear calificacion, guardar en la persistencia y asignarlo al evento
             // Guardar en la base de datos y redirigir al evento
 
+            if (imagen != null) {
+                System.out.println("Hay una imagen: " + imagen.getFileName());
+
+                try {
+
+                    System.out.println("sitio temporal: " + System.getProperty("java.io.tmpdir"));
+                    
+                    // Obtener el path
+                    InputStream input = imagen.getInputstream();
+                    File targetFile = new File("resources" + File.separator + "imagenes" + File.separator + imagen.getFileName());
+                    System.out.println("path targetFile: " + targetFile.getAbsolutePath());
+                    FileOutputStream targetStream = new FileOutputStream(targetFile);
+                    byte[] buffer = new byte[1024];
+                    int bytesRead;
+
+                    while ((bytesRead = input.read(buffer)) != -1) {
+                        targetStream.write(buffer, 0, bytesRead);
+                        System.out.println("Leidos " + bytesRead);
+                    }
+
+                    // Cerrar los streams???
+                    // Settear a la calificacion el path de la imagen
+                    String pathImagenCal = targetFile.getAbsolutePath();
+                    System.out.println("path imagen en bd: " + pathImagenCal);
+                    calificacion.setImagen(pathImagenCal);
+                } catch (IOException ex) {
+                    Logger.getLogger(EventoBean.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            } else {
+                System.out.println("NO hay una imagen");
+            }
+
             calificacion.setEventos(evento);
             calificacion.setUsuarios(ctrl.getUsuario()); // CTRL DEBERIA DE DEVOLVER BIEN AL USER
-            
-            // Guardar imagen y path de la imagen
 
+            // Guardar imagen y path de la imagen
             try {
                 negocioCal.insertarCalificacion(calificacion);
             } catch (DiarioSurException ex) {
@@ -276,12 +304,12 @@ public class EventoBean implements Serializable {
                 negocioCal.insertarCalificacion(calificacion);
             } catch (DiarioSurException ex) {
                 // CAMBIAR
-                Logger.getLogger(CalificacionBean.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(Evento.class.getName()).log(Level.SEVERE, null, ex);
                 return null; // Refrescar pagina
             }
 
             currentURI += "&faces-redirect=true";
-            
+
             return currentURI; // refrescar pagina
         } else {
             System.out.println("NO iniciada sesion");
