@@ -97,9 +97,6 @@ public class EventoBean implements Serializable {
         currentUrl = request.getRequestURL().toString();
         currentURI = "evento";
 
-        System.out.println("comment page: " + commentPage);
-
-        System.out.println("URI: " + currentUrl);
         if (eventId != null) {
             // Crear current url
             currentUrl += "?evento=" + eventId;
@@ -109,16 +106,10 @@ public class EventoBean implements Serializable {
             System.out.println("current URI: " + currentURI);
 
             int id = 0;
-            System.out.println("Evento id " + eventId);
             try {
                 id = Integer.parseInt(eventId);
 
-                if (negocio == null) {
-                    System.out.println("Negocio a null");
-                }
-
                 evento = negocio.findEvento(id);
-                System.out.println("ENCONTRADO");
                 validado = true;
 
                 // Setear marcador del mapa e imagenes placeholder
@@ -145,19 +136,15 @@ public class EventoBean implements Serializable {
                 }
 
             } catch (NumberFormatException e) {
-                System.out.println("NO ENCONTRADO, FORMAT NUMBER");
                 validado = false;
             } catch (DiarioSurException e) {
-                System.out.println("no ENCONTRADO, DIARIOSUR ");
                 validado = false;
             }
         }
     }
 
     public String nextCommentPage() {
-        System.out.println("comment page antes: " + commentPage);
         ++commentPage;
-        System.out.println("comment page despues: " + commentPage);
         return currentURI + "&commentPage=" + commentPage + "&faces-redirect=true";
     }
 
@@ -221,6 +208,10 @@ public class EventoBean implements Serializable {
         if (ctrl.sesionIniciada()) {
             // Crear calificacion, guardar en la persistencia y asignarlo al evento
             // Guardar en la base de datos y redirigir al evento
+            
+            if(calificacion.getTitulo().length() == 0 || calificacion.getComentario().length() == 0){
+                return null;
+            }
 
             if (imagen != null) {
                 System.out.println("Hay una imagen: " + imagen.getFileName());
@@ -228,7 +219,7 @@ public class EventoBean implements Serializable {
                 try {
 
                     System.out.println("sitio temporal: " + System.getProperty("java.io.tmpdir"));
-                    
+
                     // Obtener el path
                     InputStream input = imagen.getInputstream();
                     File targetFile = new File("resources" + File.separator + "imagenes" + File.separator + imagen.getFileName());
@@ -251,8 +242,6 @@ public class EventoBean implements Serializable {
                     Logger.getLogger(EventoBean.class.getName()).log(Level.SEVERE, null, ex);
                 }
 
-            } else {
-                System.out.println("NO hay una imagen");
             }
 
             calificacion.setEventos(evento);
@@ -265,8 +254,6 @@ public class EventoBean implements Serializable {
                 Logger.getLogger(EventoBean.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-            System.out.println("Sesion iniciada, enviando calificacion");
-
             currentURI += "&faces-redirect=true";
             System.out.println("currentURL: " + currentURI);
 
@@ -275,8 +262,7 @@ public class EventoBean implements Serializable {
             // Notificar que necesitainiciar sesion
             //FacesContext context = FacesContext.getCurrentInstance();
             //context.addMessage(formulario.getClientId(), new FacesMessage("Tienes que iniciar sesion para enviar una calificacion"));
-            System.out.println("Sesion no iniciada");
-            return null; // Hacer feedback al usuario
+            return "login"; // Hacer feedback al usuario
         }
 
     }
@@ -284,16 +270,11 @@ public class EventoBean implements Serializable {
     public String marcarFavorito() {
         // Comprobar sesion, si esta logueado, marcar favorito
         // si no, enviar a la pagina de login
-        if (evento == null) {
-            System.out.println("Esta a null");
-            System.out.println("id: " + eventId);
-        }
-        String eventId = evento.getIdEvento().toString();
-        System.out.println("Marcar favorito al evento: " + eventId);
 
         if (ctrl.sesionIniciada()) {
+            String eventId = evento.getIdEvento().toString();
+
             // Crear calificacion como favorito y guardarlo en la base de datos
-            System.out.println("Sesion iniciada, se va a marcar favorito");
 
             try {
                 calificacion = new CalificacionEvento(); // Crear nueva calificacion por si acaso
@@ -317,7 +298,7 @@ public class EventoBean implements Serializable {
             //FacesContext context = FacesContext.getCurrentInstance();
             //context.addMessage(favoritos.getClientId(), new FacesMessage("Tienes que iniciar sesion para dar a favoritos"));
 
-            return null; // refrescar pagina
+            return "login"; // refrescar pagina
         }
     }
 
