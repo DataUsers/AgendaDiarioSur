@@ -9,6 +9,10 @@ package uma.informatica.sii.diarioSur.negocio;
  *
  * @author darylfed
  */
-public class EventoExistenteException extends DiarioSurException{
-    
+public class LoginIncorrectoException extends DiarioSurException {
+
+    LoginIncorrectoException(String s) {
+        super(s);
+    }
+
 }

@@ -5,11 +5,9 @@
 package uma.informatica.sii.diarioSur.beans;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
@@ -34,9 +32,9 @@ public class Login {
 
     @Inject
     private ControlAutorizacion ctrl;
-    
+
     @EJB
-    private NegocioLogin negocio;
+    NegocioLogin negocio;
 
     /**
      * Creates a new instance of Login
@@ -44,30 +42,7 @@ public class Login {
      * @throws java.io.IOException
      */
     public Login() throws IOException {
-        usuarios = new ArrayList<>();
 
-        usuarios.add(new Usuario("pepe", "asdf", "pepe@hotmail.com", Usuario.tipoUsuario.NORMAL));
-        usuarios.add(new Usuario("manolo", "qwer", "manolo@gmail.com", Usuario.tipoUsuario.PERIODISTA));
-        usuarios.add(new Usuario("marisa", "kirisame", "a", Usuario.tipoUsuario.PERIODISTA));
-        usuarios.add(new Usuario("manolo", "qwer", "a", Usuario.tipoUsuario.PERIODISTA));
-        usuarios.add(new Usuario("eiki", "shiki", "a", Usuario.tipoUsuario.ADMINISTRADOR));
-        usuarios.add(new Usuario("dary", "kiri", "email.com", Usuario.tipoUsuario.PERIODISTA)); // test
-    }
-
-    @PostConstruct
-    public void close() {
-        /*
-		try {
-			if (ctrl.sesionIniciada()) {
-				System.out.println("Sesion YA iniciada");
-				FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
-			}else{
-				System.out.println(ctrl.getUsuario().getNombre());
-			}
-		} catch (IOException ex) {
-			Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
-		}
-         */
     }
 
     public String getUsuario() {
@@ -87,28 +62,16 @@ public class Login {
     }
 
     public String autenticar() {
-        // Implementar este método
-        FacesContext ctx = FacesContext.getCurrentInstance();
-        String devolver = null;
-        for (Usuario u : usuarios) {
-            if (u.getNombre().equals(usuario)) {
-                if (u.getContrasena().equals(contrasenia)) {
-                    Usuario userFound;
-                    try {
-                        userFound = negocio.obtenerCuenta(1); // TEST
-                        ctrl.setUsuario(userFound);
-                    } catch (DiarioSurException ex) {
-                        Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    devolver = ctrl.home();
-                }
-                break;
-            }
-        }
-        if (devolver == null) {
+        try {
+            Usuario u = negocio.login(usuario, contrasenia);
+            ctrl.setUsuario(u);
+            return "index.xhtml";
+        } catch (DiarioSurException ex) {
+            FacesContext ctx = FacesContext.getCurrentInstance();
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
             ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuario o contraseña incorrectos", "Usuario o contraseña incorrectos"));
+            return null;
         }
-        return devolver;
     }
 
 }

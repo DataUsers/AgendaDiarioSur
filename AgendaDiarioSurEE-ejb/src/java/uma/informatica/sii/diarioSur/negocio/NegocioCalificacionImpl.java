@@ -41,7 +41,7 @@ public class NegocioCalificacionImpl implements NegocioCalificacion {
         
         // Actualizar las relaciones
         // Usuario
-        Usuario userFound = em.find(Usuario.class, calificacion.getUsuarios().getId());
+        Usuario userFound = em.find(Usuario.class, calificacion.getUsuarios().getEmail());
         userFound.getCalificaciones().add(calificacion);
         em.merge(userFound);
         
@@ -56,7 +56,7 @@ public class NegocioCalificacionImpl implements NegocioCalificacion {
     public void compruebaLogin(Usuario usuario) throws DiarioSurException {
         // TEST, QUITAR DESPUES
         
-        Usuario userFind = em.find(Usuario.class, usuario.getId());
+        Usuario userFind = em.find(Usuario.class, usuario.getEmail());
         
         if(userFind == null){
             throw new CuentaInexistenteException();
