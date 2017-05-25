@@ -10,11 +10,19 @@ import uma.informatica.sii.diarioSur.entidades.Usuario;
 
 /**
  *
- * @author darylfed
+ * @author luism
  */
+
+
 @Local
 public interface NegocioLogin {
 
-    Usuario obtenerCuenta(long id) throws DiarioSurException;
-    
+    public Usuario login(String email, String contraseña) throws DiarioSurException;
+
+    void crearUsuario(String nombre, String contrasena, String email, String dni) throws DiarioSurException;
+
+    Usuario obtenerUsuario(String email) throws DiarioSurException;
+
+    void registrarUsuario(Usuario usuario) throws DiarioSurException;
 }
+

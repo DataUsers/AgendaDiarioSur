@@ -8,12 +8,11 @@ package uma.informatica.sii.diarioSur.entidades;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
@@ -33,17 +32,15 @@ public class Usuario implements Serializable {
     }
 
     private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    
     @Column(nullable = false)
     private String nombre;
     private String apellidos;
     @Column(nullable = false)
     private String contrasena;
+    @Id
     @Column(nullable = false)
     private String email;
-    @Column(nullable = false)
     private String dni;
     @Temporal(TemporalType.DATE)
     private Date fechaNacimiento;
@@ -68,13 +65,6 @@ public class Usuario implements Serializable {
         this.tipoUsuario = tipoUsuario;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getNombre() {
         return nombre;
@@ -178,27 +168,35 @@ public class Usuario implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        int hash = 5;
+        hash = 59 * hash + Objects.hashCode(this.email);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Usuario)) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
             return false;
         }
-        Usuario other = (Usuario) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Usuario other = (Usuario) obj;
+        if (!Objects.equals(this.email, other.email)) {
             return false;
         }
         return true;
     }
 
+
+
+
     @Override
     public String toString() {
-        return "uma.informatica.sii.diarioSur.Usuario[ id=" + id + " ]";
+        return "uma.informatica.sii.diarioSur.Usuario[ email=" + email + " ]";
     }
 
 }

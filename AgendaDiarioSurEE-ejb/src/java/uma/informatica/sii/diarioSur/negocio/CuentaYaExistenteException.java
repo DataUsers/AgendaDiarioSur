@@ -7,8 +7,8 @@ package uma.informatica.sii.diarioSur.negocio;
 
 /**
  *
- * @author darylfed
+ * @author alumno
  */
-public class EventoExistenteException extends DiarioSurException{
+public class CuentaYaExistenteException extends DiarioSurException{
     
 }

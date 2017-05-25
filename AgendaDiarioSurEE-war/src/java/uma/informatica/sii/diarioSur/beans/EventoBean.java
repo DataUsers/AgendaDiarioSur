@@ -21,6 +21,7 @@ import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.component.UIComponent;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -137,8 +138,10 @@ public class EventoBean implements Serializable {
 
             } catch (NumberFormatException e) {
                 validado = false;
+                System.out.println("exception numero");
             } catch (DiarioSurException e) {
                 validado = false;
+                System.out.println("otra excepcion");
             }
         }
     }
@@ -208,8 +211,8 @@ public class EventoBean implements Serializable {
         if (ctrl.sesionIniciada()) {
             // Crear calificacion, guardar en la persistencia y asignarlo al evento
             // Guardar en la base de datos y redirigir al evento
-            
-            if(calificacion.getTitulo().length() == 0 || calificacion.getComentario().length() == 0){
+
+            if (calificacion.getTitulo().length() == 0 || calificacion.getComentario().length() == 0) {
                 return null;
             }
 
@@ -218,11 +221,21 @@ public class EventoBean implements Serializable {
 
                 try {
 
-                    System.out.println("sitio temporal: " + System.getProperty("java.io.tmpdir"));
+                    ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext(); 
 
-                    // Obtener el path
+                    String path =  ec.getRealPath("/") + File.separator + "resources" + File.separator + 
+                            "imagenes" + File.separator + imagen.getFileName();
+
+                    System.out.println("path: " + path);
+                    String dbPath =  "resources" + File.separator +  "imagenes" + File.separator + imagen.getFileName();
+                    System.out.println("dbpath: " + dbPath);
+                    
+                    //String webContentRoot = ec.getRealPath("/");
+                    //System.out.println(webContentRoot);
+                    
                     InputStream input = imagen.getInputstream();
-                    File targetFile = new File("resources" + File.separator + "imagenes" + File.separator + imagen.getFileName());
+                    File targetFile = new File(path);
+                    
                     System.out.println("path targetFile: " + targetFile.getAbsolutePath());
                     FileOutputStream targetStream = new FileOutputStream(targetFile);
                     byte[] buffer = new byte[1024];
@@ -233,11 +246,9 @@ public class EventoBean implements Serializable {
                         System.out.println("Leidos " + bytesRead);
                     }
 
-                    // Cerrar los streams???
+                    // Cerrar los streams?
                     // Settear a la calificacion el path de la imagen
-                    String pathImagenCal = targetFile.getAbsolutePath();
-                    System.out.println("path imagen en bd: " + pathImagenCal);
-                    calificacion.setImagen(pathImagenCal);
+                    calificacion.setImagen(dbPath);
                 } catch (IOException ex) {
                     Logger.getLogger(EventoBean.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -253,6 +264,7 @@ public class EventoBean implements Serializable {
             } catch (DiarioSurException ex) {
                 Logger.getLogger(EventoBean.class.getName()).log(Level.SEVERE, null, ex);
             }
+            
 
             currentURI += "&faces-redirect=true";
             System.out.println("currentURL: " + currentURI);
@@ -275,7 +287,6 @@ public class EventoBean implements Serializable {
             String eventId = evento.getIdEvento().toString();
 
             // Crear calificacion como favorito y guardarlo en la base de datos
-
             try {
                 calificacion = new CalificacionEvento(); // Crear nueva calificacion por si acaso
                 calificacion.setEventos(evento);

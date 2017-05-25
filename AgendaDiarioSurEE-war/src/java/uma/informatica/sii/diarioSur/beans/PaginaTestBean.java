@@ -20,7 +20,7 @@ import uma.informatica.sii.diarioSur.entidades.Evento;
 import uma.informatica.sii.diarioSur.entidades.Usuario;
 import uma.informatica.sii.diarioSur.negocio.DiarioSurException;
 import uma.informatica.sii.diarioSur.negocio.NegocioEvento;
-import uma.informatica.sii.diarioSur.negocio.TesteoNegocioLocal;
+import uma.informatica.sii.diarioSur.negocio.NegocioLogin;
 
 /**
  *
@@ -31,17 +31,16 @@ import uma.informatica.sii.diarioSur.negocio.TesteoNegocioLocal;
 public class PaginaTestBean {
 
     @EJB
-    private TesteoNegocioLocal negocio;
+    private NegocioLogin negocio;
 
     @EJB
     private NegocioEvento negocioEvento;
 
     private String nombre;
     private String contrasena;
-    private String email;
     private String dni;
 
-    private Long id;
+    private String email;
 
     private Evento evento;
 
@@ -51,13 +50,13 @@ public class PaginaTestBean {
     public PaginaTestBean() {
     }
 
-    public String crearUsuario() {
+    public String crearUsuario() throws DiarioSurException {
         negocio.crearUsuario(nombre, contrasena, email, dni);
         return null;
     }
 
-    public String obtenerUsuario() {
-        Usuario user = negocio.obtenerUsuario(id);
+    public String obtenerUsuario() throws DiarioSurException {
+        Usuario user = negocio.obtenerUsuario(email);
         System.out.println("Usuario obtenido: " + user.getNombre());
         System.out.println("Usuario obtenido contrasena: " + user.getContrasena());
         System.out.println("Usuario obtenido email: " + user.getEmail());
@@ -145,14 +144,6 @@ public class PaginaTestBean {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getDni() {
