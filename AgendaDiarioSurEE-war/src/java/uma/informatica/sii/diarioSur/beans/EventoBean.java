@@ -218,7 +218,7 @@ public class EventoBean implements Serializable {
 
                 try {
 
-                    System.out.println("sitio temporal: " + System.getProperty("java.io.tmpdir"));
+                    //System.out.println("sitio temporal: " + System.getProperty("java.io.tmpdir"));
 
                     // Obtener el path
                     InputStream input = imagen.getInputstream();
@@ -233,7 +233,8 @@ public class EventoBean implements Serializable {
                         System.out.println("Leidos " + bytesRead);
                     }
 
-                    // Cerrar los streams???
+                    // Cerrar los streams?
+                    
                     // Settear a la calificacion el path de la imagen
                     String pathImagenCal = targetFile.getAbsolutePath();
                     System.out.println("path imagen en bd: " + pathImagenCal);
