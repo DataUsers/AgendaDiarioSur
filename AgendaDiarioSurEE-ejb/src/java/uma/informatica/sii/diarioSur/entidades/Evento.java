@@ -32,12 +32,10 @@ import javax.persistence.OneToMany;
             query="select count(*) from CalificacionEvento c where c.eventos.idEvento = :idEvento and c.favorito = TRUE"),
     @NamedQuery(name="findCalificaciones",
             query="select c from CalificacionEvento c where c.eventos.idEvento = :idEvento and c.favorito = FALSE"),
-    @NamedQuery(name="queryBusqueda",
-            query="select e from Evento e where e.tipoEvento = :filtro and e.nombre like "
-                    + "concat('%', concat(:query, '%'))"),
-    @NamedQuery(name="queryBusquedaGeo",
-            query="select e from Evento e where e.tipoEvento = :filtro and e.nombre "
-                    + "like concat('%', concat(:query, '%'))") // TODO
+    @NamedQuery(name="busqueda",
+	    query="select e from Evento e where UPPER(e.nombre) like Upper(concat('%', concat(:query, '%'))) "),
+    @NamedQuery(name="eventosMasVisitados",
+	    query="select e from Evento e order by e.numeroVisitas DESC") // usar??
 })
 public class Evento implements Serializable {
 

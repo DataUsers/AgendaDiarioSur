@@ -4,11 +4,21 @@
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:p="http://primefaces.org/ui"
-                xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+		xmlns:f="http://xmlns.jcp.org/jsf/core"
+		xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <ui:define name="title">Agenda Diario Sur - Busqueda</ui:define>
     <ui:define name="subtitulo">Busqueda de eventos</ui:define>
-    
+
     <ui:define name="content">
+	<f:metadata>
+	    <f:viewParam name="latitud" value="#{busqueda.latitud}"/>
+	    <f:viewParam name="longitud" value="#{busqueda.longitud}"/>
+	    <f:viewParam name="q" value="#{busqueda.queryString}" />
+	    <f:viewParam name="commentPage" value="#{busqueda.currentPage}" />
+	    <f:viewAction action="#{busqueda.onLoad()}"/>
+	</f:metadata>
+
         <div style="text-align: center;">
             <p id="localizacion"></p>
             <button onclick="getGeo()">Obtener Geolocalizacion</button>
@@ -24,7 +34,7 @@
                 <h:panelGrid columns="6">
                     <ui:repeat var="filtros" value="#{busqueda.filtros}">
                         <label for="#{filtros}">#{filtros}</label>
-                        <input type="radio" id="#{filtros}" name="filtrar" value="#{filtros}" />
+                        <input type="checkbox" id="#{filtros}" name="filtrar" value="#{filtros}" />
                     </ui:repeat>
                 </h:panelGrid>
 
@@ -70,7 +80,11 @@
                         </p:panel>
                     </h:column>
                 </h:dataTable>
-
+		<c:if test="#{busqueda.hasNextPage}">
+		    <h:form>
+			<p:commandButton action="#{busqueda.paginaSiguiente()}" value="Siguiente Pagina"/>
+		    </h:form>
+		</c:if>
             </p:panel>
         </h:panelGrid>
         <script type="text/javascript" src="resources/js/share.js"></script>

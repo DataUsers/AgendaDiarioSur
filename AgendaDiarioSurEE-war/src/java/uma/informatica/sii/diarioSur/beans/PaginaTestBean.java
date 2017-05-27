@@ -8,6 +8,7 @@ package uma.informatica.sii.diarioSur.beans;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
@@ -43,6 +44,9 @@ public class PaginaTestBean {
     private String email;
 
     private Evento evento;
+    
+    private Evento.Tipo[] tiposEvento = { Evento.Tipo.CONCIERTOS, Evento.Tipo.DESFILES, Evento.Tipo.EXPOSICIONES,
+					    Evento.Tipo.FERIAS, Evento.Tipo.CINES};
 
     /**
      * Creates a new instance of PaginaTestBean
@@ -65,23 +69,18 @@ public class PaginaTestBean {
     }
 
     public String crearEvento() {
-        evento = new Evento();
-        evento.setNombre("Placeholder 2");
-        evento.setDescripcion("Placeholder 2");
-        evento.setPrecio(20);
+        Random rnd = new Random(System.currentTimeMillis());
+	
+	evento = new Evento();
+        evento.setTipoEvento(tiposEvento[rnd.nextInt(5)]);
+	
+	evento.setNombre("Placeholder " + evento.getTipoEvento() + " " + rnd.nextInt(50));
+        evento.setDescripcion("Placeholder magico "+ rnd.nextInt(50));
+        evento.setPrecio(rnd.nextInt(50));
         evento.setGeolocalizacion("36.714040, -4.433475");
-        evento.setOrganizador("OrganizadorNombre 2");
+        evento.setOrganizador("OrganizadorNombre " + rnd.nextInt(50));
         evento.setURLOrganizador("http://127.0.0.1:8080");
-
-        /*
-        calificaciones = new ArrayList<CalificacionEvento>();
-        for (int i = 0; i < 5; ++i) {
-            CalificacionEvento calificacion = new CalificacionEvento("PACO", "UNA DESCRIPCION", i);
-            calificacion.setFavorito(true);
-            calificaciones.add(calificacion);
-        }
-        evento.setCalificaciones(calificaciones);
-         */
+        
         // Crear fechas ficticias
         List<Date> fechas = new ArrayList<>();
         for (int i = 0; i < 5; ++i) {
@@ -92,13 +91,16 @@ public class PaginaTestBean {
         evento.setFechas(fechas);
         
         // Test images
-        String[] imagenes = new String[3];
+        String[] imagenes = new String[4];
         imagenes[0] = "http://i.imgur.com/93vHumH.png";
         imagenes[1] = "http://i.imgur.com/H1SW1Rj.png";
         imagenes[2] = "http://i.imgur.com/pojHJNc.jpg";
+	imagenes[3] = "http://i.imgur.com/cZK9lZP.png";
         
         evento.setImagenes(imagenes);
 
+	System.out.println("Tpo de evento generado: " + evento.getTipoEvento());
+	
         /*
             // Setear marcador del mapa, compobar errores aqui
             String[] coord = evento.getGeolocalizacion().split(",");

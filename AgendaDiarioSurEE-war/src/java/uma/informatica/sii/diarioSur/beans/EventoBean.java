@@ -96,6 +96,7 @@ public class EventoBean implements Serializable {
         validado = false;
         eventId = request.getParameter("evento");
         currentUrl = request.getRequestURL().toString();
+	
         currentURI = "evento";
 
         if (eventId != null) {
