@@ -5,19 +5,19 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-		xmlns:f="http://xmlns.jcp.org/jsf/core"
-		xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <ui:define name="title">Agenda Diario Sur - Busqueda</ui:define>
     <ui:define name="subtitulo">Busqueda de eventos</ui:define>
 
     <ui:define name="content">
-	<f:metadata>
-	    <f:viewParam name="latitud" value="#{busqueda.latitud}"/>
-	    <f:viewParam name="longitud" value="#{busqueda.longitud}"/>
-	    <f:viewParam name="q" value="#{busqueda.queryString}" />
-	    <f:viewParam name="commentPage" value="#{busqueda.currentPage}" />
-	    <f:viewAction action="#{busqueda.onLoad()}"/>
-	</f:metadata>
+        <f:metadata>
+            <f:viewParam name="latitud" value="#{busqueda.latitud}"/>
+            <f:viewParam name="longitud" value="#{busqueda.longitud}"/>
+            <f:viewParam name="q" value="#{busqueda.queryString}" />
+            <f:viewParam name="commentPage" value="#{busqueda.currentPage}" />
+            <f:viewAction action="#{busqueda.onLoad()}"/>
+        </f:metadata>
 
         <div style="text-align: center;">
             <p id="localizacion"></p>
@@ -57,9 +57,13 @@
                                     <p:panel header="#{event.nombre}">
                                         <h:outputText value="Precio: #{event.precio}" />
                                         <!-- fecha aqui -->
-                                        <h:panelGrid columns="2">
-                                            <p>Fecha</p>
-                                            <h:outputText value="#{busqueda.placeholderFecha()}"/>
+                                        <h:panelGrid columns="1">
+                                            <p:dataList value="#{event.fechas}" var="fecha" type="unordered">
+                                                <f:facet name="header">
+                                                    Fechas
+                                                </f:facet>
+                                                #{fecha}
+                                            </p:dataList>
                                         </h:panelGrid>
                                         <!-- localizacion -->
                                         <p:button outcome="evento.xhtml?evento=#{event.idEvento}" value="Ver +"/> <!-- hardcodeado -->
@@ -80,11 +84,16 @@
                         </p:panel>
                     </h:column>
                 </h:dataTable>
-		<c:if test="#{busqueda.hasNextPage}">
-		    <h:form>
-			<p:commandButton action="#{busqueda.paginaSiguiente()}" value="Siguiente Pagina"/>
-		    </h:form>
-		</c:if>
+                <c:if test="#{busqueda.hasPrevPage}">
+                    <h:form>
+                        <p:commandButton action="#{busqueda.paginaAnterior()}" value="Pagina Anterior"/>
+                    </h:form>
+                </c:if>
+                <c:if test="#{busqueda.hasNextPage}">
+                    <h:form>
+                        <p:commandButton action="#{busqueda.paginaSiguiente()}" value="Pagina Siguiente"/>
+                    </h:form>
+                </c:if>
             </p:panel>
         </h:panelGrid>
         <script type="text/javascript" src="resources/js/share.js"></script>

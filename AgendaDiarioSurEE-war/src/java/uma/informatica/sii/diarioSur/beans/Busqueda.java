@@ -50,6 +50,7 @@ public class Busqueda implements Serializable {
     private int currentPage;
     private final int MAX_EVENTO = 5;
     private boolean hasNextPage;
+    private boolean hasPrevPage;
     private String currentURI;
     private List<String> filtrosQuery;
 
@@ -133,20 +134,23 @@ public class Busqueda implements Serializable {
 	    Logger.getLogger(Busqueda.class.getName()).log(Level.SEVERE, null, ex);
 	}
 
-	if (eventosMostrar.size() < MAX_EVENTO) {
+	if (eventosMostrar.size() <= MAX_EVENTO) {
 	    hasNextPage = false;
 	} else {
 	    hasNextPage = true;
+            eventosMostrar.remove(eventosMostrar.size()-1); // COmprobar
 	}
 	System.out.println("Has next page: " + hasNextPage);
+        
+        if(currentPage > 0){
+            hasPrevPage = true;
+        }
 
     }
-
-    public String paginaSiguiente() {
-	String res = currentURI + "?";
+    
+    private String obtenerURIActual(){
+        String res = currentURI + "?";
 	try {
-	    ++currentPage;
-
 	    // latitud y longitud
 	    if (latitud != null && longitud != null) {
 		res += "latitud=" + latitud + "&longitud=" + longitud;
@@ -175,7 +179,19 @@ public class Busqueda implements Serializable {
 	} catch (UnsupportedEncodingException ex) {
 	    Logger.getLogger(Busqueda.class.getName()).log(Level.SEVERE, null, ex);
 	}
+        
+        return res;
+    }
 
+    public String paginaSiguiente() {
+        ++currentPage;
+	String res = obtenerURIActual();
+	return res + "&commentPage=" + currentPage + "&faces-redirect=true";
+    }
+    
+    public String paginaAnterior(){
+        --currentPage;
+        String res = obtenerURIActual();
 	return res + "&commentPage=" + currentPage + "&faces-redirect=true";
     }
 
@@ -288,6 +304,14 @@ public class Busqueda implements Serializable {
 
     public void setCurrentURI(String currentURI) {
 	this.currentURI = currentURI;
+    }
+
+    public boolean isHasPrevPage() {
+        return hasPrevPage;
+    }
+
+    public void setHasPrevPage(boolean hasPrevPage) {
+        this.hasPrevPage = hasPrevPage;
     }
 
 }

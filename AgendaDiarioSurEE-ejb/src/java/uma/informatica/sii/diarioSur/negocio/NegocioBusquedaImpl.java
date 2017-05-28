@@ -35,7 +35,7 @@ public class NegocioBusquedaImpl implements NegocioBusqueda {
 	Query query = em.createNamedQuery("eventosMasVisitados");
 
 	query.setFirstResult(pagina * maxEventos);
-	query.setMaxResults(maxEventos);
+	query.setMaxResults(maxEventos+1); // Para la comprobacion de mas paginas
 
 	List results = query.getResultList();
 
@@ -49,12 +49,12 @@ public class NegocioBusquedaImpl implements NegocioBusqueda {
 		Query q = em.createNamedQuery("eventosMasVisitados");
 
 		q.setFirstResult(pagina * maxEventos);
-		q.setMaxResults(maxEventos);
+		q.setMaxResults(maxEventos+1);
 		return q.getResultList();//obtenerEventos(pagina, maxEventos);
 	    } else {
 		Query q = em.createNamedQuery("busqueda");
 		q.setParameter("query", query);
-		q.setMaxResults(maxEventos);
+		q.setMaxResults(maxEventos+1);
 		q.setFirstResult(pagina * maxEventos);
 
 		return q.getResultList();
@@ -81,7 +81,7 @@ public class NegocioBusquedaImpl implements NegocioBusqueda {
 
 	    // Crear query
 	    Query q = em.createQuery(queryString);
-	    q.setMaxResults(maxEventos);
+	    q.setMaxResults(maxEventos+1);
 	    q.setFirstResult(pagina * maxEventos);
 
 	    return q.getResultList();
