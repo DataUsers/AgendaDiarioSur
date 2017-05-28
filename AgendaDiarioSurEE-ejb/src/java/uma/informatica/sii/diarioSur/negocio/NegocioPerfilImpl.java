@@ -62,7 +62,7 @@ public class NegocioPerfilImpl implements NegocioPerfil {
     @Override
     public Usuario obtenerUsuario(String email) throws DiarioSurException {
         Usuario devolver = em.find(Usuario.class, email);
-        if (devolver == null) {
+        if (devolver  == null) {
             throw new CuentaInexistenteException();
         }
         return devolver; 
