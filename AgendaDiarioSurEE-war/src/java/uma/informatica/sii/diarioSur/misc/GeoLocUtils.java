@@ -25,24 +25,34 @@ import javax.net.ssl.HttpsURLConnection;
  *
  * @author darylfed
  */
-public class GeoLoc {
+public class GeoLocUtils {
 
     public static void main(String[] args) {
-       obtenerDireccion("");
+       obtenerCoordenadas("");
 
     }
 
-    public static String obtenerDireccion(String query) {
+    /***
+     * Obtiene las coordenadas de la direccion pasada como parametro
+     * este metodo solo devuelve el primer resultado de la busqueda por direccion
+     * puede llegar a ser impreciso
+     * @param direccion usada para buscar en google maps
+     * @return GeoLocation objeto con las coordenadas tanto en radianes como en grados
+     */
+    public static GeoLocation obtenerCoordenadas(String direccion) {
         String url = "https://maps.googleapis.com/maps/api/geocode/json";
-        String key = "";
+        String key = "AIzaSyAyM4z88cdeWuj13fJZ85k8XM6BUm5hi5s";
         double latitud = 0;
         double longitud = 0;
+	GeoLocation geolocation = GeoLocation.fromDegrees(0, 0);
 
         try {
-            String queryFormated = URLEncoder.encode(query, "UTF-8");
-            System.out.println("Query normal: " + query + "\nQuery formateada: " + queryFormated);
+            String queryFormated = URLEncoder.encode(direccion, "UTF-8");
+            System.out.println("Query normal: " + direccion + "\nQuery formateada: " + queryFormated);
 
-            System.out.println("Haciendo request a " + url + "?address=" + queryFormated + "&key=" + key);
+            System.out.println("Haciendo request a " + url + "?address=" + queryFormated + 
+		    "&components=country:ES" +
+		    "&key=" + key);
 
             URL urlObject = new URL(url + "?address=" + queryFormated + "&key=" + key);
             HttpsURLConnection con = (HttpsURLConnection) urlObject.openConnection();
@@ -65,7 +75,8 @@ public class GeoLoc {
                 System.out.println("Error tras hacer la request");
                 // manejar error
             } else {
-
+		
+		/* Obtener latitud y longitud en grados */
                 JsonArray resultados = res.getJsonArray("results");
                 JsonObject firstObj = resultados.getJsonObject(0);
                 JsonObject geometry = firstObj.getJsonObject("geometry");
@@ -73,22 +84,28 @@ public class GeoLoc {
                 latitud = location.getJsonNumber("lat").doubleValue();
                 longitud = location.getJsonNumber("lng").doubleValue();
                 System.out.println("Latitud: " + latitud + " longitud: " + longitud);
-
+		
+		geolocation = GeoLocation.fromDegrees(latitud, longitud);
             }
 
         } catch (UnsupportedEncodingException ex) {
-            Logger.getLogger(GeoLoc.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GeoLocUtils.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MalformedURLException ex) {
-            Logger.getLogger(GeoLoc.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GeoLocUtils.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            Logger.getLogger(GeoLoc.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GeoLocUtils.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        return latitud + ", " + longitud;
+        return geolocation;
     }
     
-    public static String obtenerCoordenada(String direccion){
+    /***
+     * 
+     * @param geoLocation geolocalizacion del punto en grados y radianes
+     * @return String nombre de la direccion obtenida por google maps 
+     */
+    public static String obtenerDireccion(GeoLocation geoLocation){
         // TODO
-        return "36.714040, -4.433475";
+        return "Test direccion";
     }
 }

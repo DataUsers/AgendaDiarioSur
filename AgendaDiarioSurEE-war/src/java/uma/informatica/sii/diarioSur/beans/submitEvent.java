@@ -4,7 +4,7 @@
  */
 package uma.informatica.sii.diarioSur.beans;
 
-import uma.informatica.sii.diarioSur.misc.GeoLoc;
+import uma.informatica.sii.diarioSur.misc.GeoLocUtils;
 import java.sql.Date;
 import java.util.ArrayList;
 import javax.inject.Named;
@@ -74,7 +74,8 @@ public class submitEvent {
 		FacesContext ctx = FacesContext.getCurrentInstance();
 		evento.setFechas(new ArrayList<>());
 		evento.getFechas().add(fecha);
-		evento.setGeolocalizacion(GeoLoc.obtenerDireccion(localizacion));
+		// settear geolocalizacion
+		//evento.setGeolocalizacion(GeoLocUtils.obtenerCoordenadas(localizacion));
 		if (evento.getNombre().trim().length() == 0) {
 			ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "El nombre es obligatorio", "El nombre es obligatorio"));
 			return null;

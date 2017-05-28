@@ -49,8 +49,6 @@ public class NegocioEventoImpl implements NegocioEvento {
 
     @Override
     public Long obtenerNumFav(Evento evento) throws DiarioSurException {
-        // Comprobar antes si esta en la BD??
-
         Evento eventoFound = em.find(Evento.class, evento.getIdEvento());
 
         if (eventoFound == null) {
