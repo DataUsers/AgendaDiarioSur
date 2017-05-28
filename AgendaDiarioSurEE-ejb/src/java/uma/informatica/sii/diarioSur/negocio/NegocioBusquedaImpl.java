@@ -27,7 +27,7 @@ public class NegocioBusquedaImpl implements NegocioBusqueda {
     private final Evento.Tipo[] tipoEventos = Evento.Tipo.values();
     
     private final double RADIO_TIERRA = 6371.01; // en km
-    private final double DISTANCIA = 10; // en km
+    private final double DISTANCIA = 5; // en km
 
     @Override
     public List obtenerEventos(int pagina, int maxEventos) throws DiarioSurException {
@@ -90,7 +90,7 @@ public class NegocioBusquedaImpl implements NegocioBusqueda {
 
     @Override
     public List busquedaEventos(int pagina, int maxEventos, List filtros, String query, double latitud, double longitud) throws DiarioSurException {
-	GeoLocation localizacion = GeoLocation.fromDegrees(latitud, longitud);
+        GeoLocation localizacion = GeoLocation.fromDegrees(latitud, longitud);
 	List eventosObtenidos = filtrarGeolocalizacion(
 		busquedaEventos(pagina, maxEventos, filtros, query), 
 		localizacion
@@ -130,12 +130,12 @@ public class NegocioBusquedaImpl implements NegocioBusqueda {
 	    
 	    double eventLat = evento.getLatitud();
 	    double eventLon = evento.getLongitud();
-	    
+            
 	    if( (eventLat >= minLat && eventLat <= maxLat) &&
 		    (eventLon >= minLon && eventLon <= maxLon) &&
 		    Math.acos(Math.sin(latitudBusq) * Math.sin(eventLat) 
 			    + Math.cos(latitudBusq) * Math.cos(eventLat) 
-				    * Math.cos(eventLon - (-longitudBusq))) <= DISTANCIA/RADIO_TIERRA){
+				    * Math.cos(eventLon - longitudBusq)) <= DISTANCIA/RADIO_TIERRA){
 		// Add evento a la lista
 		eventosFiltrados.add(evento);
 	    }

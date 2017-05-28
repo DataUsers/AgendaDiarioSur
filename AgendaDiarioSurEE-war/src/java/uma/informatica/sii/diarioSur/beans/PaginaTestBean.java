@@ -75,7 +75,10 @@ public class PaginaTestBean {
 	GeoLocation[] coordenadas = {
 	    GeoLocation.fromDegrees(36.510304, -4.882464),
 	    GeoLocation.fromDegrees(36.511983, -4.880888),
-	    GeoLocation.fromDegrees(36.589181, -4.546646)
+	    GeoLocation.fromDegrees(36.589181, -4.546646),
+            GeoLocation.fromDegrees(36.722377, -4.479303),
+            GeoLocation.fromDegrees(36.721336, -4.478155),
+            GeoLocation.fromDegrees(36.724182, -4.475945)
 	};
 	
 	evento = new Evento();
@@ -86,6 +89,8 @@ public class PaginaTestBean {
         evento.setPrecio(rnd.nextInt(50));
         // Latitud y longitud
 	GeoLocation loc = coordenadas[rnd.nextInt(coordenadas.length)];
+        System.out.println("Latitud Degree: " + loc.getLatitudeInDegrees() + " longitud Degree: " + loc.getLongitudeInDegrees());
+        System.out.println("latitud radians: " + loc.getLatitudeInRadians() + " longitud radians: " + loc.getLongitudeInRadians());
 	evento.setLatitud(loc.getLatitudeInRadians());
 	evento.setLongitud(loc.getLongitudeInRadians());
 	
