@@ -74,7 +74,7 @@ public class NegocioBusquedaImpl implements NegocioBusqueda {
 	    }
 
 	    if (query.length() > 0) {
-		queryString += " and Upper(e.nombre) = Upper(concat('%', concat(" + query + ", '%')))";
+		queryString += " and Upper(e.nombre) like Upper(concat('%', concat('" + query + "', '%')))";
 	    }
 
 	    System.out.println("Query String: " + queryString);
