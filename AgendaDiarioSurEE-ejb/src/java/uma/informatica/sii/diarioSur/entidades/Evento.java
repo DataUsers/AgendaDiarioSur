@@ -35,7 +35,9 @@ import javax.persistence.OneToMany;
     @NamedQuery(name="busqueda",
 	    query="select e from Evento e where UPPER(e.nombre) like Upper(concat('%', concat(:query, '%'))) "),
     @NamedQuery(name="eventosMasVisitados",
-	    query="select e from Evento e order by e.numeroVisitas DESC") // usar??
+	    query="select e from Evento e order by e.numeroVisitas DESC"),
+    @NamedQuery(name="busquedaMasVisitados",
+	    query="select e from Evento e where UPPER(e.nombre) like Upper(concat('%', concat(:query, '%'))) order by e.numeroVisitas DESC")
 })
 public class Evento implements Serializable {
 
@@ -54,7 +56,10 @@ public class Evento implements Serializable {
     private String nombre;
     private String descripcion;
     private Integer precio;
-    private String geolocalizacion;
+    @Column(nullable = false)
+    private Double latitud;
+    @Column(nullable = false)
+    private Double longitud;
     @Enumerated(EnumType.ORDINAL)
     private Tipo tipoEvento;
     @ElementCollection(fetch = FetchType.EAGER)
@@ -103,12 +108,20 @@ public class Evento implements Serializable {
         this.precio = precio;
     }
 
-    public String getGeolocalizacion() {
-        return geolocalizacion;
+    public Double getLatitud() {
+	return latitud;
     }
 
-    public void setGeolocalizacion(String geolocalizacion) {
-        this.geolocalizacion = geolocalizacion;
+    public void setLatitud(Double latitud) {
+	this.latitud = latitud;
+    }
+
+    public Double getLongitud() {
+	return longitud;
+    }
+
+    public void setLongitud(Double longitud) {
+	this.longitud = longitud;
     }
 
     public Tipo getTipoEvento() {

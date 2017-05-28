@@ -40,7 +40,6 @@ public class Busqueda implements Serializable {
 
     private List<String> filtrosPredeterminados;
     private List<String> filtros;
-    private List<Evento> placeholderEvents;
     private List<Evento> eventosMostrar;
 
     private String queryString;
@@ -79,7 +78,7 @@ public class Busqueda implements Serializable {
 	HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
 	String[] filtrosBusq = request.getParameterValues("filtrar");
 	filtrosQuery = new ArrayList<>();
-	
+
 	System.out.println("current page: " + currentPage);
 	System.out.println("latitud: " + latitud);
 	System.out.println("longitud: " + longitud);
@@ -100,13 +99,18 @@ public class Busqueda implements Serializable {
 			filtrarMasVisitados = true;
 			System.out.println("tiene mas visitados");
 		    } else {
-			filtrosQuery.add(filtro);
-			String filterRes = filtro.replace(" ", "_");
-			filterRes = filterRes.toUpperCase();
-			Evento.Tipo eventType = Evento.Tipo.valueOf(filterRes);
-			System.out.println("eventype: " + eventType);
-			System.out.println("filtro res: " + filterRes);
-			filtros.add(eventType);
+			try {
+			    filtrosQuery.add(filtro);
+			    String filterRes = filtro.replace(" ", "_");
+			    filterRes = filterRes.toUpperCase();
+			    Evento.Tipo eventType = Evento.Tipo.valueOf(filterRes);
+			    System.out.println("eventype: " + eventType);
+			    System.out.println("filtro res: " + filterRes);
+			    filtros.add(eventType);
+			} catch (IllegalArgumentException e) {
+			    // IGNORAR ERROR
+			    Logger.getLogger(Busqueda.class.getName()).log(Level.SEVERE, null, e);
+			}
 		    }
 		}
 	    }
@@ -118,7 +122,7 @@ public class Busqueda implements Serializable {
 
 	    // Si tiene latitud y longitud
 	    if (latitud != null && longitud != null) {
-		// busqueda con latitud y longitud
+		// busqueda con latitud y longitud en grados
 		eventosMostrar = negocio.busquedaEventos(currentPage, MAX_EVENTO, filtros, queryString, latitud, longitud);
 	    } else {
 		// si no tiene latitud y longitud
@@ -155,19 +159,19 @@ public class Busqueda implements Serializable {
 
 	    if (filtrosQuery != null) {
 		System.out.println("filtros no a nulo");
-		if(filtrosQuery.isEmpty()){
+		if (filtrosQuery.isEmpty()) {
 		    System.out.println("filtro vacio");
 		}
 		for (String filtro : filtrosQuery) {
 		    System.out.println(filtro);
 		    res += "&filtrar=" + URLEncoder.encode(filtro, "UTF-8");
 		}
-	    }else{
+	    } else {
 		System.out.println("filtros nulo");
 	    }
-	    
+
 	    System.out.println("res final de siguiente pagina: " + res);
-	    
+
 	} catch (UnsupportedEncodingException ex) {
 	    Logger.getLogger(Busqueda.class.getName()).log(Level.SEVERE, null, ex);
 	}
@@ -184,7 +188,7 @@ public class Busqueda implements Serializable {
 	filtrosPredeterminados.add("Ferias");
 	filtrosPredeterminados.add("Cines");
     }
-    
+
     public String construirEnlace(Integer eventoId) {
 	HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
 	String url = request.getRequestURL().toString();

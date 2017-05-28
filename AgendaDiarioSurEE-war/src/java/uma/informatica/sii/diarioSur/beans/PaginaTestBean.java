@@ -19,6 +19,7 @@ import org.primefaces.model.map.Marker;
 import uma.informatica.sii.diarioSur.entidades.CalificacionEvento;
 import uma.informatica.sii.diarioSur.entidades.Evento;
 import uma.informatica.sii.diarioSur.entidades.Usuario;
+import uma.informatica.sii.diarioSur.misc.GeoLocation;
 import uma.informatica.sii.diarioSur.negocio.DiarioSurException;
 import uma.informatica.sii.diarioSur.negocio.NegocioEvento;
 import uma.informatica.sii.diarioSur.negocio.NegocioLogin;
@@ -71,13 +72,23 @@ public class PaginaTestBean {
     public String crearEvento() {
         Random rnd = new Random(System.currentTimeMillis());
 	
+	GeoLocation[] coordenadas = {
+	    GeoLocation.fromDegrees(36.510304, -4.882464),
+	    GeoLocation.fromDegrees(36.511983, -4.880888),
+	    GeoLocation.fromDegrees(36.589181, -4.546646)
+	};
+	
 	evento = new Evento();
         evento.setTipoEvento(tiposEvento[rnd.nextInt(5)]);
 	
 	evento.setNombre("Placeholder " + evento.getTipoEvento() + " " + rnd.nextInt(50));
         evento.setDescripcion("Placeholder magico "+ rnd.nextInt(50));
         evento.setPrecio(rnd.nextInt(50));
-        evento.setGeolocalizacion("36.714040, -4.433475");
+        // Latitud y longitud
+	GeoLocation loc = coordenadas[rnd.nextInt(coordenadas.length)];
+	evento.setLatitud(loc.getLatitudeInRadians());
+	evento.setLongitud(loc.getLongitudeInRadians());
+	
         evento.setOrganizador("OrganizadorNombre " + rnd.nextInt(50));
         evento.setURLOrganizador("http://127.0.0.1:8080");
         

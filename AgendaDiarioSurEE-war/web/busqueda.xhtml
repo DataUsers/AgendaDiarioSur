@@ -62,7 +62,7 @@
                                             <h:outputText value="#{busqueda.placeholderFecha()}"/>
                                         </h:panelGrid>
                                         <!-- localizacion -->
-                                        <p:button outcome="evento.xhtml?evento=10" value="Ver +"/> <!-- hardcodeado -->
+                                        <p:button outcome="evento.xhtml?evento=#{event.idEvento}" value="Ver +"/> <!-- hardcodeado -->
                                         <p:panel header="Descripcion">
                                             <h:outputText value="#{event.descripcion}"></h:outputText>    
                                         </p:panel>

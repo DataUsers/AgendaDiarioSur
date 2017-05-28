@@ -17,7 +17,7 @@ import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import uma.informatica.sii.diarioSur.entidades.Evento;
-import uma.informatica.sii.diarioSur.misc.GeoLoc;
+import uma.informatica.sii.diarioSur.misc.GeoLocUtils;
 
 /**
  *
@@ -70,7 +70,8 @@ public class EditEvento {
         FacesContext ctx = FacesContext.getCurrentInstance();
         evento.setFechas(new ArrayList<>());
         evento.getFechas().add(fecha);
-        evento.setGeolocalizacion(GeoLoc.obtenerCoordenada(localizacion));
+	// settear geolocalizacion
+        //evento.setGeolocalizacion(GeoLocUtils.obtenerCoordenada(localizacion));
         if (evento.getNombre().trim().length() == 0) {
             System.out.println("Hay un error");
             ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "El nombre es obligatorio", "El nombre es obligatorio"));
