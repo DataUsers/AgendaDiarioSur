@@ -17,7 +17,7 @@ import uma.informatica.sii.diarioSur.entidades.Usuario;
 @Local
 public interface NegocioPerfil{
 
-    void guardarCambios(String nombre, String apellidos, String email, Date fechaNacimiento, String cuentaTwitter, String cuentaFacebook) throws DiarioSurException;
+    void guardarCambios(String nombre,  String apellidos,  Date fechaNacimiento, String email, String cuentaTwitter, String cuentaFacebook) throws DiarioSurException;
 
     Usuario obtenerUsuario(String email) throws DiarioSurException;
 
