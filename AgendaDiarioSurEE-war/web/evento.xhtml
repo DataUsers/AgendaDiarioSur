@@ -70,9 +70,9 @@
                             <h:outputText value="#{evento.evento.descripcion}"/>
                         </p:panel>
 
-                        <c:if test="#{not empty evento.evento.geolocalizacion}">
+                        <c:if test="#{not empty evento.evento.latitud and not empty evento.evento.longitud}">
                             <p:panel header="Ubicacion">
-                                <p:gmap center="#{evento.evento.geolocalizacion}" zoom="15" type="hybrid" 
+                                <p:gmap center="#{evento.geolocalizacion}" zoom="15" type="hybrid" 
                                         style="width:100%;height:200px" model="#{evento.model}"/>
                             </p:panel>
                         </c:if>
@@ -88,7 +88,6 @@
                                             <p>Calificacion: #{cal.puntuacion}</p>
                                             <c:if test="#{empty cal.imagen}">
                                                 <p:graphicImage value="#{cal.imagen}"/>
-                                                <h:outputText value="imagen: #{cal.imagen}"/>
                                             </c:if>
                                         </p:panel>
                                     </ui:repeat>

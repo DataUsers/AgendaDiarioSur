@@ -144,7 +144,8 @@ public class GestionEvento {
             eventoPlaceholder.setNombre("Placeholder Nombre evento " + i);
             eventoPlaceholder.setPrecio(rnd.nextInt(100));
             eventoPlaceholder.setDescripcion("PLACEHOLDER description del evento" + i);
-            eventoPlaceholder.setGeolocalizacion("36.714040, -4.433475");
+	    // latitud y longitud
+            //eventoPlaceholder.setGeolocalizacion("36.714040, -4.433475");
             eventoPlaceholder.setOrganizador("OrganizadorNombre");
             eventoPlaceholder.setURLOrganizador("http://127.0.0.1:8080");
             eventoPlaceholder.setNumeroVisitas(rnd.nextInt(500));
