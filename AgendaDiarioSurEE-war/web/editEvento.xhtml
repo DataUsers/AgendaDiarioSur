@@ -15,7 +15,7 @@
 
         <br />
         <c:choose>
-            <c:when test="#{evento.validarEvento()}">
+            <c:when test="#{editEvento.validarEvento()}">
                 <c:choose>
                     <c:when test="#{controlAutorizacion.usuario.tipoUsuario==Usuario.tipo.NORMAL}">
                         No tienes suficientes privilegios para subir un evento

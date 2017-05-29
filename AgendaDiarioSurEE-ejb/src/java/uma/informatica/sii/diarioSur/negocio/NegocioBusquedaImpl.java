@@ -29,6 +29,15 @@ public class NegocioBusquedaImpl implements NegocioBusqueda {
     private final double RADIO_TIERRA = 6371.01; // en km
     private final double DISTANCIA = 5; // en km
 
+    /***
+     * Realiza una busqueda de eventos en la BD y devuelve una sublista de eventos
+     * obtenida a partir de la fila posicion pagina*maxEventos hasta 
+     * pagina*maxEventos + maxEventos.
+     * @param pagina Offset a usar
+     * @param maxEventos Numero de eventos a devolver
+     * @return La lista de eventos con a lo sumo maxEventos eventos.
+     * @throws DiarioSurException 
+     */
     @Override
     public List obtenerEventos(int pagina, int maxEventos) throws DiarioSurException {
 
@@ -42,6 +51,15 @@ public class NegocioBusquedaImpl implements NegocioBusqueda {
 	return results;
     }
 
+    /***
+     * 
+     * @param pagina
+     * @param maxEventos
+     * @param filtros
+     * @param query
+     * @return
+     * @throws DiarioSurException 
+     */
     @Override
     public List busquedaEventos(int pagina, int maxEventos, List filtros, String query) throws DiarioSurException {
 	if (filtros.isEmpty()) {
@@ -143,5 +161,31 @@ public class NegocioBusquedaImpl implements NegocioBusqueda {
 	
 	return eventosFiltrados;
     }
+
+    
+    @Override
+    public void eliminarEvento(Evento evento) throws DiarioSurException {
+        Evento eventoBusq = em.find(Evento.class, evento.getIdEvento());
+        
+        if(eventoBusq == null){
+            throw new CuentaInexistenteException();
+        }
+        
+        em.merge(eventoBusq);
+        em.remove(eventoBusq);
+        
+    }
+
+    @Override
+    public void modificarEvento(Evento evento) throws DiarioSurException {
+        Evento eventoBusq = em.find(Evento.class, evento.getIdEvento());
+        
+        if(eventoBusq == null){
+            throw new CuentaInexistenteException();
+        }
+        
+        em.merge(evento);
+    }
+    
 
 }

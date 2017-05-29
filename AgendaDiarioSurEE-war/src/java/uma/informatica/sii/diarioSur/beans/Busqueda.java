@@ -45,7 +45,6 @@ public class Busqueda implements Serializable {
     private String queryString;
     private Double latitud;
     private Double longitud;
-    private List<String> filtrar;
 
     private int currentPage;
     private final int MAX_EVENTO = 5;
@@ -75,7 +74,6 @@ public class Busqueda implements Serializable {
     }
 
     public void onLoad() {
-	// TODO
 	HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
 	String[] filtrosBusq = request.getParameterValues("filtrar");
 	filtrosQuery = new ArrayList<>();
@@ -215,25 +213,6 @@ public class Busqueda implements Serializable {
 	return newUrl + "AgendaDiarioSur/faces/evento.xhtml?evento=" + eventoId;
     }
 
-    public String placeholderFecha() {
-	Random rnd = new Random(System.currentTimeMillis());
-
-	// Crear dia random
-	LocalDateTime date = LocalDateTime.now().plusDays(rnd.nextInt(10));
-	date.plusHours(rnd.nextInt(24));
-
-	// Formatear la salida
-	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-	String outDate = date.format(formatter);
-
-	return outDate;
-    }
-
-    public String randomImage() {
-	Random rnd = new Random(System.currentTimeMillis());
-	return "image" + rnd.nextInt(5) + ".jpg";
-    }
-
     public List<String> getFiltros() {
 	return filtros;
     }
@@ -272,14 +251,6 @@ public class Busqueda implements Serializable {
 
     public void setLongitud(Double longitud) {
 	this.longitud = longitud;
-    }
-
-    public List<String> getFiltrar() {
-	return filtrar;
-    }
-
-    public void setFiltrar(List<String> filtrar) {
-	this.filtrar = filtrar;
     }
 
     public int getCurrentPage() {
