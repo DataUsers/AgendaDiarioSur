@@ -61,6 +61,23 @@ public class PaginaTestBean {
         negocio.crearUsuario(nombre, contrasena, email, dni);
         return null;
     }
+    
+    public String crearUsuarioPrivilegiado(){
+        Usuario user = new Usuario();
+        user.setNombre(nombre);
+        user.setContrasena(contrasena);
+        user.setEmail(email);
+        user.setDni(dni);
+        user.setTipoUsuario(Usuario.tipoUsuario.ADMINISTRADOR);
+        
+        try {
+            negocio.registrarUsuario(user);
+        } catch (DiarioSurException ex) {
+            Logger.getLogger(PaginaTestBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return null;
+    }
 
     public String obtenerUsuario() throws DiarioSurException {
         Usuario user = negocio.obtenerUsuario(email);
@@ -170,5 +187,7 @@ public class PaginaTestBean {
     public void setNumEventos(Integer numEventos) {
         this.numEventos = numEventos;
     }
+    
+    
 
 }
