@@ -8,16 +8,17 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <ui:define name="title">Agenda Diario Sur - Login</ui:define>
-	<ui:define name="subtitulo">Iniciar sesion</ui:define>
+    <ui:define name="subtitulo">Iniciar sesion</ui:define>
     <ui:define name="content">
         <h:outputScript name="js/RegisterForm.js" target="head"/>
         <br />
         <c:choose>
             <c:when test="#{!controlAutorizacion.sesionIniciada()}">
+                <h:messages/>
                 <h:form prependId="false" onsubmit="return validateBasic()">
                     <table>
                         <tr>
-                            <td>Usuario:</td> 
+                            <td>Email: </td> 
                             <td><h:inputText id="nombre" value="#{login.usuario}"/></td>
                         </tr>
                         <tr>

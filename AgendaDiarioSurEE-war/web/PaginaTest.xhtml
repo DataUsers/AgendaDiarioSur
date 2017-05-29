@@ -22,6 +22,10 @@
             <h:inputText label="Numero de eventos a generar" value="#{paginaTestBean.numEventos}" />
             <h:commandButton value="Crear evento placeholder" action="#{paginaTestBean.crearEvento()}"/>
         </h:form>
+        <br/>
+        <h:form>
+            <h:commandButton action="#{paginaTestBean.crearAdmin()}" value="Crear administrador(admin/admin)"></h:commandButton>
+        </h:form>
         <h:button outcome="index" value="A index"/>
     </h:body>
 </html>

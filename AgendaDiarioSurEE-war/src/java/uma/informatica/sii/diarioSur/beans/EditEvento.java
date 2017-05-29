@@ -87,7 +87,7 @@ public class EditEvento {
         return ctrl.sesionIniciada() && valido;
     }
 
-    public SelectItem[] getGenderValues() {
+    public SelectItem[] getTipoValues() {
         SelectItem[] items = new SelectItem[Evento.Tipo.values().length];
         int i = 0;
         for (Evento.Tipo g : Evento.Tipo.values()) {

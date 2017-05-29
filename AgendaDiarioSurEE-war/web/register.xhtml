@@ -10,17 +10,17 @@
 
     <ui:define name="title">Agenda Diario Sur - Registro</ui:define>
 
-	<ui:define name="subtitulo">Registrarse</ui:define>
+    <ui:define name="subtitulo">Registrarse</ui:define>
 
     <ui:define name="content">
         <h:outputScript name="js/RegisterForm.js" target="head"/>
         <br />
         <c:choose>
             <c:when test="#{!controlAutorizacion.sesionIniciada()}">
+                <h:messages/>
                 <h:form prependId="false" onsubmit="return validate()">
                     <table>
                         <tr>
-
                             <td>Nombre:</td>
                             <td><h:inputText id="nombre" value="#{register.usuario.nombre}"/>
                             </td>

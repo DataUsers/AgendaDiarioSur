@@ -60,6 +60,9 @@ public class Evento implements Serializable {
     private Double latitud;
     @Column(nullable = false)
     private Double longitud;
+    
+    private String direccion;
+    
     @Enumerated(EnumType.ORDINAL)
     private Tipo tipoEvento;
     @ElementCollection(fetch = FetchType.EAGER)
@@ -68,6 +71,7 @@ public class Evento implements Serializable {
     private Integer numero_entradas;
     private Integer numeroVisitas;
     private String organizador;
+    @Column(nullable = false)
     private String[] imagenes;
     private String URLVideos;
     private String URLOrganizador;
@@ -210,6 +214,14 @@ public class Evento implements Serializable {
 
     public void setNumeroVisitas(Integer numeroVisitas) {
         this.numeroVisitas = numeroVisitas;
+    }
+
+    public String getDireccion() {
+        return direccion;
+    }
+
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
     }
 
     @Override
