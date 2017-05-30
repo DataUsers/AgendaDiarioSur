@@ -25,23 +25,6 @@ public class NegocioPerfilImpl implements NegocioPerfil {
     @PersistenceContext
     private EntityManager em;
     
-    
-    @Override
-    public void guardarCambios(String nombre, String apellidos, String email, Date fechaNacimiento, String cuentaTwitter,String cuentaFacebook) throws DiarioSurException{
-    
-        Usuario usuarioEncontrado = em.find(Usuario.class, email);
-        
-        if (usuarioEncontrado == null) {
-            throw new CuentaInexistenteException();
-        }
-        usuarioEncontrado.setNombre(nombre);
-        usuarioEncontrado.setApellidos(apellidos);
-        usuarioEncontrado.setFechaNacimiento(fechaNacimiento);
-        usuarioEncontrado.setCuentaFacebook(cuentaFacebook);
-        usuarioEncontrado.setCuentaTwitter(cuentaTwitter);
-        em.refresh(usuarioEncontrado);
-    }
-    
 
     @Override
     public void guardarContraseña(String email, String contraseñaActual, String nuevaContraseña) throws DiarioSurException {
@@ -66,6 +49,21 @@ public class NegocioPerfilImpl implements NegocioPerfil {
             throw new CuentaInexistenteException();
         }
         return devolver; 
+    }
+
+    @Override
+    public void guardarCambios(String nombre, String apellidos, Date fechaNacimiento, String email, String cuentaTwitter, String cuentaFacebook) throws DiarioSurException {
+        Usuario usuarioEncontrado = em.find(Usuario.class, email);
+        
+        if (usuarioEncontrado == null) {
+            throw new CuentaInexistenteException();
+        }
+        usuarioEncontrado.setNombre(nombre);
+        usuarioEncontrado.setApellidos(apellidos);
+        usuarioEncontrado.setFechaNacimiento(fechaNacimiento);
+        usuarioEncontrado.setCuentaFacebook(cuentaFacebook);
+        usuarioEncontrado.setCuentaTwitter(cuentaTwitter);
+        em.refresh(usuarioEncontrado);
     }
    
 }
