@@ -5,7 +5,7 @@
  */
 package uma.informatica.sii.diarioSur.beans;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -127,11 +127,13 @@ public class PaginaTestBean {
             evento.setFechas(fechas);
 
             // Test images
-            String[] imagenes = new String[4];
-            imagenes[0] = "http://i.imgur.com/93vHumH.png";
-            imagenes[1] = "http://i.imgur.com/H1SW1Rj.png";
-            imagenes[2] = "http://i.imgur.com/pojHJNc.jpg";
-            imagenes[3] = "http://i.imgur.com/cZK9lZP.png";
+            String[] imagenes = new String[6];
+            imagenes[0] = "https://i.imgur.com/JDkxeA8.gif";
+            imagenes[1] = "http://i.imgur.com/vh64DDX.gif";
+            imagenes[2] = "http://i.imgur.com/93vHumH.png";
+            imagenes[3] = "http://i.imgur.com/H1SW1Rj.png";
+            imagenes[4] = "http://i.imgur.com/pojHJNc.jpg";
+            imagenes[5] = "http://i.imgur.com/cZK9lZP.png";
 
             evento.setImagenes(imagenes);
 

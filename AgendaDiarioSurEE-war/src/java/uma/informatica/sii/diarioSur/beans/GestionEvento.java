@@ -11,6 +11,7 @@ import java.net.URLEncoder;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.logging.Level;
@@ -70,11 +71,6 @@ public class GestionEvento implements Serializable{
 	// Si no hay query ni filtro ni cookies, cargar etiquetas predeterminadas y filtrar predeterminado
 	// Si se ha hecho query, hacer query y filtrar mostrando los resultados
 
-	HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-	String queryString = request.getQueryString();
-	System.out.println("query String en constructor: " + queryString);
-	System.out.println("uri on constructor: " + request.getRequestURI());
-
 	// obtener cookies y asignar filtros
 	crearFiltroPredeterminado();
 	filtros = filtrosPredeterminados;
@@ -83,16 +79,48 @@ public class GestionEvento implements Serializable{
 
     }
     
+    public void anadirFecha(Evento evento){
+        System.out.println("hay: " + evento.getFechas().size() + " fechas");
+        
+        evento.getFechas().add(null);
+        
+        System.out.println("Añadiendo fecha");
+        
+        System.out.println("hay: " + evento.getFechas().size() + " fechas");
+        
+        try {
+            negocio.modificarEvento(evento);
+        } catch (DiarioSurException ex) {
+            Logger.getLogger(GestionEvento.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void eliminarFecha(Evento evento){
+        
+        List<Date> fechas = evento.getFechas();
+        System.out.println("hay: " + fechas.size() + " fechas");
+        fechas.remove(fechas.size()-1);
+        System.out.println("hay: " + fechas.size() + " fechas");
+        
+        evento.setFechas(fechas);
+        
+        for(Date fecha : fechas){
+            System.out.println(fecha);
+        }
+        
+        /*
+        try {
+            negocio.modificarEvento(evento);
+        } catch (DiarioSurException ex) {
+            Logger.getLogger(GestionEvento.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        */
+    }
+    
     public void onLoad() {
 	HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
 	String[] filtrosBusq = request.getParameterValues("filtrar");
 	filtrosQuery = new ArrayList<>();
-
-	System.out.println("current page: " + currentPage);
-	System.out.println("latitud: " + latitud);
-	System.out.println("longitud: " + longitud);
-	System.out.println("query String en onload: " + queryString);
-	System.out.println("current uri: " + currentURI);
 
 	try {
 
@@ -106,15 +134,12 @@ public class GestionEvento implements Serializable{
 		    System.out.println(filtro);
 		    if (filtro.equals("Mas Visitados")) {
 			filtrarMasVisitados = true;
-			System.out.println("tiene mas visitados");
 		    } else {
 			try {
 			    filtrosQuery.add(filtro);
 			    String filterRes = filtro.replace(" ", "_");
 			    filterRes = filterRes.toUpperCase();
 			    Evento.Tipo eventType = Evento.Tipo.valueOf(filterRes);
-			    System.out.println("eventype: " + eventType);
-			    System.out.println("filtro res: " + filterRes);
 			    filtros.add(eventType);
 			} catch (IllegalArgumentException e) {
 			    // IGNORAR ERROR
@@ -148,7 +173,6 @@ public class GestionEvento implements Serializable{
 	    hasNextPage = true;
             eventosMostrar.remove(eventosMostrar.size()-1); // COmprobar
 	}
-	System.out.println("Has next page: " + hasNextPage);
         
         if(currentPage > 0){
             hasPrevPage = true;
@@ -170,19 +194,11 @@ public class GestionEvento implements Serializable{
 	    }
 
 	    if (filtrosQuery != null) {
-		System.out.println("filtros no a nulo");
-		if (filtrosQuery.isEmpty()) {
-		    System.out.println("filtro vacio");
-		}
 		for (String filtro : filtrosQuery) {
 		    System.out.println(filtro);
 		    res += "&filtrar=" + URLEncoder.encode(filtro, "UTF-8");
 		}
-	    } else {
-		System.out.println("filtros nulo");
 	    }
-
-	    System.out.println("res final de siguiente pagina: " + res);
 
 	} catch (UnsupportedEncodingException ex) {
 	    Logger.getLogger(Busqueda.class.getName()).log(Level.SEVERE, null, ex);
@@ -226,8 +242,13 @@ public class GestionEvento implements Serializable{
         // realizar los cambios en la BD y despues refrescar la pagina
         System.out.println("Modificar evento");
         System.out.println("Nuevo nombre: " + evento.getNombre());
-        System.out.println("Fecha: " + fecha);
-        System.out.println("Tiempo: " + tiempo);
+        
+        List<Date> fechas = evento.getFechas();
+        
+        for(Date fecha: fechas){
+            System.out.println(fecha);
+        }
+        
         
         try {
             negocio.modificarEvento(evento);
@@ -264,34 +285,6 @@ public class GestionEvento implements Serializable{
         filtrosPredeterminados.add("Tipos");
         filtrosPredeterminados.add("Duracion");
         filtrosPredeterminados.add("Coste");
-    }
-
-    public String placeholderFecha() {
-        Random rnd = new Random(System.currentTimeMillis());
-
-        // Crear dia random
-        LocalDateTime date = LocalDateTime.now();
-        date =  date.plusDays(rnd.nextInt(10));
-        
-        // Formatear la salida
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        String outDate = date.format(formatter);
-
-        return outDate;
-    }
-
-    public String placeholderTiempo() {
-        Random rnd = new Random(System.currentTimeMillis());
-
-        // Crear dia random
-        LocalDateTime date = LocalDateTime.now();
-        date = date.plusHours(rnd.nextInt(24));
-
-        // Formatear la salida
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
-        String outTime = date.format(formatter);
-
-        return outTime;
     }
 
     public List<String> getFiltros() {

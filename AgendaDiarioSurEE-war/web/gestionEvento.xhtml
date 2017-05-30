@@ -65,14 +65,18 @@
                                                 </h:panelGrid>
 
                                                 <!-- fecha aqui -->
-                                                <h:panelGrid columns="1">
-                                                    <p:dataList value="#{event.fechas}" var="fecha" type="unordered">
-                                                        <f:facet name="header">
-                                                            Fechas
-                                                        </f:facet>
-                                                        #{fecha}
-                                                    </p:dataList>
+                                                <h:panelGrid columns="2">
+                                                    <ui:repeat varStatus="loop" var="fecha" value="#{event.fechas}">
+                                                        <h:inputText value="#{event.fechas[loop.index]}" >
+                                                            <f:convertDateTime pattern="dd-MM-yyyy"/>
+                                                        </h:inputText>
+                                                    </ui:repeat>
                                                 </h:panelGrid>
+                                                <h:panelGrid columns="2">
+                                                    <p:commandButton ajax="false" value="Añadir fecha" action="#{gestionEvento.anadirFecha(event)}"/>
+                                                    <p:commandButton ajax="false" value="Eliminar fecha" action="#{gestionEvento.eliminarFecha(event)}"/>
+                                                </h:panelGrid>
+
                                                 <!-- localizacion -->
                                                 <p:panel header="Editar descripcion">
                                                     <h:inputTextarea value="#{event.descripcion}"/>  
