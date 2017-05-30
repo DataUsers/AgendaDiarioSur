@@ -8,10 +8,9 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <ui:define name="title">Agenda Diario Sur - Subir evento</ui:define>
-	<ui:define name="subtitulo">Subir evento</ui:define>
+    <ui:define name="subtitulo">Subir evento</ui:define>
     <ui:define name="content">
         <h:outputScript name="js/UploadForm.js" target="head"/>
-
         <br />
         <c:choose>
             <c:when test="#{controlAutorizacion.sesionIniciada()}">
@@ -20,7 +19,8 @@
                         No tienes suficientes privilegios para subir un evento
                     </c:when>
                     <c:otherwise>
-                        <h:form prependId="false">
+                        <h:messages/>
+                        <h:form prependId="false" enctype="multipart/form-data" onsubmit="return validate()">
                             <table>
                                 <tr>
                                     <td>Nombre:</td>
@@ -42,11 +42,11 @@
                                 <tr>
                                     <td>Tipo de evento:</td>
                                     <td><h:selectOneMenu value="#{submitEvent.evento.tipoEvento}" >
-                                            <f:selectItems value="#{submitEvent.genderValues}" />
+                                            <f:selectItems value="#{submitEvent.tipoValues}" />
                                         </h:selectOneMenu></td>
                                 </tr>
                                 <tr>
-                                    <td>Fecha: </td>
+                                    <td>Fecha(dd-mm-yyyy): </td>
                                     <td><h:inputText value="#{submitEvent.fecha}">  
                                             <f:convertDateTime pattern="dd-MM-yyyy"/>  
                                         </h:inputText></td>
@@ -68,11 +68,18 @@
                                     <td>Enlace a los vídeos:</td>
                                     <td><h:inputText value="#{submitEvent.evento.URLVideos}"/></td>
                                 </tr>
-                                
+                                <tr>
+                                    <td>Imagen: </td>
+                                    <td><p:fileUpload id="imaload" fileUploadListener="#{submitEvent.handleImage}"  
+                                                      mode="advanced"  multiple="true" 
+                                                      oncomplete="uploadComplete()"
+                                                      allowTypes="/(\.|\/)(gif|jpe?g|png)$/"/></td>
+                                </tr>
+                                <tr>
+                                    <td><p id="subida"></p></td>
+                                </tr>
                             </table>
-                            <p:commandButton value="Subir" onclick="return validate()" action="#{submitEvent.upload()}"/>
-
-
+                            <p:commandButton value="Subir" ajax="false" action="#{submitEvent.upload()}"/>
                         </h:form>
                     </c:otherwise>
                 </c:choose>

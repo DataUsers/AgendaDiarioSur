@@ -15,3 +15,6 @@ function validate(){
 	}
 	return true;
 }
+function uploadComplete(){
+    document.getElementById("subida").innerHTML="Subida completada";
+}

@@ -98,14 +98,4 @@ public class GeoLocUtils {
 
         return geolocation;
     }
-    
-    /***
-     * 
-     * @param geoLocation geolocalizacion del punto en grados y radianes
-     * @return String nombre de la direccion obtenida por google maps 
-     */
-    public static String obtenerDireccion(GeoLocation geoLocation){
-        // TODO
-        return "Test direccion";
-    }
 }

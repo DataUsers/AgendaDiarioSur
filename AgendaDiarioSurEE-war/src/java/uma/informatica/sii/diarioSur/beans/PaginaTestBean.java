@@ -61,6 +61,11 @@ public class PaginaTestBean {
         negocio.crearUsuario(nombre, contrasena, email, dni);
         return null;
     }
+    public String crearAdmin() throws DiarioSurException {
+        Usuario u = new Usuario("admin", "admin", "admin@admin.admin", Usuario.tipoUsuario.ADMINISTRADOR);
+        negocio.registrarUsuario(u);
+        return null;
+    }
 
     public String obtenerUsuario() throws DiarioSurException {
         Usuario user = negocio.obtenerUsuario(email);
