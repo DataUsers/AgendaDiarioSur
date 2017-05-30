@@ -58,7 +58,6 @@ public class NegocioEventoImpl implements NegocioEvento {
         Query query = em.createNamedQuery("findFavoritos");
         query.setParameter("idEvento", evento.getIdEvento());
 
-        //query.setFirstResult(0) // ESTO PUEDE SER UTIL 
         long count = (Long) query.getSingleResult();
 
         return count;
@@ -91,30 +90,29 @@ public class NegocioEventoImpl implements NegocioEvento {
         return query.getResultList();
     }
 
+       
     @Override
-    public List queryEventos(String q, String filtro, int pagina, int maxResult) throws DiarioSurException {
-
-        Query query = em.createNamedQuery("queryBusqueda");
-        query.setParameter("query", q);
-        query.setParameter("filtro", filtro);
-
-        query.setMaxResults(maxResult);
-        query.setFirstResult(pagina * maxResult);
-
-        return query.getResultList();
+    public void eliminarEvento(Evento evento) throws DiarioSurException {
+        Evento eventoBusq = em.find(Evento.class, evento.getIdEvento());
+        
+        if(eventoBusq == null){
+            throw new CuentaInexistenteException();
+        }
+        
+        em.merge(eventoBusq);
+        em.remove(eventoBusq);
+        
     }
 
     @Override
-    public List queryEventos(String q, String filtro, String latitud, String longitud, int pagina, int maxResult) throws DiarioSurException {
+    public void modificarEvento(Evento evento) throws DiarioSurException {
+        Evento eventoBusq = em.find(Evento.class, evento.getIdEvento());
         
-        Query query = em.createNamedQuery("queryBusquedaGeo");
-        query.setParameter("query", q);
-        query.setParameter("filtro", filtro);
-
-        query.setMaxResults(maxResult);
-        query.setFirstResult(pagina * maxResult);
-
-        return query.getResultList();
+        if(eventoBusq == null){
+            throw new CuentaInexistenteException();
+        }
+        
+        em.merge(evento);
     }
 
 }

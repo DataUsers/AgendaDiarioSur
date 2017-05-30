@@ -28,7 +28,7 @@ public class NegocioBusquedaImpl implements NegocioBusqueda {
     
     private final double RADIO_TIERRA = 6371.01; // en km
     private final double DISTANCIA = 5; // en km
-
+    
     @Override
     public List obtenerEventos(int pagina, int maxEventos) throws DiarioSurException {
 
@@ -41,18 +41,20 @@ public class NegocioBusquedaImpl implements NegocioBusqueda {
 
 	return results;
     }
-
+    
     @Override
-    public List busquedaEventos(int pagina, int maxEventos, List filtros, String query) throws DiarioSurException {
-	if (filtros.isEmpty()) {
+    public List busquedaEventos(int pagina, int maxEventos, List filtros, String query, boolean filtrarMasVisitados) throws DiarioSurException {
+	Query q;
+        
+        if (filtros.isEmpty()) {
 	    if (query.length() <= 0) {
-		Query q = em.createNamedQuery("eventosMasVisitados");
-
+		q = em.createNamedQuery("eventosMasVisitados");
+                q.setMaxResults(maxEventos+1);
 		q.setFirstResult(pagina * maxEventos);
-		q.setMaxResults(maxEventos+1);
+                
 		return q.getResultList();//obtenerEventos(pagina, maxEventos);
 	    } else {
-		Query q = em.createNamedQuery("busqueda");
+		q = em.createNamedQuery("busqueda");
 		q.setParameter("query", query);
 		q.setMaxResults(maxEventos+1);
 		q.setFirstResult(pagina * maxEventos);
@@ -66,7 +68,7 @@ public class NegocioBusquedaImpl implements NegocioBusqueda {
 	    while (iterator.hasNext()) {
 		Evento.Tipo filtro = iterator.next();
 		String indexFiltro = obteneInteger(filtro).toString();
-		queryString += "e.tipoEvento = " + indexFiltro; // TODO CONVERTIR A INTEGER DE ENUM
+		queryString += "e.tipoEvento = " + indexFiltro;
 
 		if (iterator.hasNext()) {
 		    queryString += " or ";
@@ -80,7 +82,7 @@ public class NegocioBusquedaImpl implements NegocioBusqueda {
 	    System.out.println("Query String: " + queryString);
 
 	    // Crear query
-	    Query q = em.createQuery(queryString);
+	    q = em.createQuery(queryString);
 	    q.setMaxResults(maxEventos+1);
 	    q.setFirstResult(pagina * maxEventos);
 
@@ -89,10 +91,10 @@ public class NegocioBusquedaImpl implements NegocioBusqueda {
     }
 
     @Override
-    public List busquedaEventos(int pagina, int maxEventos, List filtros, String query, double latitud, double longitud) throws DiarioSurException {
+    public List busquedaEventos(int pagina, int maxEventos, List filtros, String query, double latitud, double longitud, boolean filtrarMasVisitados) throws DiarioSurException {
         GeoLocation localizacion = GeoLocation.fromDegrees(latitud, longitud);
 	List eventosObtenidos = filtrarGeolocalizacion(
-		busquedaEventos(pagina, maxEventos, filtros, query), 
+		busquedaEventos(pagina, maxEventos, filtros, query, filtrarMasVisitados), 
 		localizacion
 	);
 	

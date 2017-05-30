@@ -17,8 +17,11 @@ import uma.informatica.sii.diarioSur.entidades.Usuario;
 @Local
 public interface NegocioCalificacion {
 
+    /**
+     * 
+     * @param calificacion
+     * @throws DiarioSurException 
+     */
     void insertarCalificacion(CalificacionEvento calificacion) throws DiarioSurException;
-
-    void compruebaLogin(Usuario usuario) throws DiarioSurException;
     
 }

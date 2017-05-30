@@ -5,7 +5,7 @@
  */
 package uma.informatica.sii.diarioSur.beans;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -64,8 +64,26 @@ public class PaginaTestBean {
     public String crearAdmin() throws DiarioSurException {
         Usuario u = new Usuario("admin", "admin", "admin@admin.admin", Usuario.tipoUsuario.ADMINISTRADOR);
         negocio.registrarUsuario(u);
-        return null;
+          return null;
     }
+    
+    public String crearUsuarioPrivilegiado(){
+        Usuario user = new Usuario();
+        user.setNombre(nombre);
+        user.setContrasena(contrasena);
+        user.setEmail(email);
+        user.setDni(dni);
+        user.setTipoUsuario(Usuario.tipoUsuario.ADMINISTRADOR);
+        
+        try {
+            negocio.registrarUsuario(user);
+        } catch (DiarioSurException ex) {
+            Logger.getLogger(PaginaTestBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+          return null;
+    }
+        
+      
 
     public String obtenerUsuario() throws DiarioSurException {
         Usuario user = negocio.obtenerUsuario(email);
@@ -115,11 +133,13 @@ public class PaginaTestBean {
             evento.setFechas(fechas);
 
             // Test images
-            String[] imagenes = new String[4];
-            imagenes[0] = "http://i.imgur.com/93vHumH.png";
-            imagenes[1] = "http://i.imgur.com/H1SW1Rj.png";
-            imagenes[2] = "http://i.imgur.com/pojHJNc.jpg";
-            imagenes[3] = "http://i.imgur.com/cZK9lZP.png";
+            String[] imagenes = new String[6];
+            imagenes[0] = "https://i.imgur.com/JDkxeA8.gif";
+            imagenes[1] = "http://i.imgur.com/vh64DDX.gif";
+            imagenes[2] = "http://i.imgur.com/93vHumH.png";
+            imagenes[3] = "http://i.imgur.com/H1SW1Rj.png";
+            imagenes[4] = "http://i.imgur.com/pojHJNc.jpg";
+            imagenes[5] = "http://i.imgur.com/cZK9lZP.png";
 
             evento.setImagenes(imagenes);
 
@@ -175,5 +195,7 @@ public class PaginaTestBean {
     public void setNumEventos(Integer numEventos) {
         this.numEventos = numEventos;
     }
+    
+    
 
 }

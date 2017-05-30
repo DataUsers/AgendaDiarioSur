@@ -6,7 +6,6 @@
 package uma.informatica.sii.diarioSur.negocio;
 
 import javax.ejb.Stateless;
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import uma.informatica.sii.diarioSur.entidades.CalificacionEvento;
@@ -23,12 +22,8 @@ public class NegocioCalificacionImpl implements NegocioCalificacion {
     @PersistenceContext
     private EntityManager em;
     
-    // Inyectar Bean de control de usuario
-    
     @Override
     public void insertarCalificacion(CalificacionEvento calificacion) throws DiarioSurException {
-        
-        compruebaLogin(calificacion.getUsuarios()); // QUITAR DESPUES
         
         Evento eventoBusc = em.find(Evento.class, calificacion.getEventos().getIdEvento());
         
@@ -50,21 +45,5 @@ public class NegocioCalificacionImpl implements NegocioCalificacion {
         em.merge(eventoBusc);
         
     }
-    
-    // QUITAR DESPUES
-    @Override
-    public void compruebaLogin(Usuario usuario) throws DiarioSurException {
-        // TEST, QUITAR DESPUES
-        
-        Usuario userFind = em.find(Usuario.class, usuario.getEmail());
-        
-        if(userFind == null){
-            throw new CuentaInexistenteException();
-        }
-        
-    }
-    
-    // Add business logic below. (Right-click in editor and choose
-    // "Insert Code > Add Business Method")
     
 }

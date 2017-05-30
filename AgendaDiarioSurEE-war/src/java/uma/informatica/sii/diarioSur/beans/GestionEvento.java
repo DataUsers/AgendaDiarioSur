@@ -5,78 +5,220 @@
  */
 package uma.informatica.sii.diarioSur.beans;
 
+import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.Dependent;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import uma.informatica.sii.diarioSur.entidades.Evento;
 import uma.informatica.sii.diarioSur.entidades.Usuario;
+import uma.informatica.sii.diarioSur.negocio.DiarioSurException;
+import uma.informatica.sii.diarioSur.negocio.NegocioBusqueda;
+import uma.informatica.sii.diarioSur.negocio.NegocioEvento;
 
 /**
  *
  * @author darylfed
  */
 @Named(value = "gestionEvento")
-@RequestScoped
-public class GestionEvento {
+@ViewScoped
+public class GestionEvento implements Serializable{
+
+    @EJB
+    private NegocioBusqueda negocioBusqueda;
+    
+    @EJB
+    private NegocioEvento negocioEvento;
+    
+    @Inject
+    private ControlAutorizacion ctrl;
 
     private List<String> filtrosPredeterminados;
     private List<String> filtros;
-    private List<Evento> placeholderEvents;
     private List<Evento> eventosMostrar;
+
+    private String queryString;
+    private Double latitud;
+    private Double longitud;
+
+    private int currentPage;
+    private final int MAX_EVENTO = 5;
+    private boolean hasNextPage;
+    private boolean hasPrevPage;
+    private String currentURI;
+    private List<String> filtrosQuery;
 
     private String fecha;
     private String tiempo;
 
-    @Inject
-    private ControlAutorizacion ctrl;
+    
 
     /**
      * Creates a new instance of GestionEvento
      */
     public GestionEvento() {
-        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-        String query = request.getParameter("q");
-        String filtro = request.getParameter("filtrar");
+        // Obtener query y etiqueta cookies
+	// Si no hay query ni filtro ni cookies, cargar etiquetas predeterminadas y filtrar predeterminado
+	// Si se ha hecho query, hacer query y filtrar mostrando los resultados
 
-        // obtener cookies y asignar filtros
-        crearFiltroPredeterminado();
-        filtros = filtrosPredeterminados;
+	// obtener cookies y asignar filtros
+	crearFiltroPredeterminado();
+	filtros = filtrosPredeterminados;
 
-        // Creacion de eventos placeholder
-        crearPlaceholder();
+	currentURI = "gestionEvento";
 
-        if (query != null && query.length() != 0) {
-            // Busqueda placeholder
-            System.out.println("Tiene query String: " + query);
-            eventosMostrar = new ArrayList<>();
-            Random rnd = new Random(System.currentTimeMillis());
+    }
+    
+    public void anadirFecha(Evento evento){
+        System.out.println("hay: " + evento.getFechas().size() + " fechas");
+        
+        evento.getFechas().add(null);
+        
+        System.out.println("Añadiendo fecha");
+        
+        System.out.println("hay: " + evento.getFechas().size() + " fechas");
+        
+        try {
+            negocioEvento.modificarEvento(evento);
+        } catch (DiarioSurException ex) {
+            Logger.getLogger(GestionEvento.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void eliminarFecha(Evento evento){
+        
+        List<Date> fechas = evento.getFechas();
+        System.out.println("hay: " + fechas.size() + " fechas");
+        fechas.remove(fechas.size()-1);
+        System.out.println("hay: " + fechas.size() + " fechas");
+        
+        evento.setFechas(fechas);
+        
+        for(Date fecha : fechas){
+            System.out.println(fecha);
+        }
+        
+        try {
+            negocioEvento.modificarEvento(evento);
+        } catch (DiarioSurException ex) {
+            Logger.getLogger(GestionEvento.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
+    
+    public void onLoad() {
+	HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+	String[] filtrosBusq = request.getParameterValues("filtrar");
+	filtrosQuery = new ArrayList<>();
 
-            System.out.println("Numero de eventos placeholder: " + placeholderEvents.size());
+	try {
 
-            for (Evento evento : placeholderEvents) {
-                // busqueda normal por nombre, el query deberia de hacerce con el ejb
-                // Busqueda placeholder
-                if (filtro != null && filtro.length() != 0) {
-                    System.out.println("Tiene un filtro: " + filtro);
-                }
+	    // preparar filtros
+	    List<Evento.Tipo> filtros = new ArrayList<>();
+	    boolean filtrarMasVisitados = false;
 
-                // Comprobar latitud y longitud y obtener por proximidad
-                if (rnd.nextBoolean()) {
-                    eventosMostrar.add(evento);
-                }
-            }
-        } else {
-            eventosMostrar = placeholderEvents.subList(0, 5);
+	    if (filtrosBusq != null) {
+		// busqueda por varios filtros
+		for (String filtro : filtrosBusq) {
+		    System.out.println(filtro);
+		    if (filtro.equals("Mas Visitados")) {
+			filtrarMasVisitados = true;
+		    } else {
+			try {
+			    filtrosQuery.add(filtro);
+			    String filterRes = filtro.replace(" ", "_");
+			    filterRes = filterRes.toUpperCase();
+			    Evento.Tipo eventType = Evento.Tipo.valueOf(filterRes);
+			    filtros.add(eventType);
+			} catch (IllegalArgumentException e) {
+			    Logger.getLogger(Busqueda.class.getName()).log(Level.SEVERE, null, e);
+			}
+		    }
+		}
+	    }
+
+	    // preparar query String
+	    if (queryString == null) {
+		queryString = "";
+	    }
+
+	    // Si tiene latitud y longitud
+	    if (latitud != null && longitud != null) {
+		// busqueda con latitud y longitud en grados
+		eventosMostrar = negocioBusqueda.busquedaEventos(currentPage, MAX_EVENTO, filtros, queryString, latitud, longitud, filtrarMasVisitados);
+	    } else {
+		// si no tiene latitud y longitud
+		eventosMostrar = negocioBusqueda.busquedaEventos(currentPage, MAX_EVENTO, filtros, queryString, filtrarMasVisitados);
+	    }
+
+	} catch (DiarioSurException ex) {
+	    Logger.getLogger(Busqueda.class.getName()).log(Level.SEVERE, null, ex);
+	}
+
+	if (eventosMostrar.size() <= MAX_EVENTO) {
+	    hasNextPage = false;
+	} else {
+	    hasNextPage = true;
+            eventosMostrar.remove(eventosMostrar.size()-1); // COmprobar
+	}
+        
+        if(currentPage > 0){
+            hasPrevPage = true;
         }
 
+    }
+    
+    private String obtenerURIActual(){
+        String res = currentURI + "?";
+	try {
+	    // latitud y longitud
+	    if (latitud != null && longitud != null) {
+		res += "latitud=" + latitud + "&longitud=" + longitud;
+	    }
+
+	    // query string
+	    if (queryString != null) {
+		res += "&q=" + URLEncoder.encode(queryString, "UTF-8");
+	    }
+
+	    if (filtrosQuery != null) {
+		for (String filtro : filtrosQuery) {
+		    System.out.println(filtro);
+		    res += "&filtrar=" + URLEncoder.encode(filtro, "UTF-8");
+		}
+	    }
+
+	} catch (UnsupportedEncodingException ex) {
+	    Logger.getLogger(Busqueda.class.getName()).log(Level.SEVERE, null, ex);
+	}
+        
+        return res;
+    }
+
+    public String paginaSiguiente() {
+        ++currentPage;
+	String res = obtenerURIActual();
+	return res + "&commentPage=" + currentPage + "&faces-redirect=true";
+    }
+    
+    public String paginaAnterior(){
+        --currentPage;
+        String res = obtenerURIActual();
+	return res + "&commentPage=" + currentPage + "&faces-redirect=true";
     }
 
     public boolean comprobarAutorizacion() {
@@ -102,10 +244,22 @@ public class GestionEvento {
         // realizar los cambios en la BD y despues refrescar la pagina
         System.out.println("Modificar evento");
         System.out.println("Nuevo nombre: " + evento.getNombre());
-        System.out.println("Fecha: " + fecha);
-        System.out.println("Tiempo: " + tiempo);
+        
+        List<Date> fechas = evento.getFechas();
+        
+        for(Date fecha: fechas){
+            System.out.println(fecha);
+        }
+        
+        try {
+            negocioEvento.modificarEvento(evento);
+        } catch (DiarioSurException ex) {
+            Logger.getLogger(GestionEvento.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        String res = obtenerURIActual();
 
-        return "gestionEvento?faces-redirect=true"; // test
+        return res + "&faces-redirect=true"; // test
     }
     
     public String borrarEvento(Evento evento){
@@ -113,78 +267,25 @@ public class GestionEvento {
         System.out.println("Se va a borrar un evento");
         System.out.println("Evento nombre: " + evento.getNombre());
         
-        return "gestionEvento?faces-redirect=true";
+        try {
+            negocioEvento.eliminarEvento(evento);
+        } catch (DiarioSurException ex) {
+            Logger.getLogger(GestionEvento.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        String res = obtenerURIActual();
+        
+        return res + "&faces-redirect=true";
     }
 
     private void crearFiltroPredeterminado() {
-        filtrosPredeterminados = new ArrayList<>();
-        filtrosPredeterminados.add("Todos");
-        filtrosPredeterminados.add("Lugar");
-        filtrosPredeterminados.add("Fecha");
-        filtrosPredeterminados.add("Tipos");
-        filtrosPredeterminados.add("Duracion");
-        filtrosPredeterminados.add("Coste");
-    }
-
-    private void crearPlaceholder() {
-        Random rnd = new Random(System.currentTimeMillis());
-        placeholderEvents = new ArrayList<>();
-
-        // Tipo de Eventos predeterminados para filtrar 
-        List<String> tipoEventos = new ArrayList<>();
-        tipoEventos.add(Evento.Tipo.CONCIERTOS.name());
-        tipoEventos.add(Evento.Tipo.DESFILES.name());
-        tipoEventos.add(Evento.Tipo.FERIAS.name());
-        tipoEventos.add(Evento.Tipo.EXPOSICIONES.name());
-        tipoEventos.add(Evento.Tipo.CINES.name());
-
-        for (int i = 0; i < 20; ++i) {
-            Evento eventoPlaceholder = new Evento();
-            eventoPlaceholder.setIdEvento(10);
-            eventoPlaceholder.setNombre("Placeholder Nombre evento " + i);
-            eventoPlaceholder.setPrecio(rnd.nextInt(100));
-            eventoPlaceholder.setDescripcion("PLACEHOLDER description del evento" + i);
-	    // latitud y longitud
-            //eventoPlaceholder.setGeolocalizacion("36.714040, -4.433475");
-            eventoPlaceholder.setOrganizador("OrganizadorNombre");
-            eventoPlaceholder.setURLOrganizador("http://127.0.0.1:8080");
-            eventoPlaceholder.setNumeroVisitas(rnd.nextInt(500));
-
-            // Eleccion random de tipo de evento
-            String tipoEventStr = tipoEventos.get(rnd.nextInt(tipoEventos.size()));
-            Evento.Tipo tipoEvento = Evento.Tipo.valueOf(Evento.Tipo.class, tipoEventStr);
-            eventoPlaceholder.setTipoEvento(tipoEvento);
-            // imagenes
-            placeholderEvents.add(eventoPlaceholder);
-        }
-    }
-
-    public String placeholderFecha() {
-        Random rnd = new Random(System.currentTimeMillis());
-
-        // Crear dia random
-        LocalDateTime date = LocalDateTime.now();
-        date =  date.plusDays(rnd.nextInt(10));
-        
-        // Formatear la salida
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        String outDate = date.format(formatter);
-
-        return outDate;
-    }
-
-    public String placeholderTiempo() {
-        Random rnd = new Random(System.currentTimeMillis());
-
-        // Crear dia random
-        LocalDateTime date = LocalDateTime.now();
-        date = date.plusHours(rnd.nextInt(24));
-
-        // Formatear la salida
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
-        String outTime = date.format(formatter);
-
-        return outTime;
+	filtrosPredeterminados = new ArrayList<>();
+	filtrosPredeterminados.add("Mas Visitados");
+	filtrosPredeterminados.add("Conciertos");
+	filtrosPredeterminados.add("Desfiles");
+	filtrosPredeterminados.add("Exposiciones");
+	filtrosPredeterminados.add("Ferias");
+	filtrosPredeterminados.add("Cines");
     }
 
     public List<String> getFiltros() {
@@ -203,11 +304,6 @@ public class GestionEvento {
         this.eventosMostrar = eventosMostrar;
     }
 
-    public String randomImage() {
-        Random rnd = new Random(System.currentTimeMillis());
-        return "image" + rnd.nextInt(5) + ".jpg";
-    }
-
     public String getFecha() {
         return fecha;
     }
@@ -223,5 +319,55 @@ public class GestionEvento {
     public void setTiempo(String tiempo) {
         this.tiempo = tiempo;
     }
+
+    public String getQueryString() {
+        return queryString;
+    }
+
+    public void setQueryString(String queryString) {
+        this.queryString = queryString;
+    }
+
+    public Double getLatitud() {
+        return latitud;
+    }
+
+    public void setLatitud(Double latitud) {
+        this.latitud = latitud;
+    }
+
+    public Double getLongitud() {
+        return longitud;
+    }
+
+    public void setLongitud(Double longitud) {
+        this.longitud = longitud;
+    }
+
+    public int getCurrentPage() {
+        return currentPage;
+    }
+
+    public void setCurrentPage(int currentPage) {
+        this.currentPage = currentPage;
+    }
+
+    public boolean isHasNextPage() {
+        return hasNextPage;
+    }
+
+    public void setHasNextPage(boolean hasNextPage) {
+        this.hasNextPage = hasNextPage;
+    }
+
+    public boolean isHasPrevPage() {
+        return hasPrevPage;
+    }
+
+    public void setHasPrevPage(boolean hasPrevPage) {
+        this.hasPrevPage = hasPrevPage;
+    }
+    
+    
 
 }
