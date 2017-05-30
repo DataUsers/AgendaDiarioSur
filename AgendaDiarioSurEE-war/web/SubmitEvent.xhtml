@@ -71,13 +71,15 @@
                                 <tr>
                                     <td>Imagen: </td>
                                     <td><p:fileUpload id="imaload" fileUploadListener="#{submitEvent.handleImage}"  
-                                                      mode="advanced"  multiple="true"
+                                                      mode="advanced"  multiple="true" 
+                                                      oncomplete="uploadComplete()"
                                                       allowTypes="/(\.|\/)(gif|jpe?g|png)$/"/></td>
+                                </tr>
+                                <tr>
+                                    <td><p id="subida"></p></td>
                                 </tr>
                             </table>
                             <p:commandButton value="Subir" ajax="false" action="#{submitEvent.upload()}"/>
-
-
                         </h:form>
                     </c:otherwise>
                 </c:choose>

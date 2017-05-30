@@ -4,6 +4,7 @@
  */
 package uma.informatica.sii.diarioSur.beans;
 
+import uma.informatica.sii.diarioSur.misc.UploadImages;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.sql.Date;
@@ -48,13 +49,14 @@ public class submitEvent implements Serializable{
     private String localizacion;
     private java.util.Date fecha;
     private Date fechaReal;
-    private List<UploadedFile> imagenes;
+    private UploadImages imagenes;
 
     /**
      * Creates a new instance of Login
      */
     public submitEvent() throws IOException {
         evento = new Evento();
+        imagenes= new UploadImages();
     }
 
     public Evento getEvento() {
@@ -111,45 +113,7 @@ public class submitEvent implements Serializable{
             ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "El nombre es obligatorio", "El nombre es obligatorio"));
             return null;
         }
-
-        for (UploadedFile imagen: imagenes) {
-            System.out.println("Hay una imagen: " + imagen.getFileName());
-
-            try {
-
-                ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-
-                String path = ec.getRealPath("/") + File.separator + "resources" + File.separator
-                        + "imagenes" + File.separator + imagen.getFileName();
-
-                System.out.println("path: " + path);
-                String dbPath = "resources" + File.separator + "imagenes" + File.separator + imagen.getFileName();
-                System.out.println("dbpath: " + dbPath);
-
-                //String webContentRoot = ec.getRealPath("/");
-                //System.out.println(webContentRoot);
-                InputStream input = imagen.getInputstream();
-                File targetFile = new File(path);
-
-                System.out.println("path targetFile: " + targetFile.getAbsolutePath());
-                FileOutputStream targetStream = new FileOutputStream(targetFile);
-                byte[] buffer = new byte[1024];
-                int bytesRead;
-
-                while ((bytesRead = input.read(buffer)) != -1) {
-                    targetStream.write(buffer, 0, bytesRead);
-                    System.out.println("Leidos " + bytesRead);
-                }
-
-                // Cerrar los streams?
-                evento.getImagenes()[0] = dbPath;
-            } catch (IOException ex) {
-                Logger.getLogger(EventoBean.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-        }
-
-
+        imagenes.save(evento);
         try {
             negocio.insertarEvento(evento);
         } catch (DiarioSurException ex) {
@@ -160,10 +124,7 @@ public class submitEvent implements Serializable{
     }
 
     public void handleImage(FileUploadEvent event){
-        System.out.println("Soy el manejador de imagenes y he sido invocado");
-        imagenes= new ArrayList<>();
-        imagenes.add(event.getFile());
-        System.out.println("Como manejador que soy he acabado mi mision uajajajaj "+imagenes.size());
+        imagenes.handleImage(event);
     }
     
 }
