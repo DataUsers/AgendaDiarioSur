@@ -90,8 +90,6 @@ public class NegocioBusquedaImpl implements NegocioBusqueda {
                 queryString += " order by e.numeroVisitas DESC";
             }
 
-	    System.out.println("Query String: " + queryString);
-
 	    // Crear query
 	    q = em.createQuery(queryString);
 	    q.setMaxResults(maxEventos+1);
