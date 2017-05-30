@@ -20,7 +20,7 @@
                     </c:when>
                     <c:otherwise>
                         <h:messages/>
-                        <h:form prependId="false">
+                        <h:form prependId="false" enctype="multipart/form-data" onsubmit="return validate()">
                             <table>
                                 <tr>
                                     <td>Nombre:</td>
@@ -69,7 +69,7 @@
                                     <td><h:inputText value="#{submitEvent.evento.URLVideos}"/></td>
                                 </tr>
                                 <tr>
-                                    <td>Imagenes: </td>
+                                    <td>Imagen: </td>
                                     <td><p:fileUpload
                                             allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
                                             multiple="false"
@@ -78,7 +78,7 @@
                                             ></p:fileUpload></td>
                                 </tr>
                             </table>
-                            <p:commandButton value="Subir" ajax="false" onclick="return validate()" action="#{submitEvent.upload()}"/>
+                            <p:commandButton value="Subir" ajax="false" action="#{submitEvent.upload()}"/>
 
 
                         </h:form>
