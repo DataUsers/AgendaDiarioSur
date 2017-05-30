@@ -10,20 +10,37 @@ package uma.informatica.sii.diarioSur.negocio;
  * @author ismae
  */
 
-import java.util.Date;
-import java.text.SimpleDateFormat;
-import java.text.DateFormat;
+import java.sql.Date;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import uma.informatica.sii.diarioSur.entidades.Usuario;
 
-
+@Stateless
 public class NegocioPerfilImpl implements NegocioPerfil {
     
     @PersistenceContext
     private EntityManager em;
+    
+    
+    @Override
+    public void guardarCambios(String nombre, String apellidos, Date fechaNacimiento, String email, String cuentaTwitter,String cuentaFacebook) throws DiarioSurException{
+    
+        Usuario usuarioEncontrado = em.find(Usuario.class, email);
+        
+        if (usuarioEncontrado == null) {
+            throw new CuentaInexistenteException();
+        }
+        usuarioEncontrado.setNombre(nombre);
+        usuarioEncontrado.setApellidos(apellidos);
+        usuarioEncontrado.setFechaNacimiento(fechaNacimiento);
+        usuarioEncontrado.setCuentaFacebook(cuentaFacebook);
+        usuarioEncontrado.setCuentaTwitter(cuentaTwitter);
+        em.persist(usuarioEncontrado);
+        em.flush();
+    }
     
 
     @Override
@@ -37,7 +54,8 @@ public class NegocioPerfilImpl implements NegocioPerfil {
         }
         
         usuarioEncontrado.setContrasena(nuevaContraseña);
-        em.refresh(usuarioEncontrado);
+        em.persist(usuarioEncontrado);
+        em.flush();
     }
     
          
@@ -50,20 +68,5 @@ public class NegocioPerfilImpl implements NegocioPerfil {
         }
         return devolver; 
     }
-
-    @Override
-    public void guardarCambios(String nombre,  String apellidos,  java.sql.Date fechaNacimiento, String email, String cuentaTwitter, String cuentaFacebook) throws DiarioSurException {
-        Usuario usuarioEncontrado = em.find(Usuario.class, email);
-        
-        if (usuarioEncontrado == null) {
-            throw new CuentaInexistenteException();
-        }
-        usuarioEncontrado.setNombre(nombre);
-        usuarioEncontrado.setApellidos(apellidos);
-        usuarioEncontrado.setFechaNacimiento(fechaNacimiento);
-        usuarioEncontrado.setCuentaFacebook(cuentaFacebook);
-        usuarioEncontrado.setCuentaTwitter(cuentaTwitter);
-        em.refresh(usuarioEncontrado);
-    }
-   
 }
+     
