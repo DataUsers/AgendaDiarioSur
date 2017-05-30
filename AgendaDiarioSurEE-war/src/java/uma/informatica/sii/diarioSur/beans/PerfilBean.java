@@ -41,10 +41,10 @@ public class PerfilBean {
     private String apellidos;
     private String idEmail;                        // Variable para pasarsela a los metodos del EJB pues email está a disabled
     private String email;  
-    private String tipoUsuario;
+    private String tipoUsuario; 
     private String contrasenaAntigua;
     private String nuevaContrasena;
-    private String confirmacionContrasena;
+    private String confirmacionContrasena; 
     private Date nacimiento;
     private java.util.Date fechaNacimiento;
     private String cuentaTwitter;
