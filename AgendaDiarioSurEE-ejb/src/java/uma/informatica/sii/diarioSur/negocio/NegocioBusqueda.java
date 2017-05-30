@@ -21,9 +21,5 @@ public interface NegocioBusqueda {
     List busquedaEventos(int pagina, int maxEventos, List filtros, String query) throws DiarioSurException;
 
     List busquedaEventos(int pagina, int maxEventos, List filtros, String query, double latitud, double longitud) throws DiarioSurException;
-
-    void eliminarEvento(Evento evento) throws DiarioSurException;
-
-    void modificarEvento(Evento evento) throws DiarioSurException;
     
 }

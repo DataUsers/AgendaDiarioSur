@@ -28,6 +28,7 @@ import uma.informatica.sii.diarioSur.entidades.Evento;
 import uma.informatica.sii.diarioSur.entidades.Usuario;
 import uma.informatica.sii.diarioSur.negocio.DiarioSurException;
 import uma.informatica.sii.diarioSur.negocio.NegocioBusqueda;
+import uma.informatica.sii.diarioSur.negocio.NegocioEvento;
 
 /**
  *
@@ -38,7 +39,10 @@ import uma.informatica.sii.diarioSur.negocio.NegocioBusqueda;
 public class GestionEvento implements Serializable{
 
     @EJB
-    private NegocioBusqueda negocio;
+    private NegocioBusqueda negocioBusqueda;
+    
+    @EJB
+    private NegocioEvento negocioEvento;
     
     @Inject
     private ControlAutorizacion ctrl;
@@ -89,7 +93,7 @@ public class GestionEvento implements Serializable{
         System.out.println("hay: " + evento.getFechas().size() + " fechas");
         
         try {
-            negocio.modificarEvento(evento);
+            negocioEvento.modificarEvento(evento);
         } catch (DiarioSurException ex) {
             Logger.getLogger(GestionEvento.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -142,7 +146,6 @@ public class GestionEvento implements Serializable{
 			    Evento.Tipo eventType = Evento.Tipo.valueOf(filterRes);
 			    filtros.add(eventType);
 			} catch (IllegalArgumentException e) {
-			    // IGNORAR ERROR
 			    Logger.getLogger(Busqueda.class.getName()).log(Level.SEVERE, null, e);
 			}
 		    }
@@ -157,10 +160,10 @@ public class GestionEvento implements Serializable{
 	    // Si tiene latitud y longitud
 	    if (latitud != null && longitud != null) {
 		// busqueda con latitud y longitud en grados
-		eventosMostrar = negocio.busquedaEventos(currentPage, MAX_EVENTO, filtros, queryString, latitud, longitud);
+		eventosMostrar = negocioBusqueda.busquedaEventos(currentPage, MAX_EVENTO, filtros, queryString, latitud, longitud);
 	    } else {
 		// si no tiene latitud y longitud
-		eventosMostrar = negocio.busquedaEventos(currentPage, MAX_EVENTO, filtros, queryString);
+		eventosMostrar = negocioBusqueda.busquedaEventos(currentPage, MAX_EVENTO, filtros, queryString);
 	    }
 
 	} catch (DiarioSurException ex) {
@@ -249,9 +252,8 @@ public class GestionEvento implements Serializable{
             System.out.println(fecha);
         }
         
-        
         try {
-            negocio.modificarEvento(evento);
+            negocioEvento.modificarEvento(evento);
         } catch (DiarioSurException ex) {
             Logger.getLogger(GestionEvento.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -267,7 +269,7 @@ public class GestionEvento implements Serializable{
         System.out.println("Evento nombre: " + evento.getNombre());
         
         try {
-            negocio.eliminarEvento(evento);
+            negocioEvento.eliminarEvento(evento);
         } catch (DiarioSurException ex) {
             Logger.getLogger(GestionEvento.class.getName()).log(Level.SEVERE, null, ex);
         }

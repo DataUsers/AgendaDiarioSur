@@ -162,30 +162,4 @@ public class NegocioBusquedaImpl implements NegocioBusqueda {
 	return eventosFiltrados;
     }
 
-    
-    @Override
-    public void eliminarEvento(Evento evento) throws DiarioSurException {
-        Evento eventoBusq = em.find(Evento.class, evento.getIdEvento());
-        
-        if(eventoBusq == null){
-            throw new CuentaInexistenteException();
-        }
-        
-        em.merge(eventoBusq);
-        em.remove(eventoBusq);
-        
-    }
-
-    @Override
-    public void modificarEvento(Evento evento) throws DiarioSurException {
-        Evento eventoBusq = em.find(Evento.class, evento.getIdEvento());
-        
-        if(eventoBusq == null){
-            throw new CuentaInexistenteException();
-        }
-        
-        em.merge(evento);
-    }
-    
-
 }

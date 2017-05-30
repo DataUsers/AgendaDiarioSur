@@ -25,9 +25,9 @@ public interface NegocioEvento {
     List getCalificaciones(int pagina, int maxCalificaciones, Evento evento) throws DiarioSurException;
 
     List obtenerEventos(int maxResult) throws DiarioSurException;
+    
+    void eliminarEvento(Evento evento) throws DiarioSurException;
 
-    List queryEventos(String q, String filtro, int pagina, int maxResult) throws DiarioSurException;
-
-    List queryEventos(String q, String filtro, String latitud, String longitud, int pagina, int maxResult) throws DiarioSurException;
+    void modificarEvento(Evento evento) throws DiarioSurException;
     
 }

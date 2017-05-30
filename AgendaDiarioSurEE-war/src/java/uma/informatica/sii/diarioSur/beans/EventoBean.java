@@ -140,6 +140,10 @@ public class EventoBean implements Serializable {
 		} else {
 		    hasMoreComments = true;
 		}
+                
+                // Aumentar el numero de visitas de la pagina
+                evento.setNumeroVisitas(evento.getNumeroVisitas()+1);
+                negocio.modificarEvento(evento);
 
 	    } catch (NumberFormatException e) {
 		validado = false;

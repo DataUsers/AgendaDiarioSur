@@ -107,7 +107,6 @@ public class Busqueda implements Serializable {
 			    System.out.println("filtro res: " + filterRes);
 			    filtros.add(eventType);
 			} catch (IllegalArgumentException e) {
-			    // IGNORAR ERROR
 			    Logger.getLogger(Busqueda.class.getName()).log(Level.SEVERE, null, e);
 			}
 		    }
@@ -138,6 +137,7 @@ public class Busqueda implements Serializable {
 	    hasNextPage = true;
             eventosMostrar.remove(eventosMostrar.size()-1); // COmprobar
 	}
+        
 	System.out.println("Has next page: " + hasNextPage);
         
         if(currentPage > 0){
