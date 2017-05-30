@@ -33,6 +33,7 @@ public class NegocioPerfilImpl implements NegocioPerfil {
         if (usuarioEncontrado == null) {
             throw new CuentaInexistenteException();
         }
+        
         usuarioEncontrado.setNombre(nombre);
         usuarioEncontrado.setApellidos(apellidos);
         usuarioEncontrado.setFechaNacimiento(fechaNacimiento);
