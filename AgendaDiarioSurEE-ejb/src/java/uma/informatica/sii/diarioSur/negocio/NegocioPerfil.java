@@ -5,7 +5,7 @@
  */
 package uma.informatica.sii.diarioSur.negocio;
 
-import java.util.Date;
+import java.sql.Date;
 import javax.ejb.Local;
 import uma.informatica.sii.diarioSur.entidades.Usuario;
 

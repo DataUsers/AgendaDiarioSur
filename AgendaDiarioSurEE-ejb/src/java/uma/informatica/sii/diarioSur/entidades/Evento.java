@@ -6,7 +6,7 @@
 package uma.informatica.sii.diarioSur.entidades;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Date;
 import java.sql.Time;
 import java.util.List;
 import javax.persistence.Column;
@@ -21,6 +21,8 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  *
@@ -34,15 +36,16 @@ import javax.persistence.OneToMany;
             query="select c from CalificacionEvento c where c.eventos.idEvento = :idEvento and c.favorito = FALSE"),
     @NamedQuery(name="busqueda",
 	    query="select e from Evento e where UPPER(e.nombre) like Upper(concat('%', concat(:query, '%'))) "),
-    @NamedQuery(name="eventosMasVisitados",
-	    query="select e from Evento e order by e.numeroVisitas DESC"),
     @NamedQuery(name="busquedaMasVisitados",
-	    query="select e from Evento e where UPPER(e.nombre) like Upper(concat('%', concat(:query, '%'))) order by e.numeroVisitas DESC")
+            query="select e from Evento e where UPPER(e.nombre) like Upper(concat('%', concat(:query, '%'))) order by e.numeroVisitas DESC"
+            ),
+    @NamedQuery(name="eventosMasVisitados",
+	    query="select e from Evento e order by e.numeroVisitas DESC")
 })
 public class Evento implements Serializable {
 
     public enum Tipo {
-        ACTOS_POLÍTICOS, CERTÁMENES,
+        ACTOS_POLITICOS, CERTAMENES,
         CINES, CONCIERTOS, CONCURSOS, CONMMEMORACIONES, DEBATES, DESFILES,
         ENTREGAPREMIOS, EVENTODEPORTIVO, EVENTOINFANTIL, EXPOSICIONES, FERIAS,
         FIESTASBENÉFICAS, FIESTASNOCTURNAS, HOMENAJES, INAUGURACIONES, MUESTRAS_DE_ARTE, PRESENTACIONES,
@@ -66,6 +69,7 @@ public class Evento implements Serializable {
     @Enumerated(EnumType.ORDINAL)
     private Tipo tipoEvento;
     @ElementCollection(fetch = FetchType.EAGER)
+    @Temporal(TemporalType.DATE)
     private List<Date> fechas;
     private Time duracion;
     private Integer numero_entradas;

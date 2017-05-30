@@ -16,18 +16,59 @@ import uma.informatica.sii.diarioSur.entidades.Evento;
 @Local
 public interface NegocioEvento {
 
+    /**
+     * 
+     * @param idEvento
+     * @return
+     * @throws DiarioSurException 
+     */
     Evento findEvento(Integer idEvento) throws DiarioSurException;
 
+    /**
+     * 
+     * @param evento
+     * @throws DiarioSurException 
+     */
     void insertarEvento(Evento evento) throws DiarioSurException;
 
+    /**
+     * 
+     * @param evento
+     * @return
+     * @throws DiarioSurException 
+     */
     Long obtenerNumFav(Evento evento) throws DiarioSurException;
 
+    /**
+     * 
+     * @param pagina
+     * @param maxCalificaciones
+     * @param evento
+     * @return
+     * @throws DiarioSurException 
+     */
     List getCalificaciones(int pagina, int maxCalificaciones, Evento evento) throws DiarioSurException;
 
+    /**
+     * 
+     * @param maxResult
+     * @return
+     * @throws DiarioSurException 
+     */
     List obtenerEventos(int maxResult) throws DiarioSurException;
+    
+    /**
+     * 
+     * @param evento
+     * @throws DiarioSurException 
+     */
+    void eliminarEvento(Evento evento) throws DiarioSurException;
 
-    List queryEventos(String q, String filtro, int pagina, int maxResult) throws DiarioSurException;
-
-    List queryEventos(String q, String filtro, String latitud, String longitud, int pagina, int maxResult) throws DiarioSurException;
+    /**
+     * 
+     * @param evento
+     * @throws DiarioSurException 
+     */
+    void modificarEvento(Evento evento) throws DiarioSurException;
     
 }

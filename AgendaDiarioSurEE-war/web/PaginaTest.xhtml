@@ -8,15 +8,38 @@
     <h:body>
         Hello from Facelets
         <h:form>
-            <h:outputLabel for="nombre" value="Nombre"/>
+            <p>nombre</p>
             <h:inputText label="nombre" value="#{paginaTestBean.nombre}"/>
-            <h:outputLabel for="apellido" value="Apellido"/>
+            <br/>
+            <p>apellido</p>
             <h:inputText label="apellido" value="#{paginaTestBean.contrasena}"/>
-            <h:outputLabel for="email" value="Email"/>
+            <br/>
+            <p>email</p>
             <h:inputText label="email" value="#{paginaTestBean.email}" />
-            <h:outputLabel for="dni" value="DNI"/>
+            <br/>
+            <p>dni</p>
             <h:inputText label="dni" value="#{paginaTestBean.dni}"/>
-            <h:commandButton action="#{paginaTestBean.crearUsuario()}" value="Crear usuario"></h:commandButton>
+            <br/>
+            <p>contrasenia</p>
+            <h:inputSecret value="#{paginaTestBean.contrasena}"/>
+            <h:commandButton action="#{paginaTestBean.crearUsuario()}" value="Crear usuario normal"></h:commandButton>
+        </h:form>
+        <h:form>
+            <p>nombre</p>
+            <h:inputText label="nombre" value="#{paginaTestBean.nombre}"/>
+            <br/>
+            <p>apellido</p>
+            <h:inputText label="apellido" value="#{paginaTestBean.contrasena}"/>
+            <br/>
+            <p>email</p>
+            <h:inputText label="email" value="#{paginaTestBean.email}" />
+            <br/>
+            <p>dni</p>
+            <h:inputText label="dni" value="#{paginaTestBean.dni}"/>
+            <br/>
+            <p>contrasenia</p>
+            <h:inputSecret value="#{paginaTestBean.contrasena}"/>
+            <h:commandButton action="#{paginaTestBean.crearUsuarioPrivilegiado()}" value="Crear usuario privilegiado"></h:commandButton>
         </h:form>
         <h:form>
             <h:inputText label="Numero de eventos a generar" value="#{paginaTestBean.numEventos}" />
