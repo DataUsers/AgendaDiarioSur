@@ -23,14 +23,14 @@
 
                             Hola, #{controlAutorizacion.usuario.nombre} |
                             <h:form> 
-                                <h:commandLink action="perfil" value="Tu perfil"/> |
+                                <h:commandLink action="perfilBean" value="Tu perfil"/> |
                                 <h:commandLink action="#{controlAutorizacion.logout()}" value="Cerrar sesión "/>
                                 
                             </h:form>
 
 
                         </c:when>
-                        <c:otherwise>
+                        <c:otherwise> 
                             
                                 <p:link outcome="login" value="Iniciar sesión"/> | <p:link outcome="register" value="Regístrate"/>
                             
