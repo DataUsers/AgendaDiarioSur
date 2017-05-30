@@ -9,6 +9,8 @@ import java.sql.Date;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
@@ -46,6 +48,7 @@ public class PerfilBean {
     private String nuevaContrasena;
     private String confirmacionContrasena; 
     private Date nacimiento;
+    private java.util.Date fechaAuxiliar;
     private java.util.Date fechaNacimiento;
     private String cuentaTwitter;
     private String cuentaFacebook;
@@ -73,8 +76,13 @@ public class PerfilBean {
         
         if(valido){
             idEmail = ctrl.getUsuario().getEmail();
+            try{
             profile.guardarContraseña(idEmail, contrasenaAntigua, nuevaContrasena);
             ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Contraseña cambiada con éxito", "Contraseña cambiada con éxito"));
+            }catch(DiarioSurException e){
+                ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Contraseña cambiada con éxito", "Contraseña cambiada con éxito"));
+                return null;
+            }
             ctrl.setUsuario(profile.obtenerUsuario(idEmail));
             return "perfil.xhtml";
         }else{
@@ -109,13 +117,14 @@ public class PerfilBean {
              valido=true;
             }
         }else if(fechaNacimiento!=null){
-          try{  
-          nacimiento = new Date(fechaNacimiento.getTime());   
-          DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-          nacimiento = (Date) formatter.parse(formatter.format(nacimiento));
-          }catch(ParseException e){
-              ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR : Introduce una fecha válida", "ERROR :  Introduce una fecha válida"));
+          nacimiento = new Date(fechaNacimiento.getTime()); 
+          fechaAuxiliar = new java.util.Date();
+          if(nacimiento.before(fechaAuxiliar)){
+                   valido=true;
+          }else{
+          ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Introduzca una fecha anterior a la actual " ,  "Introduzca una fecha anterior a la actual " ));
           }
+
         }else{
            valido=true;
         }
