@@ -40,7 +40,7 @@ public class PerfilBean {
     private String nombre;
     private String apellidos;
     private String idEmail;                        // Variable para pasarsela a los metodos del EJB pues email está a disabled
-    private String email; 
+    private String email;  
     private String tipoUsuario;
     private String contrasenaAntigua;
     private String nuevaContrasena;
