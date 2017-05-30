@@ -36,10 +36,11 @@ import javax.persistence.TemporalType;
             query="select c from CalificacionEvento c where c.eventos.idEvento = :idEvento and c.favorito = FALSE"),
     @NamedQuery(name="busqueda",
 	    query="select e from Evento e where UPPER(e.nombre) like Upper(concat('%', concat(:query, '%'))) "),
-    @NamedQuery(name="eventosMasVisitados",
-	    query="select e from Evento e order by e.numeroVisitas DESC"),
     @NamedQuery(name="busquedaMasVisitados",
-	    query="select e from Evento e where UPPER(e.nombre) like Upper(concat('%', concat(:query, '%'))) order by e.numeroVisitas DESC")
+            query="select e from Evento e where UPPER(e.nombre) like Upper(concat('%', concat(:query, '%'))) order by e.numeroVisitas DESC"
+            ),
+    @NamedQuery(name="eventosMasVisitados",
+	    query="select e from Evento e order by e.numeroVisitas DESC")
 })
 public class Evento implements Serializable {
 

@@ -54,7 +54,14 @@ public class NegocioBusquedaImpl implements NegocioBusqueda {
                 
 		return q.getResultList();//obtenerEventos(pagina, maxEventos);
 	    } else {
-		q = em.createNamedQuery("busqueda");
+                
+                // Filtrar por mas visitados o no
+                if(filtrarMasVisitados){
+                    q = em.createNamedQuery("busquedaMasVisitados");
+                }else{
+                    q = em.createNamedQuery("busqueda");
+                }
+                
 		q.setParameter("query", query);
 		q.setMaxResults(maxEventos+1);
 		q.setFirstResult(pagina * maxEventos);
@@ -78,6 +85,10 @@ public class NegocioBusquedaImpl implements NegocioBusqueda {
 	    if (query.length() > 0) {
 		queryString += " and Upper(e.nombre) like Upper(concat('%', concat('" + query + "', '%')))";
 	    }
+            
+            if(filtrarMasVisitados){
+                queryString += " order by e.numeroVisitas DESC";
+            }
 
 	    System.out.println("Query String: " + queryString);
 
