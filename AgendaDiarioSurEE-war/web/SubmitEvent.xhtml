@@ -70,12 +70,9 @@
                                 </tr>
                                 <tr>
                                     <td>Imagen: </td>
-                                    <td><p:fileUpload
-                                            allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
-                                            multiple="false"
-                                            value="#{submitEvent.imagen}"
-                                            mode="simple"
-                                            ></p:fileUpload></td>
+                                    <td><p:fileUpload id="imaload" fileUploadListener="#{submitEvent.handleImage}"  
+                                                      mode="advanced"  multiple="true"
+                                                      allowTypes="/(\.|\/)(gif|jpe?g|png)$/"/></td>
                                 </tr>
                             </table>
                             <p:commandButton value="Subir" ajax="false" action="#{submitEvent.upload()}"/>

@@ -14,12 +14,16 @@ import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serializable;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
+import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 import uma.informatica.sii.diarioSur.entidades.Evento;
 import uma.informatica.sii.diarioSur.misc.GeoLocUtils;
@@ -32,8 +36,8 @@ import uma.informatica.sii.diarioSur.negocio.NegocioEvento;
  * @author francis
  */
 @Named(value = "submitEvent")
-@RequestScoped
-public class submitEvent {
+@ViewScoped
+public class submitEvent implements Serializable{
 
     @EJB
     private NegocioEvento negocio;
@@ -44,7 +48,7 @@ public class submitEvent {
     private String localizacion;
     private java.util.Date fecha;
     private Date fechaReal;
-    private UploadedFile imagen;
+    private List<UploadedFile> imagenes;
 
     /**
      * Creates a new instance of Login
@@ -69,13 +73,6 @@ public class submitEvent {
         this.evento = evento;
     }
 
-    public UploadedFile getImagen() {
-        return imagen;
-    }
-
-    public void setImagen(UploadedFile imagen) {
-        this.imagen = imagen;
-    }
     
     
     
@@ -115,7 +112,7 @@ public class submitEvent {
             return null;
         }
 
-        if (imagen != null) {
+        for (UploadedFile imagen: imagenes) {
             System.out.println("Hay una imagen: " + imagen.getFileName());
 
             try {
@@ -150,9 +147,8 @@ public class submitEvent {
                 Logger.getLogger(EventoBean.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-        }else{
-            System.out.println("Eeeeeeeeeeeeeeeeeeeeeeees nulo");
         }
+
 
         try {
             negocio.insertarEvento(evento);
@@ -163,4 +159,11 @@ public class submitEvent {
         return "evento.xhtml?evento=" + evento.getIdEvento() + "&faces-redirect=true";
     }
 
+    public void handleImage(FileUploadEvent event){
+        System.out.println("Soy el manejador de imagenes y he sido invocado");
+        imagenes= new ArrayList<>();
+        imagenes.add(event.getFile());
+        System.out.println("Como manejador que soy he acabado mi mision uajajajaj "+imagenes.size());
+    }
+    
 }
