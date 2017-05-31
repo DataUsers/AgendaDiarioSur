@@ -42,12 +42,13 @@ public class compraEventosBean  implements Serializable {
     private String  descripcionEvento;          // Descripción del evento a mostrar
     private String  tipoEvento;                 // Tipo de evento que mostramos
     private Integer numEntradas;                // Numero de entradas de las que se disponen
-    private Integer numEntradasSeleccionadas;   // Numero de entradas seleccionadas para la compra
+    private String numEntradasSeleccionadas;   // Numero de entradas seleccionadas para la compra
     private String  numTarjeta;                 // Numero de la tarjeta que introducirá
     private String  numSecreto;                 // Numero secreto asociado a la tarjeta 
     private Integer  precioEntrada;
+    private String formaPago;
     
-    private final   FacesContext ctx = FacesContext.getCurrentInstance();
+    private final FacesContext ctx = FacesContext.getCurrentInstance();
    
      
     public void cargarDatos() throws DiarioSurException{
@@ -59,6 +60,8 @@ public class compraEventosBean  implements Serializable {
         setNumEntradas(evento.getNumero_entradas());
         setPrecioEntrada(evento.getPrecio());
         setTipoEvento(evento.getTipoEvento().toString());
+        System.out.println(evento.getImagenes()[0]);
+        setFotoEvento( evento.getImagenes()[0]);
         /*
         // Forma de escoger las fechas posteriroes a la actual.
         boolean encontrada = false;
@@ -71,7 +74,6 @@ public class compraEventosBean  implements Serializable {
         }*/
         DateFormat formato = new SimpleDateFormat("dd-MM-yyyy"); 
         setFecha(formato.format(evento.getFechas().get(0)));  
-        
     }
     
     
@@ -80,38 +82,38 @@ public class compraEventosBean  implements Serializable {
     }
     
     public String validarCompra() {
-       
-       ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, evento.getIdEvento().toString(), evento.getIdEvento().toString()));
-       /*evento= comprar.obtenerEvento(id);
-       if(validarDatos() && (numEntradas > numEntradasSeleccionadas)){
-         comprar.generarEntradas()*/
-       /*
-      
-            //comprar.generarEntradas(evento,numEntradasSeleccionadas,);
-            return null;
-        }else{
-	*/
+         
+       if(validarDatos()){
+           if (numEntradas <   Integer.parseInt(numEntradasSeleccionadas) ){
+                 ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "No hay suficientes entradas", "No hay suficientes entradas"));
+                 return null;
+           }else{
+                comprar.generarEntradas(evento, Integer.parseInt(numEntradasSeleccionadas), usuario, formaPago);
+                return "index.xhtml";
+           }        
+       }
          return null;
        }
   
     public boolean validarDatos(){
        boolean valido = false;
-       
+    
        if(numTarjeta== null || numSecreto==null){
            ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Complete todos los campos", "Complete todos los campos"));
-        }else if (numTarjeta.length()>12 || numTarjeta.length() < 12){
+        }else if (numTarjeta.length()!=12){
            ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Numero de tarjeta no válido", "Numero de tarjeta no válido"));
         }else if(numSecreto.length()<3 || numSecreto.length()> 4){
             ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Numero de tarjeta no válido", "Numero de tarjeta no válido"));
-        }else{    
+        }else if(formaPago!=null && (!"Visa".equals(formaPago) || !"Mastercard".equals(formaPago) )){ 
+            ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Seleccione su tipo de tarjeta", "Seleccione su tipo de tarjeta"));
+        }else if(numEntradasSeleccionadas==null || ( Integer.parseInt(numEntradasSeleccionadas)>0 && Integer.parseInt(numEntradasSeleccionadas)<10 )){
+           ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Introduce una cantidad valida para la compra", "Introduce una cantidad valida para la compra"));
+        }else{
            valido= true;
         }
        return valido;
     }
     
-    public String calcularPrecio(){
-      return String.valueOf(numEntradasSeleccionadas*precioEntrada);
-    }
     
     public Evento getEvento() throws DiarioSurException {
         return evento ;
@@ -151,6 +153,15 @@ public class compraEventosBean  implements Serializable {
         return evento.getImagenes()[0];
     }
 
+    public String getFormaPago() {
+        return formaPago;
+    }
+
+    public void setFormaPago(String formaPago) {
+        this.formaPago = formaPago;
+    }
+
+    
     public void setFotoEvento(String fotoEvento) {
         this.fotoEvento = fotoEvento;
     }
@@ -179,11 +190,11 @@ public class compraEventosBean  implements Serializable {
         this.numEntradas = numEntradas;
     }
 
-    public Integer getNumEntradasSeleccionadas() {
+    public String getNumEntradasSeleccionadas() {
         return numEntradasSeleccionadas;
     }
 
-    public void setNumEntradasSeleccionadas (Integer numEntradasSeleccionadas) {
+    public void setNumEntradasSeleccionadas (String numEntradasSeleccionadas) {
         this.numEntradasSeleccionadas = numEntradasSeleccionadas;
     }
 

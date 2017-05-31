@@ -14,15 +14,15 @@
         <f:metadata>
             <f:viewAction action="#{compra.cargarDatos()}" />
         </f:metadata>
+         <h:messages style="size:4in 6in;color:red " />
         <c:choose>
         <c:when test="#{controlAutorizacion.sesionIniciada()}">
             <h:form onsubmit="return validate()">
                <p:panel header="Compra de Entradas para eventos" id="panel">
-                 <h:messages style="size:4in 6in;color:red " />
-                         <h:panelGrid columns="2">
+                         <h:panelGrid columns="2" >
                                     <h:panelGroup >
                                         <p:panel header="Evento">
-                                            <p:graphicImage value="#compra.fotoEvento}" width="25%"  height="25%"/> 
+                                            <p:graphicImage value="#{compra.fotoEvento}" width="80%" height="80%"/> 
                                         </p:panel> 
                                     </h:panelGroup>
                                      <h:panelGroup  >
@@ -35,21 +35,22 @@
                                             <h:panelGrid >
                                                 <h:panelGrid columns="2">
                                                  <h:panelGrid>
-                                                <h:outputText value="Número Entradas:"/> 
+                                                <h:outputText value="Número Entradas"/> 
                                                 </h:panelGrid> 
                                                 <h:panelGrid>
-                                                     <input type="number" value="{#compra.numEntradasSeleccionadas}" min="1" max="10"></input>
+                                                    <h:inputText  value="#{compra.numEntradasSeleccionadas}"/>
                                                 </h:panelGrid>
-                                                <h:outputText value="Total: #{compra.calcularPrecio()} €" />
+                                                    <h:outputText value="Precio por entrada: #{compra.precioEntrada}€" />
                                                </h:panelGrid>
                                            </h:panelGrid>
                                         </p:panel>
-                                    </h:panelGroup>
-                                    <h:panelGroup>
+                      
                                         <p:panel header="Descripción del evento">
                                             <h:outputText value="#{compra.descripcionEvento}" />
                                         </p:panel> 
-                                    </h:panelGroup>  
+                                     
+                                    </h:panelGroup>
+                                    
                                   </h:panelGrid>
                    <h:panelGroup>
 
@@ -60,9 +61,9 @@
                             <h:panelGrid >
                                 <br></br>
                                 <p:panel> 
-                                    <h:selectOneRadio  id="tarjetaMasterCard" styleClass="radiolabelPF" >
+                                    <h:selectOneRadio  value="{#compra.formaPago}" styleClass="radiolabelPF" >
                                          <f:selectItem itemValue="Mastercard"  itemLabel="Mastercard" /> 
-                                         <h:outputLabel styleClass="radiolabelPF"></h:outputLabel>
+                                           <h:outputLabel styleClass="radiolabelPF"></h:outputLabel>
                                          <f:selectItem itemValue="Visa" itemLabel="Visa"  />
                                             <h:panelGroup>
                                             <p:graphicImage value="resources/imagenes/mastercard.jpg" style="margin: 0px 20px 20px 20px" width="25%"  height="25%"/>
@@ -87,14 +88,13 @@
                         </tr>
                     </h:panelGroup>
                     <br/>
-                    <h:panelGrid columns="2">
-                        <h:panelGroup>
+                    
+                        
                             <h:commandButton styleClass="botonCompra" type="submit" value="Validar compra"  action="#{compra.validarCompra()}"/> 
-                        </h:panelGroup>  
-                       <h:panelGroup> 
+                        
                             <h:commandButton styleClass="botonCompra" type="submit" value="Cancelar compra" action="#{compra.cancelarCompra()}"/>
-                       </h:panelGroup>
-                 </h:panelGrid>
+                       
+                
                </p:panel>
             </h:form>
         </c:when>

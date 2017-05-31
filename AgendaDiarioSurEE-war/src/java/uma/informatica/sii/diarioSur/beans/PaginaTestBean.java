@@ -63,8 +63,12 @@ public class PaginaTestBean {
     }
 
     public String crearAdmin() throws DiarioSurException {
+        try{
         Usuario u = new Usuario("admin", "admin", "admin@admin.admin", Usuario.tipoUsuario.ADMINISTRADOR);
         negocio.registrarUsuario(u);
+        }catch(Exception e){
+            
+        }
         return null;
     }
 
@@ -95,6 +99,7 @@ public class PaginaTestBean {
         evento.setNombre(nombre);
         evento.setDescripcion(descripcion);
         evento.setPrecio(rnd.nextInt(50));
+        evento.setNumero_entradas(rnd.nextInt()+10);
         // Latitud y longitud
         GeoLocation loc = coordenadas[i];
         System.out.println("Latitud Degree: " + loc.getLatitudeInDegrees() + " longitud Degree: " + loc.getLongitudeInDegrees());
@@ -136,7 +141,7 @@ public class PaginaTestBean {
     }
 
     public String genera() throws DiarioSurException {
-        if (negocioEvento.obtenerEventos(1).isEmpty()) {
+        if (negocioEvento.obtenerEventos(3).isEmpty()) {
             System.out.println(negocio);
             try {
                 System.out.println("Generador generando generativamente");

@@ -24,7 +24,7 @@
                     <c:when test="#{controlAutorizacion.sesionIniciada()}">
                         Hola, #{controlAutorizacion.usuario.nombre} |
                         <h:form> 
-                            <h:commandLink value="Tu perfil" action="Perfil" /> | <h:commandLink value="Cerrar sesión" action="#{controlAutorizacion.logout()}" />
+                            <h:commandLink value="Tu perfil" action="perfil" /> | <h:commandLink value="Cerrar sesión" action="#{controlAutorizacion.logout()}" />
                         </h:form>
                     </c:when>
 
