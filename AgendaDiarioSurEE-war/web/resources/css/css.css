@@ -450,13 +450,15 @@ td{
 }
 
 .evento_botones{
+    /*margin-left: 400px;*/
     float:left;
     width:100px;
     padding:15px;
+    z-index: 99;
 }
 
 .evento_mapa{
-    position:relative;
+    
     padding-top:10px;
     width:700px;
     /*background-color: aquamarine;*/
