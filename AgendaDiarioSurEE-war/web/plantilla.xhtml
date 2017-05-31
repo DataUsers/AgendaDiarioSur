@@ -17,57 +17,69 @@
         <ui:insert name="style"></ui:insert>       
     </h:head>
     <h:body>
-        
-            <div class="cabecera">
-                <div class="sesion">
-                    <c:choose>
-                        <c:when test="#{controlAutorizacion.sesionIniciada()}">
-                            Hola, #{controlAutorizacion.usuario.nombre} |
-                            <h:form> 
-                                <h:commandLink value="Tu perfil" action="Perfil" /> | <h:commandLink value="Cerrar sesión" action="#{controlAutorizacion.logout()}" />
-                            </h:form>
-                        </c:when>
 
-                        <c:otherwise>
-                            <h:form>
-                                <h:commandLink value="Iniciar sesión" action="login" /> | <h:commandLink value="Regístrate" action="register"/>
-                            </h:form>
-                        </c:otherwise>
-                    </c:choose>
-                </div>
+        <div class="cabecera">
+            <div class="sesion">
+                <c:choose>
+                    <c:when test="#{controlAutorizacion.sesionIniciada()}">
+                        Hola, #{controlAutorizacion.usuario.nombre} |
+                        <h:form> 
+                            <h:commandLink value="Tu perfil" action="Perfil" /> | <h:commandLink value="Cerrar sesión" action="#{controlAutorizacion.logout()}" />
+                        </h:form>
+                    </c:when>
 
-                <object type="image/svg+xml" data="resources/imagenes/logomedio.svg" style="width: 400px;"/>
-
-                <div class="agenda">
-                    <h:link value="AGENDA" outcome="index.xhtml" />
-                </div>    
+                    <c:otherwise>
+                        <h:form>
+                            <h:commandLink value="Iniciar sesión" action="login" /> | <h:commandLink value="Regístrate" action="register"/>
+                        </h:form>
+                    </c:otherwise>
+                </c:choose>
             </div>
-            <div class="barra">
-                <div class="barra_content">
+
+            <object type="image/svg+xml" data="resources/imagenes/logomedio.svg" style="width: 400px;"/>
+
+            <div class="agenda">
+                <h:link value="AGENDA" outcome="index.xhtml" />
+            </div>    
+        </div>
+        <div class="barra">
+            <div class="barra_content">
+
+                <h:link value="POPULARES" outcome="busqueda?filtrar=Mas+Visitados"/> | 
+                <h:link value="CONCIERTOS" outcome="busqueda?filtrar=Conciertos"/> | 
+                <h:link value="DESFILES" outcome="busqueda?filtrar=Desfiles"/> |
+                <h:link value="EXPOSICIONES" outcome="busqueda?filtrar=Exposiciones"/> |
+                <h:link value="FERIAS" outcome="busqueda?filtrar=Ferias"/> |
+                <h:link value="CINES" outcome="busqueda?filtrar=Cines"/>
+
+                <div class="barra_content2">
                     <h:link value="BUSCADOR" outcome="busqueda" /> | 
                     <h:link value="ENVÍA UN EVENTO" outcome="SubmitEvent" /> | 
                     <h:link value="GESTIONAR EVENTOS" outcome="gestionEvento" />
-                </div>                  
-            </div>
-        
-            <br />
-
-            <div class="publicidad" align="center">
-                <h:graphicImage  value="resources/imagenes/publi.png" style="width:700px"/>
-            </div>
-
-            <br />
-
-            <div class="center_content">
-                <div class="subtitulo">
-                    <ui:insert name="subtitulo"></ui:insert>
                 </div>
-                <ui:insert name="content">Content</ui:insert>
-            </div>
-            
-            <div class="footer">
-                CONTACTAR | LEGAL | REALIZADO POR
                 
+
+            </div>                  
+        </div>
+
+        <br />
+
+        <div class="publicidad" align="center">
+            <h:graphicImage  value="resources/imagenes/publi.png" style="width:700px"/>
+        </div>
+
+        <br />
+
+        <div class="center_content">
+            <div class="subtitulo">
+                <ui:insert name="subtitulo"></ui:insert>
             </div>
+            <ui:insert name="content">Content</ui:insert>
+        </div>
+
+        <div class="footer">
+            CONTACTAR | LEGAL | REALIZADO POR
+
+        </div>
     </h:body>   
 </html>
