@@ -12,43 +12,39 @@
     <ui:define name="subtitulo">Comprar Entradas</ui:define>
     <ui:define name="content">
         <c:choose>
-        <c:when test="#{controlAutorizacion.sesionIniciada()}">
+        <c:when test="#{!controlAutorizacion.sesionIniciada()}">
             <h:form onsubmit="return validate()">
-                <p:panel header="Compra de Entradas para eventos" id="panel">
-                    <h:dataTable id="listaEvento" value="#{busqueda.eventosMostrar.get(1)}" var="event" border="1">
-                        <h:column>
-                            <p:panel>
-                                <h:panelGrid columns="2">
+               <p:panel header="Compra de Entradas para eventos" id="panel">
+                 <h:messages style="size:4in 6in;color:red " />
+                    <h:dataTable  border="1"> 
+                         <h:panelGrid columns="2">
                                     <h:panelGroup>
-                                        <p:panel header="Evento #{event.nombre}">
-                                            <p:graphicImage value="resources/imagenes/#{busqueda.randomImage()}" width="25%"  height="25%"/>
+                                        <p:panel header="Evento #{compra.nombreEvento}">
+                                            <p:graphicImage value="#{compra.fotoEvento}" width="25%"  height="25%"/>
                                         </p:panel> 
                                     </h:panelGroup>
                                     <h:panelGroup>
                                         <p:panel header="Detalles de compra ">
-                                            <h:outputText value="Fecha: #{busqueda.placeholderFecha()}" />
+                                            <h:outputText value="Fecha: #{compra.fecha}"/>
                                             <p>Tipo Evento:
-                                                <h:outputText value="#{event.tipoEvento}" />
+                                                <h:outputText value="#{compra.tipoEvento}" />
                                             </p>
                                             <h:panelGrid>
-                                                <h:outputText value="Número Entradas: 2"/>  <!--Estará en el body de la request -->
-                                                <h:outputText value="Total: #{event.precio*2} €" />
+                                                <h:outputText value="Número Entradas: "/> 
+                                                     <input type="number" value="#{compra.numEntradasSeleccionadas}" min="1" max="10"></input>
+                                                <h:outputText value="Total: #{compra.calcularPrecio()} €" />
                                             </h:panelGrid>
-
                                         </p:panel>
                                     </h:panelGroup>
                                     <h:panelGroup>
                                         <p:panel header="Descripción del evento">
-                                            <h:outputText value="#{event.descripcion}" />
+                                            <h:outputText value="#{compra.descripcionEvento}" />
                                         </p:panel> 
                                     </h:panelGroup>   
-
-                                </h:panelGrid>
-                            </p:panel>
-                        </h:column>
+                                  </h:panelGrid>
                     </h:dataTable>
 
-                    <h:panelGroup>
+                   <h:panelGroup>
 
                         <br></br>  
                         <br></br>
@@ -74,19 +70,16 @@
 
                         <tr>
                             <td>Numero Tarjeta:</td>
-                            <td><h:inputText id="numTarjeta" value="#{compraEventos.numTarjeta}"/>
+                            <td><h:inputText id="numTarjeta" value="#{compra.numTarjeta}"/>
                             </td>
                         </tr>
                         <tr>
                             <td>Codigo Seguridad:</td>
-                            <td><h:inputSecret id="codSeguridad" value="#{compraEventos.numSecreto}"/></td>
+                            <td><h:inputSecret id="codSeguridad" value="#{compra.numSecreto}"/></td>
                         </tr>
                     </h:panelGroup>
-                    <!--Botones para cuando la web sea funcional-->
-                    <!--<h:commandButton  type="submit" value="Validar compra"  action="#{compraEventos.validarCompra()}"/> -->
-                    <!--<h:commandButton  type="submit" value="Cancelar compra" action="#{compraEventos.cancelarCompra()}"/> -->
-                    <h:commandButton  type="submit" value="Validar compra"  action="index.html"/> 
-                    <h:commandButton  type="submit" value="Cancelar compra" action="evento.xhtml?evento=10"/>
+                    <h:commandButton  type="submit" value="Validar compra"  action="#{compra.validarCompra()}"/> 
+                    <h:commandButton  type="submit" value="Cancelar compra" action="#{compra.cancelarCompra()}"/>
                 </p:panel>
             </h:form>
         </c:when>
