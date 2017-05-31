@@ -8,7 +8,7 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <ui:define name="title">Agenda Diario Sur - Busqueda</ui:define>
-    <ui:define name="subtitulo">Busqueda de eventos</ui:define>
+    <ui:define name="subtitulo">Buscador</ui:define>
 
     <ui:define name="content">
         <f:metadata>
@@ -25,76 +25,75 @@
         </div>
 
         <h:panelGrid columns="1" style="margin: 0 auto;"> <!-- Poner en css -->
-            <!-- busqueda -->
-            <form method="GET" action="busqueda.xhtml" onsubmit="">
-                <!-- longitud y latitud para busqueda en la bd -->
-                <input type="hidden" id="latitud" name="latitud"></input>
-                <input type="hidden" id="longitud" name="longitud"></input>
-                <!-- filtros -->
-                <h:panelGrid columns="6">
-                    <ui:repeat var="filtros" value="#{busqueda.filtros}">
-                        <label for="#{filtros}">#{filtros}</label>
-                        <input type="checkbox" id="#{filtros}" name="filtrar" value="#{filtros}" />
-                    </ui:repeat>
+            <h:panelGroup>
+                <!-- busqueda -->
+                <form method="GET" action="busqueda.xhtml" onsubmit="">
+                    <!-- longitud y latitud para busqueda en la bd -->
+                    <input type="hidden" id="latitud" name="latitud"></input>
+                    <input type="hidden" id="longitud" name="longitud"></input>
+                    <!-- filtros -->
+                    <h:panelGrid columns="6">
+                        <ui:repeat var="filtros" value="#{busqueda.filtros}">
+                            <label for="#{filtros}">#{filtros}</label>
+                            <input type="checkbox" id="#{filtros}" name="filtrar" value="#{filtros}" />
+                        </ui:repeat>
+                    </h:panelGrid>
+
+                    <input type="text" name="q" placeholder="Buscar por nombre, ciudad, tipo..."></input>
+                    <input type="submit" id="submitBusq" value="Enviar"></input>
+                </form>
+            </h:panelGroup>
+
+            <h:panelGroup>
+                <ui:repeat value="#{busqueda.eventosMostrar}" var="event">
+                    <div>
+                        <h1>#{event.nombre}</h1>
+                    </div>
+                    <div>
+                        <p:graphicImage value="#{event.imagenes[0]}"
+                                        width="250px"
+                                        height="200px"/>
+                    </div>
+                    <div>
+                        <h1>Fechas</h1>
+                        <h:dataTable value="#{event.fechas}" var="fecha">
+                            <h:column>
+                                <h:outputText value="#{fecha}"/>
+                            </h:column>
+                        </h:dataTable>
+                    </div>
+                    <div>
+                        <!-- compartir y compra -->
+                        <h:graphicImage onclick="return shareTwitter('#{busqueda.construirEnlace(event.idEvento)}')" value="http://i.imgur.com/vh64DDX.gif"/>
+                        <h:graphicImage onclick="return shareFacebook('#{event.idEvento}')" value="http://i.imgur.com/vh64DDX.gif"/>
+                        <br></br>
+                        <h:button styleClass="compraButton" value="Comprar" outcome="compraEntradas.xhtml"/> <!-- Construir link de compra -->
+                        <br></br>
+                        <h:button outcome="evento.xhtml?evento=#{event.idEvento}" value="Ver más"/> <!-- hardcodeado -->
+                    </div>
+                    <div>
+                        <h1>Descripcion</h1>
+                        <h:outputText value="#{event.descripcion}"></h:outputText>    
+                    </div>
+                </ui:repeat>
+                
+                <h:panelGrid columns="2">
+                    <h:panelGroup>
+                        <c:if test="#{busqueda.hasPrevPage}">
+                            <h:form>
+                                <h:commandButton action="#{busqueda.paginaAnterior()}" value="Pagina Anterior"/>
+                            </h:form>
+                        </c:if>
+                    </h:panelGroup>
+                    <h:panelGroup>
+                        <c:if test="#{busqueda.hasNextPage}">
+                            <h:form>
+                                <h:commandButton action="#{busqueda.paginaSiguiente()}" value="Pagina Siguiente"/>
+                            </h:form>
+                        </c:if>
+                    </h:panelGroup>
                 </h:panelGrid>
-
-                <input type="text" name="q" placeholder="Buscar por nombre, ciudad, tipo..."></input>
-                <input type="submit" id="submitBusq" value="Enviar"></input>
-            </form>
-            <p:panel header="Resultados">
-
-                <h:dataTable id="listaEvento" value="#{busqueda.eventosMostrar}" var="event" border="1">
-                    <h:column>
-                        <p:panel>
-                            <h:panelGrid columns="3">
-                                <h:panelGroup>
-                                    <!-- imagen -->
-                                    <p:graphicImage value="#{event.imagenes[0]}"
-                                                    width="250px"
-                                                    height="200px"/>
-                                </h:panelGroup>
-                                <h:panelGroup>
-                                    <p:panel header="#{event.nombre}">
-                                        <h:outputText value="Precio: #{event.precio}" />
-                                        <!-- fecha aqui -->
-                                        <h:panelGrid columns="1">
-                                            <p:dataList value="#{event.fechas}" var="fecha" type="unordered">
-                                                <f:facet name="header">
-                                                    Fechas
-                                                </f:facet>
-                                                #{fecha}
-                                            </p:dataList>
-                                        </h:panelGrid>
-                                        <!-- localizacion -->
-                                        <p:button outcome="evento.xhtml?evento=#{event.idEvento}" value="Ver +"/> <!-- hardcodeado -->
-                                        <p:panel header="Descripcion">
-                                            <h:outputText value="#{event.descripcion}"></h:outputText>    
-                                        </p:panel>
-                                    </p:panel>
-                                </h:panelGroup>
-                                <h:panelGroup>
-                                    <!-- compartir y compra -->
-                                    <p:button styleClass="shareButton" value="Compartir Twitter" onclick="return shareTwitter('#{busqueda.construirEnlace(event.idEvento)}')"/>
-                                    <br></br>
-                                    <p:button styleClass="shareButton" value="Compartir Facebook" onclick="return shareFacebook('#{event.idEvento}')"/>
-                                    <br></br>
-                                    <p:button styleClass="compraButton" value="Comprar" outcome="compraEntradas.xhtml"></p:button> <!-- Construir link de compra -->
-                                </h:panelGroup>
-                            </h:panelGrid>
-                        </p:panel>
-                    </h:column>
-                </h:dataTable>
-                <c:if test="#{busqueda.hasPrevPage}">
-                    <h:form>
-                        <p:commandButton action="#{busqueda.paginaAnterior()}" value="Pagina Anterior"/>
-                    </h:form>
-                </c:if>
-                <c:if test="#{busqueda.hasNextPage}">
-                    <h:form>
-                        <p:commandButton action="#{busqueda.paginaSiguiente()}" value="Pagina Siguiente"/>
-                    </h:form>
-                </c:if>
-            </p:panel>
+            </h:panelGroup>
         </h:panelGrid>
         <script type="text/javascript" src="resources/js/share.js"></script>
         <script type="text/javascript" src="resources/js/busqueda.js"></script>
