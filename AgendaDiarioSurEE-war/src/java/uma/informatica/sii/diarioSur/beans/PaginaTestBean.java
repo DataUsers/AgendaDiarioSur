@@ -141,27 +141,27 @@ public class PaginaTestBean {
             try {
                 System.out.println("Generador generando generativamente");
                 int i = 0;
-                createEvent(Evento.Tipo.CONCIERTOS, i++, "Concierto Alejandro Sanz", "Disfruta mucho en este concierto de alejandro Sanza que llega a Málaga como aprte de la gira para su disco \"Sirope\"", "concierto1.jpg");
+                createEvent(Evento.Tipo.CONCIERTOS, i++, "Concierto Alejandro Sanz", "Disfruta mucho en este concierto de Alejandro Sanz que llega a Málaga como parte de la gira para su disco \"Sirope\"", "concierto1.jpg");
                 createEvent(Evento.Tipo.CONCIERTOS, i++, "Skunk DF en Málaga", "El grupo Skunk DF acturá en Málaga. La apertura de puertas será a las 21:00h.", "concierto2.jpg");
                 createEvent(Evento.Tipo.CONCIERTOS, i++, "Festival de tributos MASTERS OF ROCK ",
                         "Más de tres horas para disfrutar de las mejores bandas de la historia del ROCK de la mano de sus más impresionantes bandas tributo.",
                         "concierto3.jpg");
-                createEvent(Evento.Tipo.DESFILES, i++, "Desfile 1",
+                createEvent(Evento.Tipo.DESFILES, i++, "Moncler Gamme Rouge",
                         "Desfile de moda en el centro de la ciudad",
                         "desfiles1.jpg");
-                createEvent(Evento.Tipo.DESFILES, i++, "Desfile 2",
+                createEvent(Evento.Tipo.DESFILES, i++, "Esteban Cortazar",
                         "Desfile de moda en el centro de la ciudad",
                         "desfiles2.jpg");
-                createEvent(Evento.Tipo.DESFILES, i++, "Desfile 3",
+                createEvent(Evento.Tipo.DESFILES, i++, "Valentin Yudashkin",
                         "Disfrute de las innovaciones en el terreno de la moda",
                         "desfiles3.jpg");
-                createEvent(Evento.Tipo.EXPOSICIONES, i++, "Museo Picaso",
+                createEvent(Evento.Tipo.EXPOSICIONES, i++, "Museo Picasso",
                         "Disfrute de las obras de este autor malagueño",
                         "expo1.jpg");
-                createEvent(Evento.Tipo.EXPOSICIONES, i++, "Exposicion de arte",
+                createEvent(Evento.Tipo.EXPOSICIONES, i++, "Exposición de arte",
                         "Disfrute de las obras de diferentes autores que se exponen hoy aquí",
                         "expo2.jpg");
-                createEvent(Evento.Tipo.EXPOSICIONES, i++, "Exposicion de arte medieval",
+                createEvent(Evento.Tipo.EXPOSICIONES, i++, "Exposición de arte medieval",
                         "Disftute de estas obras de tematica medieval",
                         "expo3.jpg");
                 createEvent(Evento.Tipo.FERIAS, i++, "Feria del libro",
