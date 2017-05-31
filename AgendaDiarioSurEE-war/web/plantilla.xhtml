@@ -8,71 +8,64 @@
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <h:head>
         <link rel="stylesheet" type="text/css" href="resources/css/css.css"/>
+        <link href="https://fonts.googleapis.com/css?family=Roboto:500" rel="stylesheet"/>
+        <link href="https://fonts.voxmedia.com/unison/stylesheets/verge.1d37918fdeeb1febc4d68217382a1e72.css" rel="stylesheet" media="all"/>
+        <link href="https://fonts.googleapis.com/css?family=Barrio" rel="stylesheet"/>
         <title>
             <ui:insert name="title">Agenda Diario Sur</ui:insert>
-        </title>
+        </title>  
+        <ui:insert name="style"></ui:insert>       
     </h:head>
     <h:body>
-        <div class="pagina">
+        
             <div class="cabecera">
                 <div class="sesion">
                     <c:choose>
-
                         <c:when test="#{controlAutorizacion.sesionIniciada()}">
-
-
                             Hola, #{controlAutorizacion.usuario.nombre} |
                             <h:form> 
-                                <h:commandLink action="perfilBean" value="Tu perfil"/> |
-                                <h:commandLink action="#{controlAutorizacion.logout()}" value="Cerrar sesión "/>
-                                
+                                <h:link value="Tu perfil" outcome="perfil" /> | <h:link value="Cerrar sesión" outcome="#{controlAutorizacion.logout()}" />
                             </h:form>
-
-
                         </c:when>
-                        <c:otherwise> 
-                            
-                                <p:link outcome="login" value="Iniciar sesión"/> | <p:link outcome="register" value="Regístrate"/>
-                            
-                        </c:otherwise>
 
+                        <c:otherwise>                                                     
+                                <h:link value="Iniciar sesión" outcome="login" /> | <h:link value="Regístrate" outcome="register"/>
+                        </c:otherwise>
                     </c:choose>
                 </div>
 
                 <object type="image/svg+xml" data="resources/imagenes/logomedio.svg" style="width: 400px;"/>
 
                 <div class="agenda">
-                    <p:link outcome="index.xhtml" value="AGENDA"/>
-                </div>
-
-                <div class="botones">
-                    <p:button outcome="busqueda" value="Buscador">
-                    </p:button>
-
-
-                    <p:button outcome="SubmitEvent" value="Envía un evento">
-                    </p:button>
-                    
-                    <p:button outcome="gestionEvento" value="Gestionar eventos">
-                    </p:button>
-                    
-                    
-                </div>
+                    <h:link value="AGENDA" outcome="index.xhtml" />
+                </div>    
             </div>
+            <div class="barra">
+                <div class="barra_content">
+                    <h:link value="BUSCADOR" outcome="busqueda" /> | 
+                    <h:link value="ENVÍA UN EVENTO" outcome="SubmitEvent" /> | 
+                    <h:link value="GESTIONAR EVENTOS" outcome="gestionEvento" />
+                </div>                  
+            </div>
+        
             <br />
 
-            <div align="center" margin="0px">
+            <div class="publicidad" align="center">
                 <h:graphicImage  value="resources/imagenes/publi.png" style="width:700px"/>
             </div>
 
             <br />
 
-            <div id="content" class="center_content">
+            <div class="center_content">
                 <div class="subtitulo">
                     <ui:insert name="subtitulo"></ui:insert>
                 </div>
                 <ui:insert name="content">Content</ui:insert>
             </div>
-        </div>
+            
+            <div class="footer">
+                CONTACTAR | LEGAL | REALIZADO POR
+                
+            </div>
     </h:body>   
 </html>

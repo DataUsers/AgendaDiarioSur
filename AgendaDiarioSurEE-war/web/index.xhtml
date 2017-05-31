@@ -7,20 +7,134 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <ui:define name="title">Agenda Diario Sur - Home</ui:define>
-   
-    <ui:define name="content">
+    <ui:define name="subtitulo"> destacados </ui:define>
 
-        <p:contentFlow value="#{index.images}" var="image">
+    <ui:define name="style">
+        <style>
+            .center_content{
+                background-color: #D20A11;
+                background: linear-gradient(to right, #D20A11 , #ff6a00);              
+                padding: 0px;
+                width: 1102px;
+                
+            }
 
-            <p:graphicImage value="resources/imagenes/#{image}" styleClass="content"/>
-            
+            .subtitulo{
+                color:#D20A11;
+                background-color: #eeeae7;
+                border: 0;
+                line-height: .67;
+                font-size: 40px;
+                height: 25px;
+            }
+        </style>
+    </ui:define>
+    <ui:define name="content"> 
+        <div class="wrapper_destacados1">
+            <div class="foto1">
+                <a href="/AgendaDiarioSurEE-war/faces/evento.xhtml?evento=#{index.eventos.get(0).idEvento}">
+                    <h:graphicImage class="imagen_grande" value="#{index.eventos.get(0).imagenes[0]}" />
+                </a> 
+            </div> 
+            <div class="descripcion1">
+                <div class="a_descripcion1">
+                    <a href="/AgendaDiarioSurEE-war/faces/evento.xhtml?evento=#{index.eventos.get(0).idEvento}">
+                        #{index.eventos.get(0).nombre}
+                    </a>
+                </div>
+            </div>
 
-            <div class="caption"> <p:link outcome="evento?evento=10" value="Ver evento"/></div>
+            <div class="foto2">
+                <a href="/AgendaDiarioSurEE-war/faces/evento.xhtml?evento=#{index.eventos.get(1).idEvento}">
+                    <h:graphicImage class="imagen_pequena" value="#{index.eventos.get(1).imagenes[0]}" />
+                </a>         
+            </div>
+            <div class="descripcion2">
+                <div class="a_descripcion2">
+                    <a href="/AgendaDiarioSurEE-war/faces/evento.xhtml?evento=#{index.eventos.get(1).idEvento}">
+                        #{index.eventos.get(1).nombre}
+                    </a>
+                </div>
+            </div>
+        </div>
 
+        <div class="wrapper_destacados1">           
+            <div class="foto4">
+                <a href="/AgendaDiarioSurEE-war/faces/evento.xhtml?evento=#{index.eventos.get(2).idEvento}">
+                    <h:graphicImage class="imagen_grande" value="#{index.eventos.get(2).imagenes[0]}" />
+                </a>               
+            </div>
+            <div class="descripcion4">
+                <div class="a_descripcion4">
+                    <a href="/AgendaDiarioSurEE-war/faces/evento.xhtml?evento=#{index.eventos.get(2).idEvento}">
+                        #{index.eventos.get(2).nombre}
+                    </a> 
+                </div>             
+            </div>
 
-        </p:contentFlow>
+            <div class="foto3">
+                <a href="/AgendaDiarioSurEE-war/faces/evento.xhtml?evento=#{index.eventos.get(3).idEvento}">
+                    <h:graphicImage class="imagen_pequena" value="#{index.eventos.get(3).imagenes[0]}" />
+                </a>
 
-        <br />
+            </div>
+            <div class="descripcion3">
+                <div class="a_descripcion3">
+                    <a href="/AgendaDiarioSurEE-war/faces/evento.xhtml?evento=#{index.eventos.get(3).idEvento}">
+                        #{index.eventos.get(3).nombre}
+                    </a>
+                </div>
+
+            </div>   
+        </div>
+        <div class="wrapper_destacados2">          
+            <div class="foto5">
+                <a href="/AgendaDiarioSurEE-war/faces/evento.xhtml?evento=#{index.eventos.get(4).idEvento}">
+                    <h:graphicImage class="imagen_mediana" value="#{index.eventos.get(4).imagenes[0]}" />
+                </a>
+
+            </div>
+            <div class="foto5">
+                <a href="/AgendaDiarioSurEE-war/faces/evento.xhtml?evento=#{index.eventos.get(5).idEvento}">
+                    <h:graphicImage class="imagen_mediana" value="#{index.eventos.get(5).imagenes[0]}" />
+                </a>
+            </div>
+            <div class="foto6">
+                <a href="/AgendaDiarioSurEE-war/faces/evento.xhtml?evento=#{index.eventos.get(6).idEvento}">
+                    <h:graphicImage class="imagen_mediana" value="#{index.eventos.get(6).imagenes[0]}" />
+                </a>
+            </div>
+        </div>
+        <div class="wrapper_destacados3">
+            <div class="descripcion5">
+                <div class="a_descripcion5">
+                    <a href="/AgendaDiarioSurEE-war/faces/evento.xhtml?evento=#{index.eventos.get(4).idEvento}">
+                        #{index.eventos.get(4).nombre}
+                    </a>
+                </div>
+
+            </div>
+            <div class="descripcion5">
+                <div class="a_descripcion5">
+                    <a href="/AgendaDiarioSurEE-war/faces/evento.xhtml?evento=#{index.eventos.get(5).idEvento}">
+                        #{index.eventos.get(5).nombre}
+                    </a>
+                </div>
+
+            </div>
+            <div class="descripcion6">
+                <div class="a_descripcion6">
+                    <a href="/AgendaDiarioSurEE-war/faces/evento.xhtml?evento=#{index.eventos.get(6).idEvento}">
+                        #{index.eventos.get(6).nombre}
+                    </a>
+                </div>
+
+            </div>
+        </div>
+        <div class="wrapper_caption">
+            Tu agenda cultural y de ocio de Málaga.
+        </div>
+
     </ui:define>
 
 </ui:composition>
