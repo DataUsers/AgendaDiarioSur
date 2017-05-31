@@ -29,34 +29,25 @@ public class NegocioCompraImpl implements NegocioCompra {
     
     
     @Override 
-    public void generarEntradas(Evento evento, Integer numEntradasSeleccionadas, Usuario usuario){
+    public void generarEntradas(Evento evento, Integer numEntradasSeleccionadas, Usuario usuario, String formaPago ){
        evento.setNumero_entradas(evento.getNumero_entradas()-numEntradasSeleccionadas);
        List<EntradaEvento> entradas = evento.getEntradas();
            for(int num=0; num<numEntradasSeleccionadas; num++){
                 EntradaEvento nuevaEntrada = new EntradaEvento();
                 nuevaEntrada.setEvento(evento);
-                nuevaEntrada.setFechaCompra((java.sql.Date) new Date());
-                /*nuevaEntrada.setFechaValidez(fechaSeleccionada);
-                nuevaEntrada.setFormaPago(nombreEvento);
-                Long idEntrada = 0;
-                for(EntradaEvento n:entradas){
-                 if(n.getFechaValidez().equals(fechaSeleccionada)){
-                     idEntrada++;
-                 }
-                }
-                nuevaEntrada.setIdEntrada( idEntrada+1);
-                */
-                nuevaEntrada.setIdEntrada( (long)  entradas.size()+1);
+                nuevaEntrada.setFechaCompra(new Date());
+                nuevaEntrada.setFechaValidez( evento.getFechas().get(0));
+                nuevaEntrada.setFormaPago(formaPago);
                 nuevaEntrada.setPrecio(numEntradasSeleccionadas * evento.getPrecio() );
                 nuevaEntrada.setUsuario(usuario);
                 entradas.add(nuevaEntrada);
            }
              evento.setEntradas(entradas);
-        
     }
     @Override
-    public Evento obtenerEvento(Integer id) throws DiarioSurException {
-        Evento evento = em.find(Evento.class, id);
+    public Evento obtenerEvento(String id) throws DiarioSurException {
+        
+        Evento evento = em.find(Evento.class, Integer.parseInt(id));
         if (evento == null) {
             throw new EventoNoEncException();
         }

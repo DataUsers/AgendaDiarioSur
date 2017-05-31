@@ -24,13 +24,9 @@ public class NegocioPerfilImpl implements NegocioPerfil {
     
     
     @Override
-    public void guardarCambios(String nombre, String apellidos, Date fechaNacimiento, String email, String cuentaTwitter,String cuentaFacebook) throws DiarioSurException{
+    public void guardarCambios(String nombre, String apellidos, Date fechaNacimiento, String email, String cuentaTwitter,String cuentaFacebook) throws CuentaInexistenteException, DiarioSurException{
     
-        Usuario usuarioEncontrado = em.find(Usuario.class, email);
-        
-        if (usuarioEncontrado == null) {
-            throw new CuentaInexistenteException();
-        }
+        Usuario usuarioEncontrado = this.obtenerUsuario(email);
         usuarioEncontrado.setNombre(nombre);
         usuarioEncontrado.setApellidos(apellidos);
         usuarioEncontrado.setFechaNacimiento(fechaNacimiento);
