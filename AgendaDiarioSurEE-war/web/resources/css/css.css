@@ -72,7 +72,7 @@ a{
 .agenda{
     font-size: 42px;
     font-weight:bolder;
-  
+
 }
 
 .cabecera {
@@ -83,7 +83,7 @@ a{
     width: 1072px;
     margin: auto;
     color:rgb(190,18,25);
-    
+
 }
 
 .barra{
@@ -143,15 +143,6 @@ form{
     margin:0px;
 }
 
-.footer{
-    color: white;
-    background-color:black;
-    width: 1072px;
-    margin:auto;
-    padding: 15px;
-    padding-top: 6em;
-    text-align:center;
-}
 
 .imagen_grande{
     width: 400px;
@@ -175,7 +166,7 @@ form{
 }
 
 .foto1{
-   float:left;
+    float:left;
 }
 
 .descripcion1{
@@ -186,9 +177,9 @@ form{
 }
 
 .foto2{
-   float:left;
-   margin:0px;
-   height:219px;
+    float:left;
+    margin:0px;
+    height:219px;
 }
 
 .descripcion2{
@@ -301,4 +292,106 @@ form{
     font-size: 30px;
     text-align:center;
     padding:40px;
+}
+
+/*footer*/
+
+.footer{
+    color: white;
+    background-color:black;
+    width: 1072px;
+    height: 90px;
+    margin:auto;
+    padding: 15px;
+    text-align:center;
+    position: relative;
+    font-size: 15px;
+}
+
+.social{
+    float:right;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.footer_text{
+    position:absolute;
+    bottom: 0;
+    margin: auto;
+    right: 50%;
+    transform: translateX(50%);
+    width: 500px;
+    padding-bottom: 15px;
+}
+
+.minilogo{
+    position:absolute;
+    bottom: 0;
+    margin: auto;
+    right: 50%;
+    transform: translateX(50%);
+    width: 500px;
+    padding-bottom: 35px;
+ 
+}
+
+/*pagina busqueda*/
+
+.evento_wrapper{
+    background-color: #191921;
+    position:relative;
+    height:210px;
+    margin-top: 10px;
+    margin-bottom:15px;
+    padding:5px;
+    color:white;
+}
+
+.evento_nombre{
+    float:left;
+    font-family: Heroic,'Arial Narrow';
+    font-size:50px;
+    text-transform: uppercase;
+    font-weight: bold;
+    padding:5px;
+    margin-right:100px;
+    width: 400px;
+}
+
+.evento_imagen{
+    float:left;
+    padding:5px;
+}
+
+.evento_fecha{
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right:15%;
+    width:100px;
+    border-left: solid grey;
+    padding:10px;
+}
+
+.evento_fecha_titulo{
+    font-family: Heroic,'Arial Narrow'; 
+    font-size: 30px; 
+    color: #d20a11;
+}
+
+.evento_descripcion{
+    float:left;
+    width:300px;
+    margin-left:5px;
+}
+
+.evento_botones{
+    position:absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 5%;
+}
+td{
+    width:1000px;
 }

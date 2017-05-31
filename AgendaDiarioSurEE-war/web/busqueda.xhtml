@@ -46,37 +46,45 @@
 
             <h:panelGroup>
                 <ui:repeat value="#{busqueda.eventosMostrar}" var="event">
-                    <div>
-                        <h1>#{event.nombre}</h1>
-                    </div>
-                    <div>
-                        <p:graphicImage value="#{event.imagenes[0]}"
-                                        width="250px"
-                                        height="200px"/>
-                    </div>
-                    <div>
-                        <h1>Fechas</h1>
-                        <h:dataTable value="#{event.fechas}" var="fecha">
-                            <h:column>
-                                <h:outputText value="#{fecha}"/>
-                            </h:column>
-                        </h:dataTable>
-                    </div>
-                    <div>
-                        <!-- compartir y compra -->
-                        <h:graphicImage onclick="return shareTwitter('#{busqueda.construirEnlace(event.idEvento)}')" value="http://i.imgur.com/vh64DDX.gif"/>
-                        <h:graphicImage onclick="return shareFacebook('#{event.idEvento}')" value="http://i.imgur.com/vh64DDX.gif"/>
-                        <br></br>
-                        <h:button styleClass="compraButton" value="Comprar" outcome="compraEntradas.xhtml"/> <!-- Construir link de compra -->
-                        <br></br>
-                        <h:button outcome="evento.xhtml?evento=#{event.idEvento}" value="Ver más"/> <!-- hardcodeado -->
-                    </div>
-                    <div>
-                        <h1>Descripcion</h1>
-                        <h:outputText value="#{event.descripcion}"></h:outputText>    
+                    <div class="evento_wrapper">
+
+                        <div class="evento_imagen">
+                            <a href="evento.xhtml?evento=#{event.idEvento}">
+                                <p:graphicImage value="#{event.imagenes[0]}" width="250px" height="200px"/>
+                            </a>                        
+                        </div>
+<!--                        <div class="evento_nombre_descripcion">-->
+                            <div class="evento_nombre">
+                                <a href="evento.xhtml?evento=#{event.idEvento}">
+                                    #{event.nombre}
+                                </a>
+                                
+                            </div>
+                            <div class="evento_descripcion">
+                                <h:outputText value="#{event.descripcion}"></h:outputText>    
+                            </div>
+                        <!--</div>-->
+                        
+                        <div class="evento_botones">
+                            <!-- compartir y compra -->
+                            <h:graphicImage style="width: 40px" onclick="return shareTwitter('#{busqueda.construirEnlace(event.idEvento)}')" value="resources/imagenes/twitter.png"/>
+                            <br/>
+                            <h:graphicImage style="width: 30px" onclick="return shareFacebook('#{event.idEvento}')" value="resources/imagenes/fb-art.png"/>                 
+                        </div>
+
+                        <div class="evento_fecha">
+                            <div class="evento_fecha_titulo">FECHAS</div>
+                            <h:dataTable value="#{event.fechas}" var="fecha">
+                                <h:column>
+                                    <h:outputText value="#{fecha}"/>
+                                </h:column>
+                            </h:dataTable>
+                        </div>
+                        
+
                     </div>
                 </ui:repeat>
-                
+
                 <h:panelGrid columns="2">
                     <h:panelGroup>
                         <c:if test="#{busqueda.hasPrevPage}">

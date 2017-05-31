@@ -7,7 +7,7 @@
     <class>uma.informatica.sii.diarioSur.entidades.Evento</class>
     <class>uma.informatica.sii.diarioSur.entidades.Publicidad</class>
     <class>uma.informatica.sii.diarioSur.entidades.Usuario</class>
-    <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
     </properties>

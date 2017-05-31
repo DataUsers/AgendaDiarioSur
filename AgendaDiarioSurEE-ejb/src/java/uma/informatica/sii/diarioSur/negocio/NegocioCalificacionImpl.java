@@ -5,9 +5,11 @@
  */
 package uma.informatica.sii.diarioSur.negocio;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import uma.informatica.sii.diarioSur.entidades.CalificacionEvento;
 import uma.informatica.sii.diarioSur.entidades.Evento;
 import uma.informatica.sii.diarioSur.entidades.Usuario;
@@ -44,6 +46,24 @@ public class NegocioCalificacionImpl implements NegocioCalificacion {
         eventoBusc.getCalificaciones().add(calificacion);
         em.merge(eventoBusc);
         
+    }
+    
+    @Override
+    public List getCalificaciones(int pagina, int maxCalificaciones, Evento evento) throws DiarioSurException {
+
+        Evento eventoFound = em.find(Evento.class, evento.getIdEvento());
+
+        if (eventoFound == null) {
+            throw new EventoNoEncException();
+        }
+
+        Query query = em.createNamedQuery("findCalificaciones");
+        query.setParameter("idEvento", evento.getIdEvento());
+
+        query.setFirstResult(pagina * maxCalificaciones);
+        query.setMaxResults(maxCalificaciones+1);
+
+        return query.getResultList();
     }
     
 }

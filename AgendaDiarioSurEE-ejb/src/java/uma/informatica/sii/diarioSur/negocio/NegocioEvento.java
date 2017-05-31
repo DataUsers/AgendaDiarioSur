@@ -41,16 +41,6 @@ public interface NegocioEvento {
 
     /**
      * 
-     * @param pagina
-     * @param maxCalificaciones
-     * @param evento
-     * @return
-     * @throws DiarioSurException 
-     */
-    List getCalificaciones(int pagina, int maxCalificaciones, Evento evento) throws DiarioSurException;
-
-    /**
-     * 
      * @param maxResult
      * @return
      * @throws DiarioSurException 
