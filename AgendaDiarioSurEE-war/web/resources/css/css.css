@@ -324,3 +324,63 @@ form{
     padding-bottom: 35px;
  
 }
+
+/*pagina busqueda*/
+
+.evento_wrapper{
+    background-color: #191921;
+    position:relative;
+    height:210px;
+    margin-top: 10px;
+    margin-bottom:15px;
+    padding:5px;
+    color:white;
+}
+
+.evento_nombre{
+    float:left;
+    font-family: Heroic,'Arial Narrow';
+    font-size:50px;
+    text-transform: uppercase;
+    font-weight: bold;
+    padding:5px;
+    margin-right:100px;
+    width: 400px;
+}
+
+.evento_imagen{
+    float:left;
+    padding:5px;
+}
+
+.evento_fecha{
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right:15%;
+    width:100px;
+    border-left: solid grey;
+    padding:10px;
+}
+
+.evento_fecha_titulo{
+    font-family: Heroic,'Arial Narrow'; 
+    font-size: 30px; 
+    color: #d20a11;
+}
+
+.evento_descripcion{
+    float:left;
+    width:300px;
+    margin-left:5px;
+}
+
+.evento_botones{
+    position:absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 5%;
+}
+td{
+    width:1000px;
+}
