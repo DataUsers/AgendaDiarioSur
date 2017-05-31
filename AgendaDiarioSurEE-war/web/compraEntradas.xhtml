@@ -16,34 +16,31 @@
             <h:form onsubmit="return validate()">
                <p:panel header="Compra de Entradas para eventos" id="panel">
                  <h:messages style="size:4in 6in;color:red " />
-                 <h:dataTable  border="1">
                          <h:panelGrid columns="2">
                                     <h:panelGroup>
                                         <p:panel header="Evento">
-                                           <!-- <p:graphicImage value="#{compra.fotoEvento}" width="25%"  height="25%"/> -->
-                                           <h:outputText value="HOLA"/>
+                                            <p:graphicImage value="#compra.fotoEvento}" width="25%"  height="25%"/> 
                                         </p:panel> 
                                     </h:panelGroup>
-                                    <!-- <h:panelGroup>
+                                     <h:panelGroup>
                                         <p:panel header="Detalles de compra ">
-                                            <h:outputText value="Fecha: #{compra.fecha}"/>
+                                            <h:outputText value="Fecha: #compra.fecha}"/>
                                             <p>Tipo Evento:
-                                                <h:outputText value="#{compra.tipoEvento}" />
+                                                <h:outputText value="#compra.tipoEvento}" />
                                             </p>
                                             <h:panelGrid>
                                                 <h:outputText value="Número Entradas: "/> 
-                                                     <input type="number" value="#{compra.numEntradasSeleccionadas}" min="1" max="10"></input>
-                                                <h:outputText value="Total: #{compra.calcularPrecio()} €" />
+                                                     <input type="number" value="#compra.numEntradasSeleccionadas}" min="1" max="10"></input>
+                                                <h:outputText value="Total: #compra.calcularPrecio()} €" />
                                             </h:panelGrid>
                                         </p:panel>
                                     </h:panelGroup>
                                     <h:panelGroup>
                                         <p:panel header="Descripción del evento">
-                                            <h:outputText value="#{compra.descripcionEvento}" />
+                                            <h:outputText value="#compra.descripcionEvento}" />
                                         </p:panel> 
-                                    </h:panelGroup> -->  
+                                    </h:panelGroup>  
                                   </h:panelGrid>
-                         </h:dataTable>
                    <h:panelGroup>
 
                         <br></br>  
@@ -53,15 +50,21 @@
                             <h:panelGrid >
                                 <br></br>
                                 <p:panel> 
-                                    <p:graphicImage value="resources/imagenes/mastercard.jpg"  width="25%"  height="25%"/>
+                                    
                                     <h:selectOneRadio  id="tarjetaMasterCard" >
-                                        <f:selectItem itemValue="Mastercard" itemLabel="Mastercard" /> 
-                                    </h:selectOneRadio>
-                                </p:panel>
-                                <p:panel> 
-                                    <p:graphicImage value="resources/imagenes/visa.jpg"  width="25%"  height="62%"/>
-                                    <h:selectOneRadio  id="tarjetaVisa" >
-                                        <f:selectItem itemValue="Visa" itemLabel="Visa" />
+                                         <f:selectItem itemValue="Mastercard" itemLabel="Mastercard" />  
+                                          
+                                           <f:selectItem itemValue="Visa" itemLabel="Visa" />
+                                        <h:panelGrid columns="2">
+                                            <h:panelGroup>
+                                             <p:graphicImage value="resources/imagenes/mastercard.jpg"  width="25%"  height="25%"/>
+                                            </h:panelGroup>
+                                            <h:panelGroup >
+                                             <p:graphicImage value="resources/imagenes/visa.jpg"  width="25%"  height="62%"/>
+                                            </h:panelGroup>
+                                       
+                                        </h:panelGrid>
+                                   
                                     </h:selectOneRadio>
                                 </p:panel>
                             </h:panelGrid>
@@ -89,7 +92,5 @@
             </p:panel>
         </c:otherwise>
        </c:choose>
-        
-
     </ui:define>
 </ui:composition>
