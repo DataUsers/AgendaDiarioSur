@@ -83,12 +83,21 @@ a{
 .barra_content{
     width: 70em;
     margin: auto;
-    color: white;
+    color: rgb(190, 18, 25);
     font-size: 15px;
 }
 
 .barra_content a{
     color:white;
+}
+
+.barra_content2{
+    float:right; 
+    color:white;
+}
+
+.barra_content2 a{
+    color:rgb(240, 13, 5);
 }
 
 form{
@@ -102,9 +111,8 @@ form{
 .center_content{
     background-color:  white;
     padding:30px;
-    width: 1042px;
+    width: 1042px; 
     margin: auto;
-    
 }
 .subtitulo{
     font-weight: bold;

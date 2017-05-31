@@ -29,7 +29,8 @@
             }
         </style>
     </ui:define>
-    <ui:define name="content"> 
+    <ui:define name="content">
+        #{paginaTestBean.genera()}
         <div class="wrapper_destacados1">
             <div class="foto1">
                 <a href="/AgendaDiarioSurEE-war/faces/evento.xhtml?evento=#{index.eventos.get(0).idEvento}">

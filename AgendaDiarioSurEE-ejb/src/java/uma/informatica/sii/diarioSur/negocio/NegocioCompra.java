@@ -7,6 +7,7 @@ package uma.informatica.sii.diarioSur.negocio;
 
 import javax.ejb.Local;
 import uma.informatica.sii.diarioSur.entidades.Evento;
+import uma.informatica.sii.diarioSur.entidades.Usuario;
 
 /**
  *
@@ -17,5 +18,6 @@ import uma.informatica.sii.diarioSur.entidades.Evento;
 public interface NegocioCompra {
     
    Evento obtenerEvento(Integer idEvento) throws DiarioSurException;  
-    
+   
+   void generarEntradas(Evento envento, Integer numEntradasSeleccionadas,Usuario usuario);
 }
