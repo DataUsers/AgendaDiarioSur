@@ -1,55 +1,68 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
     <h:head>
-        <title>Facelet Title</title>
+        <title>Creacion de Usuarios y eventos</title>
     </h:head>
     <h:body>
-        Hello from Facelets
+       <h:panelGrid columns="3">
+        <h:panelGroup>
         <h:form>
-            <p>nombre</p>
-            <h:inputText label="nombre" value="#{paginaTestBean.nombre}"/>
+            <div class="tittle">
+               Crear un Usuario
+            </div>
             <br/>
-            <p>apellido</p>
-            <h:inputText label="apellido" value="#{paginaTestBean.contrasena}"/>
+              <p> Nombre   </p>
+            <h:inputText class="required" label="nombre" value="#{paginaTestBean.nombre}"/>
             <br/>
-            <p>email</p>
+              <p> Apellidos   </p>
+            <h:inputText class="required" label="apellido" value="#{paginaTestBean.contrasena}"/>
+            <br/>
+              <p> Direccion Email   </p>
             <h:inputText label="email" value="#{paginaTestBean.email}" />
             <br/>
-            <p>dni</p>
+              <p> DNI   </p>
             <h:inputText label="dni" value="#{paginaTestBean.dni}"/>
             <br/>
-            <p>contrasenia</p>
+              <p> Contraseña   </p>
             <h:inputSecret value="#{paginaTestBean.contrasena}"/>
-            <h:commandButton action="#{paginaTestBean.crearUsuario()}" value="Crear usuario normal"></h:commandButton>
+            <br/>
+                     <h:commandButton action="#{paginaTestBean.crearUsuario()}" value="Crear usuario normal"></h:commandButton>
+                     <h:commandButton action="#{paginaTestBean.crearUsuarioPrivilegiado()}" value="Crear usuario privilegiado"></h:commandButton>
         </h:form>
-        <h:form>
-            <p>nombre</p>
-            <h:inputText label="nombre" value="#{paginaTestBean.nombre}"/>
-            <br/>
-            <p>apellido</p>
-            <h:inputText label="apellido" value="#{paginaTestBean.contrasena}"/>
-            <br/>
-            <p>email</p>
-            <h:inputText label="email" value="#{paginaTestBean.email}" />
-            <br/>
-            <p>dni</p>
-            <h:inputText label="dni" value="#{paginaTestBean.dni}"/>
-            <br/>
-            <p>contrasenia</p>
-            <h:inputSecret value="#{paginaTestBean.contrasena}"/>
-            <h:commandButton action="#{paginaTestBean.crearUsuarioPrivilegiado()}" value="Crear usuario privilegiado"></h:commandButton>
-        </h:form>
-        <h:form>
-            <h:inputText label="Numero de eventos a generar" value="#{paginaTestBean.numEventos}" />
-            <h:commandButton value="Crear evento placeholder" action="#{paginaTestBean.crearEvento()}"/>
-        </h:form>
+       </h:panelGroup> 
+           <h:panelGroup></h:panelGroup>
+       <h:panelGroup> 
+        <div class="tittle">
+              Crear un Administrador
+        </div>
         <br/>
         <h:form>
             <h:commandButton action="#{paginaTestBean.crearAdmin()}" value="Crear administrador(admin@admin.admin/admin)"></h:commandButton>
         </h:form>
-        <h:button outcome="index" value="A index"/>
+        <br/>
+        <br/>
+        <br/>
+         <h:form>
+             <div class="tittle">
+              Crear Eventos
+            </div>
+               <br/>
+            <h:inputText label="Numero de eventos a generar" value="#{paginaTestBean.numEventos}" />
+            <br/>
+            <h:commandButton value="Crear evento placeholder" action="#{paginaTestBean.crearEvento()}"/>
+        </h:form> 
+        <br/>
+        <br/>
+         <div class="tittle">
+              Web Principal
+        </div>
+        <br/>
+        <h:button outcome="index" value="Regresar a la web"/>
+       </h:panelGroup>
+       </h:panelGrid>
     </h:body>
 </html>
 
