@@ -17,7 +17,7 @@ import uma.informatica.sii.diarioSur.entidades.Usuario;
 @Local
 public interface NegocioCompra {
     
-   Evento obtenerEvento(Integer idEvento) throws DiarioSurException;  
+   Evento obtenerEvento(String idEvento) throws DiarioSurException;  
    
    void generarEntradas(Evento envento, Integer numEntradasSeleccionadas,Usuario usuario);
 }

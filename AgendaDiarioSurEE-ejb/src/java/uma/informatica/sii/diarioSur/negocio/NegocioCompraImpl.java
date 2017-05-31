@@ -55,8 +55,9 @@ public class NegocioCompraImpl implements NegocioCompra {
         
     }
     @Override
-    public Evento obtenerEvento(Integer id) throws DiarioSurException {
-        Evento evento = em.find(Evento.class, id);
+    public Evento obtenerEvento(String id) throws DiarioSurException {
+        
+        Evento evento = em.find(Evento.class, Integer.parseInt(id));
         if (evento == null) {
             throw new EventoNoEncException();
         }

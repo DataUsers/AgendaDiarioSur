@@ -10,34 +10,44 @@
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <ui:define name="title">Agenda Diario Sur - Compra Entradas</ui:define>
     <ui:define name="subtitulo">Comprar Entradas</ui:define>
-    <ui:define name="content">
+    <ui:define name="content"> 
+        <f:metadata>
+            <f:viewAction action="#{compra.cargarDatos()}" />
+        </f:metadata>
         <c:choose>
         <c:when test="#{controlAutorizacion.sesionIniciada()}">
             <h:form onsubmit="return validate()">
                <p:panel header="Compra de Entradas para eventos" id="panel">
                  <h:messages style="size:4in 6in;color:red " />
                          <h:panelGrid columns="2">
-                                    <h:panelGroup>
+                                    <h:panelGroup >
                                         <p:panel header="Evento">
                                             <p:graphicImage value="#compra.fotoEvento}" width="25%"  height="25%"/> 
                                         </p:panel> 
                                     </h:panelGroup>
-                                     <h:panelGroup>
+                                     <h:panelGroup  >
                                         <p:panel header="Detalles de compra ">
-                                            <h:outputText value="Fecha: #compra.fecha}"/>
+                                            <h:outputText value="Fecha:    #{compra.fecha}"/>
                                             <p>Tipo Evento:
-                                                <h:outputText value="#compra.tipoEvento}" />
+                                                <h:outputText value="#{compra.tipoEvento}" />
                                             </p>
-                                            <h:panelGrid>
-                                                <h:outputText value="Número Entradas: "/> 
-                                                     <input type="number" value="#compra.numEntradasSeleccionadas}" min="1" max="10"></input>
-                                                <h:outputText value="Total: #compra.calcularPrecio()} €" />
-                                            </h:panelGrid>
+                                            
+                                            <h:panelGrid >
+                                                <h:panelGrid columns="2">
+                                                 <h:panelGrid>
+                                                <h:outputText value="Número Entradas:"/> 
+                                                </h:panelGrid> 
+                                                <h:panelGrid>
+                                                     <input type="number" value="{#compra.numEntradasSeleccionadas}" min="1" max="10"></input>
+                                                </h:panelGrid>
+                                                <h:outputText value="Total: #{compra.calcularPrecio()} €" />
+                                               </h:panelGrid>
+                                           </h:panelGrid>
                                         </p:panel>
                                     </h:panelGroup>
                                     <h:panelGroup>
                                         <p:panel header="Descripción del evento">
-                                            <h:outputText value="#compra.descripcionEvento}" />
+                                            <h:outputText value="#{compra.descripcionEvento}" />
                                         </p:panel> 
                                     </h:panelGroup>  
                                   </h:panelGrid>
@@ -50,21 +60,16 @@
                             <h:panelGrid >
                                 <br></br>
                                 <p:panel> 
-                                    
-                                    <h:selectOneRadio  id="tarjetaMasterCard" >
-                                         <f:selectItem itemValue="Mastercard" itemLabel="Mastercard" />  
-                                          
-                                           <f:selectItem itemValue="Visa" itemLabel="Visa" />
-                                        <h:panelGrid columns="2">
+                                    <h:selectOneRadio  id="tarjetaMasterCard" styleClass="radiolabelPF" >
+                                         <f:selectItem itemValue="Mastercard"  itemLabel="Mastercard" /> 
+                                         <h:outputLabel styleClass="radiolabelPF"></h:outputLabel>
+                                         <f:selectItem itemValue="Visa" itemLabel="Visa"  />
                                             <h:panelGroup>
-                                             <p:graphicImage value="resources/imagenes/mastercard.jpg"  width="25%"  height="25%"/>
+                                            <p:graphicImage value="resources/imagenes/mastercard.jpg" style="margin: 0px 20px 20px 20px" width="25%"  height="25%"/>
                                             </h:panelGroup>
                                             <h:panelGroup >
-                                             <p:graphicImage value="resources/imagenes/visa.jpg"  width="25%"  height="62%"/>
-                                            </h:panelGroup>
-                                       
-                                        </h:panelGrid>
-                                   
+                                            <p:graphicImage value="resources/imagenes/visa.jpg" style="margin: 0px 20px 20px 20px" width="25%"  height="62%"/>
+                                            </h:panelGroup>                                       
                                     </h:selectOneRadio>
                                 </p:panel>
                             </h:panelGrid>
@@ -73,17 +78,24 @@
 
                         <tr>
                             <td>Numero Tarjeta:</td>
-                            <td><h:inputText id="numTarjeta" value="#{compra.numTarjeta}"/>
+                            <td><h:inputText styleClass="compraEvento" id="numTarjeta"   value="#{compra.numTarjeta}"/>
                             </td>
                         </tr>
                         <tr>
                             <td>Codigo Seguridad:</td>
-                            <td><h:inputSecret id="codSeguridad" value="#{compra.numSecreto}"/></td>
+                            <td><h:inputSecret styleClass="compraEvento" id="codSeguridad"  value="#{compra.numSecreto}"/></td>
                         </tr>
                     </h:panelGroup>
-                    <h:commandButton  type="submit" value="Validar compra"  action="#{compra.validarCompra()}"/> 
-                    <h:commandButton  type="submit" value="Cancelar compra" action="#{compra.cancelarCompra()}"/>
-                </p:panel>
+                    <br/>
+                    <h:panelGrid columns="2">
+                        <h:panelGroup>
+                            <h:commandButton styleClass="botonCompra" type="submit" value="Validar compra"  action="#{compra.validarCompra()}"/> 
+                        </h:panelGroup>  
+                       <h:panelGroup> 
+                            <h:commandButton styleClass="botonCompra" type="submit" value="Cancelar compra" action="#{compra.cancelarCompra()}"/>
+                       </h:panelGroup>
+                 </h:panelGrid>
+               </p:panel>
             </h:form>
         </c:when>
         <c:otherwise> 

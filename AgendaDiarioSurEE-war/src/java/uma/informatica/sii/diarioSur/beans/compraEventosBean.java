@@ -9,21 +9,14 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
-import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject; 
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
-import org.primefaces.model.map.DefaultMapModel;
-import org.primefaces.model.map.MapModel;
-import uma.informatica.sii.diarioSur.entidades.CalificacionEvento;
-import uma.informatica.sii.diarioSur.entidades.EntradaEvento;
 import uma.informatica.sii.diarioSur.entidades.Evento;
-import uma.informatica.sii.diarioSur.entidades.Publicidad;
 import uma.informatica.sii.diarioSur.entidades.Usuario;
 import uma.informatica.sii.diarioSur.negocio.DiarioSurException;
 import uma.informatica.sii.diarioSur.negocio.NegocioCompra;
-import uma.informatica.sii.diarioSur.negocio.NegocioPerfil;
 
 /**
  *
@@ -41,6 +34,7 @@ public class compraEventosBean  implements Serializable {
     
     
     private Evento  evento;                     // Variable para datos del evento que se va a comprar
+    private String  idEvento;
     private Usuario usuario;                    // Mantenemos el usuario que está realizando la compra 
     private String  nombreEvento;               // Nombre del evento 
     private String  fecha;                      // Fecha en la que se celebra el evento.
@@ -51,13 +45,36 @@ public class compraEventosBean  implements Serializable {
     private Integer numEntradasSeleccionadas;   // Numero de entradas seleccionadas para la compra
     private String  numTarjeta;                 // Numero de la tarjeta que introducirá
     private String  numSecreto;                 // Numero secreto asociado a la tarjeta 
-    private String  precioEntrada;
-    private String  currentUrl;                 //
-    private String  currentURI;
-    private String  eventId;
+    private Integer  precioEntrada;
+    
     private final   FacesContext ctx = FacesContext.getCurrentInstance();
    
-       
+     
+    public void cargarDatos() throws DiarioSurException{
+        setUsuario(ctrl.getUsuario());
+        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        idEvento = request.getParameter("evento");
+        evento= comprar.obtenerEvento(idEvento);
+        setNombreEvento(evento.getNombre());
+        setNumEntradas(evento.getNumero_entradas());
+        setPrecioEntrada(evento.getPrecio());
+        setTipoEvento(evento.getTipoEvento().toString());
+        /*
+        // Forma de escoger las fechas posteriroes a la actual.
+        boolean encontrada = false;
+        Date primeraFecha = null;
+        for(Date d:evento.getFechas())  {
+             if((d.after(new Date())) && !encontrada ) {
+                 primeraFecha=d;
+                 encontrada=true;
+             }
+        }*/
+        DateFormat formato = new SimpleDateFormat("dd-MM-yyyy"); 
+        setFecha(formato.format(evento.getFechas().get(0)));  
+        
+    }
+    
+    
     public String cancelarCompra(){
        return  "evento.xhtml?evento=" + evento.getIdEvento() + "&faces-redirect=true";
     }
@@ -91,11 +108,13 @@ public class compraEventosBean  implements Serializable {
         }
        return valido;
     }
-
+    
+    public String calcularPrecio(){
+      return String.valueOf(numEntradasSeleccionadas*precioEntrada);
+    }
+    
     public Evento getEvento() throws DiarioSurException {
-        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-        String id=request.getParameter("evento");
-        return comprar.obtenerEvento(Integer.parseInt(id));
+        return evento ;
     }
 
     public void setEvento(Evento evento) {
@@ -121,16 +140,7 @@ public class compraEventosBean  implements Serializable {
    
     //Conseguimos la primera fecha para comprar una entrada para el evento
     public String getFecha() {
-        boolean encontrada = false;
-        Date primeraFecha = null;
-        for(Date d:evento.getFechas())  {
-             if(d.after(new Date()) && !encontrada ) {
-                 primeraFecha=d;
-                 encontrada=true;
-             }
-        }
-       DateFormat formato = new SimpleDateFormat("dd-MM-yyyy");
-        return formato.format(primeraFecha);
+        return fecha;
     }
 
     public void setFecha(String fecha) {
@@ -151,6 +161,14 @@ public class compraEventosBean  implements Serializable {
 
     public void setDescripcionEvento(String descripcionEvento) {
         this.descripcionEvento = descripcionEvento;
+    }
+
+    public String getIdEvento() {
+        return idEvento;
+    }
+
+    public void setIdEvento(String idEvento) {
+        this.idEvento = idEvento;
     }
 
     public Integer getNumEntradas() {
@@ -193,11 +211,11 @@ public class compraEventosBean  implements Serializable {
         this.numSecreto = numSecreto;
     }
 
-    public String getPrecioEntrada() {
-        return evento.getPrecio().toString();
+    public Integer getPrecioEntrada() {
+        return precioEntrada;
     }
 
-    public void setPrecioEntrada(String precioEntrada) {
+    public void setPrecioEntrada(Integer precioEntrada) {
         this.precioEntrada = precioEntrada;
     } 
     
