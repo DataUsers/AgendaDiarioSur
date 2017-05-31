@@ -24,7 +24,7 @@
                     <c:when test="#{controlAutorizacion.sesionIniciada()}">
                         Hola, #{controlAutorizacion.usuario.nombre} |
                         <h:form> 
-                            <h:commandLink value="Tu perfil" action="Perfil" /> | <h:commandLink value="Cerrar sesión" action="#{controlAutorizacion.logout()}" />
+                            <h:commandLink value="Tu perfil" action="perfil" /> | <h:commandLink value="Cerrar sesión" action="#{controlAutorizacion.logout()}" />
                         </h:form>
                     </c:when>
 
@@ -50,7 +50,7 @@
                 <h:link value="DESFILES" outcome="busqueda?filtrar=Desfiles"/> |
                 <h:link value="EXPOSICIONES" outcome="busqueda?filtrar=Exposiciones"/> |
                 <h:link value="FERIAS" outcome="busqueda?filtrar=Ferias"/> |
-                <h:link value="CINES" outcome="busqueda?filtrar=Cines"/>
+                <h:link value="CINE" outcome="busqueda?filtrar=Cines"/>
 
                 <div class="barra_content2">
                     <h:link value="BUSCADOR" outcome="busqueda" /> | 

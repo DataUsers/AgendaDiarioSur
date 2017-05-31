@@ -46,41 +46,41 @@
 
             <h:panelGroup>
                 <ui:repeat value="#{busqueda.eventosMostrar}" var="event">
-                    <div class="evento_wrapper">
+                    <div class="busc_evento_wrapper">
 
-                        <div class="evento_imagen">
+                        <div class="busc_evento_imagen">
                             <a href="evento.xhtml?evento=#{event.idEvento}">
                                 <p:graphicImage value="#{event.imagenes[0]}" width="250px" height="200px"/>
                             </a>                        
                         </div>
-<!--                        <div class="evento_nombre_descripcion">-->
-                            <div class="evento_nombre">
-                                <a href="evento.xhtml?evento=#{event.idEvento}">
-                                    #{event.nombre}
-                                </a>
-                                
-                            </div>
-                            <div class="evento_descripcion">
-                                <h:outputText value="#{event.descripcion}"></h:outputText>    
-                            </div>
+                        <!--                        <div class="evento_nombre_descripcion">-->
+                        <div class="busc_evento_nombre">
+                            <a href="evento.xhtml?evento=#{event.idEvento}">
+                                #{event.nombre}
+                            </a>
+
+                        </div>
+                        <div class="busc_evento_descripcion">
+                            <h:outputText value="#{event.descripcion}"></h:outputText>    
+                        </div>
                         <!--</div>-->
-                        
-                        <div class="evento_botones">
+
+                        <div class="busc_evento_botones">
                             <!-- compartir y compra -->
                             <h:graphicImage style="width: 40px" onclick="return shareTwitter('#{busqueda.construirEnlace(event.idEvento)}')" value="resources/imagenes/twitter.png"/>
                             <br/>
                             <h:graphicImage style="width: 30px" onclick="return shareFacebook('#{event.idEvento}')" value="resources/imagenes/fb-art.png"/>                 
                         </div>
 
-                        <div class="evento_fecha">
-                            <div class="evento_fecha_titulo">FECHAS</div>
+                        <div class="busc_evento_fecha">
+                            <div class="busc_evento_fecha_titulo">FECHAS</div>
                             <h:dataTable value="#{event.fechas}" var="fecha">
                                 <h:column>
                                     <h:outputText value="#{fecha}"/>
                                 </h:column>
                             </h:dataTable>
                         </div>
-                        
+
 
                     </div>
                 </ui:repeat>
