@@ -381,7 +381,7 @@ form{
     transform: translateY(-50%);
     right: 5%;
 }
-td{
+.wrapper_busqueda td{
     width:1000px;
 }
 

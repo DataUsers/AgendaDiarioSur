@@ -23,86 +23,87 @@
             <p id="localizacion"></p>
             <button onclick="getGeo()">Obtener Geolocalizacion</button>
         </div>
+        <div class="wrapper_busqueda">
+            <h:panelGrid columns="1" style="margin: 0 auto;"> <!-- Poner en css -->
+                <h:panelGroup>
+                    <!-- busqueda -->
+                    <form method="GET" action="busqueda.xhtml" onsubmit="">
+                        <!-- longitud y latitud para busqueda en la bd -->
+                        <input type="hidden" id="latitud" name="latitud"></input>
+                        <input type="hidden" id="longitud" name="longitud"></input>
+                        <!-- filtros -->
+                        <h:panelGrid columns="6">
+                            <ui:repeat var="filtros" value="#{busqueda.filtros}">
+                                <label for="#{filtros}">#{filtros}</label>
+                                <input type="checkbox" id="#{filtros}" name="filtrar" value="#{filtros}" />
+                            </ui:repeat>
+                        </h:panelGrid>
 
-        <h:panelGrid columns="1" style="margin: 0 auto;"> <!-- Poner en css -->
-            <h:panelGroup>
-                <!-- busqueda -->
-                <form method="GET" action="busqueda.xhtml" onsubmit="">
-                    <!-- longitud y latitud para busqueda en la bd -->
-                    <input type="hidden" id="latitud" name="latitud"></input>
-                    <input type="hidden" id="longitud" name="longitud"></input>
-                    <!-- filtros -->
-                    <h:panelGrid columns="6">
-                        <ui:repeat var="filtros" value="#{busqueda.filtros}">
-                            <label for="#{filtros}">#{filtros}</label>
-                            <input type="checkbox" id="#{filtros}" name="filtrar" value="#{filtros}" />
-                        </ui:repeat>
+                        <input type="text" name="q" placeholder="Buscar por nombre, ciudad, tipo..."></input>
+                        <input type="submit" id="submitBusq" value="Enviar"></input>
+                    </form>
+                </h:panelGroup>
+
+                <h:panelGroup>
+                    <ui:repeat value="#{busqueda.eventosMostrar}" var="event">
+                        <div class="busc_evento_wrapper">
+
+                            <div class="busc_evento_imagen">
+                                <a href="evento.xhtml?evento=#{event.idEvento}">
+                                    <p:graphicImage value="#{event.imagenes[0]}" width="250px" height="200px"/>
+                                </a>                        
+                            </div>
+                            <!--                        <div class="evento_nombre_descripcion">-->
+                            <div class="busc_evento_nombre">
+                                <a href="evento.xhtml?evento=#{event.idEvento}">
+                                    #{event.nombre}
+                                </a>
+
+                            </div>
+                            <div class="busc_evento_descripcion">
+                                <h:outputText value="#{event.descripcion}"></h:outputText>    
+                            </div>
+                            <!--</div>-->
+
+                            <div class="busc_evento_botones">
+                                <!-- compartir y compra -->
+                                <h:graphicImage style="width: 40px" onclick="return shareTwitter('#{busqueda.construirEnlace(event.idEvento)}')" value="resources/imagenes/twitter.png"/>
+                                <br/>
+                                <h:graphicImage style="width: 30px" onclick="return shareFacebook('#{event.idEvento}')" value="resources/imagenes/fb-art.png"/>                 
+                            </div>
+
+                            <div class="busc_evento_fecha">
+                                <div class="busc_evento_fecha_titulo">FECHAS</div>
+                                <h:dataTable value="#{event.fechas}" var="fecha">
+                                    <h:column>
+                                        <h:outputText value="#{fecha}"/>
+                                    </h:column>
+                                </h:dataTable>
+                            </div>
+
+
+                        </div>
+                    </ui:repeat>
+
+                    <h:panelGrid columns="2">
+                        <h:panelGroup>
+                            <c:if test="#{busqueda.hasPrevPage}">
+                                <h:form>
+                                    <h:commandButton action="#{busqueda.paginaAnterior()}" value="Pagina Anterior"/>
+                                </h:form>
+                            </c:if>
+                        </h:panelGroup>
+                        <h:panelGroup>
+                            <c:if test="#{busqueda.hasNextPage}">
+                                <h:form>
+                                    <h:commandButton action="#{busqueda.paginaSiguiente()}" value="Pagina Siguiente"/>
+                                </h:form>
+                            </c:if>
+                        </h:panelGroup>
                     </h:panelGrid>
-
-                    <input type="text" name="q" placeholder="Buscar por nombre, ciudad, tipo..."></input>
-                    <input type="submit" id="submitBusq" value="Enviar"></input>
-                </form>
-            </h:panelGroup>
-
-            <h:panelGroup>
-                <ui:repeat value="#{busqueda.eventosMostrar}" var="event">
-                    <div class="busc_evento_wrapper">
-
-                        <div class="busc_evento_imagen">
-                            <a href="evento.xhtml?evento=#{event.idEvento}">
-                                <p:graphicImage value="#{event.imagenes[0]}" width="250px" height="200px"/>
-                            </a>                        
-                        </div>
-                        <!--                        <div class="evento_nombre_descripcion">-->
-                        <div class="busc_evento_nombre">
-                            <a href="evento.xhtml?evento=#{event.idEvento}">
-                                #{event.nombre}
-                            </a>
-
-                        </div>
-                        <div class="busc_evento_descripcion">
-                            <h:outputText value="#{event.descripcion}"></h:outputText>    
-                        </div>
-                        <!--</div>-->
-
-                        <div class="busc_evento_botones">
-                            <!-- compartir y compra -->
-                            <h:graphicImage style="width: 40px" onclick="return shareTwitter('#{busqueda.construirEnlace(event.idEvento)}')" value="resources/imagenes/twitter.png"/>
-                            <br/>
-                            <h:graphicImage style="width: 30px" onclick="return shareFacebook('#{event.idEvento}')" value="resources/imagenes/fb-art.png"/>                 
-                        </div>
-
-                        <div class="busc_evento_fecha">
-                            <div class="busc_evento_fecha_titulo">FECHAS</div>
-                            <h:dataTable value="#{event.fechas}" var="fecha">
-                                <h:column>
-                                    <h:outputText value="#{fecha}"/>
-                                </h:column>
-                            </h:dataTable>
-                        </div>
-
-
-                    </div>
-                </ui:repeat>
-
-                <h:panelGrid columns="2">
-                    <h:panelGroup>
-                        <c:if test="#{busqueda.hasPrevPage}">
-                            <h:form>
-                                <h:commandButton action="#{busqueda.paginaAnterior()}" value="Pagina Anterior"/>
-                            </h:form>
-                        </c:if>
-                    </h:panelGroup>
-                    <h:panelGroup>
-                        <c:if test="#{busqueda.hasNextPage}">
-                            <h:form>
-                                <h:commandButton action="#{busqueda.paginaSiguiente()}" value="Pagina Siguiente"/>
-                            </h:form>
-                        </c:if>
-                    </h:panelGroup>
-                </h:panelGrid>
-            </h:panelGroup>
-        </h:panelGrid>
+                </h:panelGroup>
+            </h:panelGrid>
+        </div>
         <script type="text/javascript" src="resources/js/share.js"></script>
         <script type="text/javascript" src="resources/js/busqueda.js"></script>
     </ui:define>
