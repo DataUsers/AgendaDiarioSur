@@ -18,67 +18,77 @@
         </f:metadata>
 
         <c:choose>
-
             <c:when test="#{evento.validado}">
-                <div>
-                    <h1>#{evento.evento.nombre}</h1>
+                <div class="evento_nombre">
+                    #{evento.evento.nombre}
                 </div>
-                <div>
+                <div class="evento_imagen">
                     <p:galleria value="#{evento.imagenes}" var="image" 
-                                autoPlay="true" effect="fade">
+                                autoPlay="true" effect="fade" >
                         <p:graphicImage
                             title="#{image}" alt="#{image}"
                             width="100%" height="100%" value="#{image}">
                         </p:graphicImage>
                     </p:galleria>
                 </div>
+                <div class="evento_contenido">
+                    <div class="evento_descripcion">
+<!--                    <h:outputLink value="#{evento.evento.URLOrganizador}">#{evento.evento.organizador}</h:outputLink>
+                    <br></br>-->
+                        <h:outputText value="#{evento.evento.descripcion}"/>
+                    </div>
+                    <div class="evento_fechas_precio_botones">
+                        <div class="evento_fechas">
+                            <div class="busc_evento_fecha_titulo">FECHAS</div>                       
+                            <h:dataTable value="#{evento.evento.fechas}" var="fecha">
+                                <h:column>
+                                    <h:outputText value="#{fecha}"/>
+                                </h:column>
+                            </h:dataTable>
+                        </div>
+                        <div class="evento_precio">
+                            <div class="busc_evento_fecha_titulo">
+                                PRECIO
+                            </div>
+                            #{evento.evento.precio}€
+                        </div>
 
-                <div>
-                    <h1>Fechas</h1>
-                    <ui:repeat value="#{evento.evento.fechas}" var="fecha">
-                        <h:outputText value="#{fecha}"/>
-                    </ui:repeat>
+                        <div class="evento_botones">
+                            <h:button value="Comprar" outcome="compraEntradas.xhtml?evento=#{evento.eventId}" />
+                            <br></br>
+                            <h:form>
+                                <h:commandButton value="Favoritos #{evento.numeroFavoritos()}" 
+                                                 action="#{evento.marcarFavorito()}" />
+                            </h:form>
+                            
+                            <h:graphicImage style="width: 40px" onclick="return shareTwitter('#{evento.currentUrl}')" value="resources/imagenes/twitter 2.png"/>
+                            <br/>
+                            <h:graphicImage style="width: 30px" onclick="return shareFacebook('#{evento.eventId}')" value="resources/imagenes/fb-art2.png"/>
+
+                        </div>
+                    </div>
+
+
                 </div>
-
-                <div>
-                    <p>Precio: #{evento.evento.precio}€</p>
-                    <h:button value="Comprar" outcome="compraEntradas.xhtml?evento=#{evento.eventId}" />
-                    <br></br>
-                    <h:form>
-                        <h:commandButton value="Favoritos #{evento.numeroFavoritos()}" 
-                                         action="#{evento.marcarFavorito()}" />
-                    </h:form>
-                </div>
-
-                <div>
-                    <!-- Boton para popup de compartir a facebook o twitter -->
-                    <h:button styleClass="shareButton" value="Compartir Twitter" onclick="return shareTwitter('#{evento.currentUrl}')"/>
-                    <br></br>
-                    <h:button styleClass="shareButton" value="Compartir Facebook" onclick="return shareFacebook('#{evento.eventId}')"/>
-                </div>
-
-                <div>
-                    <h1>DESCRIPCION</h1>
-                    <h:outputLink value="#{evento.evento.URLOrganizador}">#{evento.evento.organizador}</h:outputLink>
-                    <br></br>
-                    <h:outputText value="#{evento.evento.descripcion}"/>
-                </div>
-
-                <div>
+                <div class="evento_mapa">
                     <c:if test="#{not empty evento.evento.latitud and not empty evento.evento.longitud}">
-                        <h1>Ubicacion</h1>
+
                         <p:gmap center="#{evento.geolocalizacion}" zoom="15" type="hybrid" 
                                 style="width:100%;height:200px" model="#{evento.model}"/>
                     </c:if>
                 </div>
 
-                <div><!-- <p:panel style="overflow-y: auto; margin: 0 auto;" header="Comentarios"> -->
-                    <h1>Comentarios</h1>
+
+
+                <div class="evento_comentarios"><!-- <p:panel style="overflow-y: auto; margin: 0 auto;" header="Comentarios"> -->
+                    <div class="busc_evento_fecha_titulo"> COMENTARIOS</div>
+                    
                     <ui:repeat value="#{evento.calificaciones}" var="cal">
-                        <div>
-                            <h1>Comentario</h1>
-                            <h4>Usuario: #{cal.usuarios.nombre}</h4>
-                            <p>#{cal.comentario}</p>
+                        <div class="evento_comentarios_comment">
+                            <div class="evento_comentarios_comment_autor">#{cal.usuarios.nombre}: #{cal.titulo}</div>
+                            #{cal.comentario}
+                            <br/>
+                            <br/>
                             <p>Calificacion: #{cal.puntuacion}</p>
                             <c:if test="#{empty cal.imagen}">
                                 <p:graphicImage value="#{cal.imagen}"/>
@@ -95,7 +105,7 @@
 
 
                 <div>
-                    <h1>Escribir reseña</h1>
+                    <div class="busc_evento_fecha_titulo"> ENVÍA UN COMENTARIO</div>
                     <h:messages />
                     <h:form enctype="multipart/form-data" id="comentario" onsubmit="return validate()">
                         <h:panelGrid columns="2">
@@ -103,11 +113,11 @@
                             <p:rating value="#{evento.calificacion.puntuacion}" stars="5"/>
                         </h:panelGrid>
                         <h:panelGrid columns="1">
-                            <h1>Titulo</h1>
+                            <h1>Titulo:</h1>
                             <h:inputText id="title" value="#{evento.calificacion.titulo}" /> <!-- titulo -->
-                            <h1>Comentario</h1>
+                            <h1>Comentario:</h1>
                             <h:inputTextarea id="texto" value="#{evento.calificacion.comentario}" /> <!-- comentario -->
-                            <h1>Imagen</h1>
+                            <h1>Imagen:</h1>
                             <p:fileUpload
                                 allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
                                 multiple="false"
