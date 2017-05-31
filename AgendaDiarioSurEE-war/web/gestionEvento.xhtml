@@ -26,89 +26,69 @@
             </div>
 
             <h:panelGrid columns="1" style="margin: 0 auto;"> <!-- Poner en css -->
-                <!-- busqueda -->
-                <form method="GET" action="gestionEvento.xhtml" onsubmit="">
-                    <!-- longitud y latitud para busqueda en la bd -->
-                    <input type="hidden" id="latitud" name="latitud"></input>
-                    <input type="hidden" id="longitud" name="longitud"></input>
-                    <!-- filtros -->
-                    <h:panelGrid columns="6">
-                        <ui:repeat var="filtros" value="#{gestionEvento.filtros}">
-                            <label for="#{filtros}">#{filtros}</label>
-                            <input type="checkbox" id="#{filtros}" name="filtrar" value="#{filtros}" />
-                        </ui:repeat>
-                    </h:panelGrid>
+                <h:panelGroup>
+                    <!-- busqueda -->
+                    <form method="GET" action="gestionEvento.xhtml" onsubmit="">
+                        <!-- longitud y latitud para busqueda en la bd -->
+                        <input type="hidden" id="latitud" name="latitud"></input>
+                        <input type="hidden" id="longitud" name="longitud"></input>
+                        <!-- filtros -->
+                        <h:panelGrid columns="6">
+                            <ui:repeat var="filtros" value="#{gestionEvento.filtros}">
+                                <label for="#{filtros}">#{filtros}</label>
+                                <input type="checkbox" id="#{filtros}" name="filtrar" value="#{filtros}" />
+                            </ui:repeat>
+                        </h:panelGrid>
 
-                    <input type="text" name="q" placeholder="Buscar por nombre, ciudad, tipo..."></input>
-                    <input type="submit" id="submitBusq" value="Enviar"></input>
-                </form>
-                <p:panel header="Gestion de eventos">
+                        <input type="text" name="q" placeholder="Buscar por nombre, ciudad, tipo..."></input>
+                        <input type="submit" id="submitBusq" value="Enviar"></input>
+                    </form>
+                </h:panelGroup>
 
-                    <h:dataTable id="listaEvento" value="#{gestionEvento.eventosMostrar}" var="event" border="1">
-                        <h:column>
-                            <p:panel>
-                                <h:form>
-                                    <h:panelGrid columns="3">
-                                        <h:panelGroup>
-                                            <!-- imagen -->
-                                            <p:graphicImage value="#{event.imagenes[0]}"
-                                                            width="250px"
-                                                            height="200px"/>
-                                        </h:panelGroup>
-                                        <h:panelGroup>
-                                            <p:panel header="Editar #{event.nombre}">
-                                                <h:panelGrid columns="2">
-                                                    <h:outputLabel for="nombre" value="Nombre"/>
-                                                    <h:inputText id="nombre" value="#{event.nombre}"/>
-                                                    <h:outputLabel for="precio" value="Precio"/>
-                                                    <h:inputText id="precio" value="#{event.precio}"/>
-                                                </h:panelGrid>
+                <h:panelGroup>
+                    <ui:repeat value="#{gestionEvento.eventosMostrar}" var="event">
+                        <h1>Editar #{event.nombre}</h1>
+                        <h:form>
+                            <h:panelGrid columns="2">
+                                <h:outputLabel for="nombre" value="Nombre"/>
+                                <h:inputText id="nombre" value="#{event.nombre}"/>
+                                <h:outputLabel for="precio" value="Precio"/>
+                                <h:inputText id="precio" value="#{event.precio}"/>
+                            </h:panelGrid>
+                            <h:panelGrid columns="2">
+                                <ui:repeat varStatus="loop" var="fecha" value="#{event.fechas}">
+                                    <h:inputText value="#{event.fechas[loop.index]}" >
+                                        <f:convertDateTime pattern="dd-MM-yyyy"/>
+                                    </h:inputText>
+                                </ui:repeat>
+                            </h:panelGrid>
+                            <h:panelGrid columns="2">
+                                <h:commandButton value="Añadir fecha" action="#{gestionEvento.anadirFecha(event)}"/>
+                                <h:commandButton value="Eliminar fecha" action="#{gestionEvento.eliminarFecha(event)}"/>
+                            </h:panelGrid>
+                            <h1>Editar descripcion</h1>
+                            <h:inputTextarea value="#{event.descripcion}"/>
+                            <br></br>
+                            <p:button outcome="editEvento.xhtml?evento=#{event.idEvento}" value="Edicion avanzada"/> <!-- hardcodeado -->
+                            <br></br>
+                            <c:if test="#{gestionEvento.comprobarAdmin()}">
+                                <p:commandButton id="delete" action="#{gestionEvento.borrarEvento(event)}"
+                                                 icon="ui-icon ui-icon-trash" 
+                                                 value="Eliminar Evento" 
+                                                 title="EliminarEvento">
+                                    <p:confirm header="Confirmar Eliminar" 
+                                               message="¿Estas seguro de querer eliminar este evento?" 
+                                               icon="ui-icon-alert"/>
+                                </p:commandButton>
 
-                                                <!-- fecha aqui -->
-                                                <h:panelGrid columns="2">
-                                                    <ui:repeat varStatus="loop" var="fecha" value="#{event.fechas}">
-                                                        <h:inputText value="#{event.fechas[loop.index]}" >
-                                                            <f:convertDateTime pattern="dd-MM-yyyy"/>
-                                                        </h:inputText>
-                                                    </ui:repeat>
-                                                </h:panelGrid>
-                                                <h:panelGrid columns="2">
-                                                    <p:commandButton ajax="false" value="Añadir fecha" action="#{gestionEvento.anadirFecha(event)}"/>
-                                                    <p:commandButton ajax="false" value="Eliminar fecha" action="#{gestionEvento.eliminarFecha(event)}"/>
-                                                </h:panelGrid>
-
-                                                <!-- localizacion -->
-                                                <p:panel header="Editar descripcion">
-                                                    <h:inputTextarea value="#{event.descripcion}"/>  
-                                                </p:panel>
-                                            </p:panel>
-                                        </h:panelGroup>
-                                        <h:panelGroup>
-                                            <p:commandButton type="submit" value="Guardar cambios" action="#{gestionEvento.guardarCambios(event)}"/>
-                                            <br></br>
-                                            <p:button outcome="editEvento.xhtml?evento=#{event.idEvento}" value="Edicion avanzada"/> <!-- hardcodeado -->
-                                            <br></br>
-                                            <c:if test="#{gestionEvento.comprobarAdmin()}">
-                                                <p:commandButton id="delete" action="#{gestionEvento.borrarEvento(event)}"
-                                                                 icon="ui-icon ui-icon-trash" 
-                                                                 value="Eliminar Evento" 
-                                                                 title="EliminarEvento">
-                                                    <p:confirm header="Confirmar Eliminar" 
-                                                               message="¿Estas seguro de querer eliminar este evento?" 
-                                                               icon="ui-icon-alert"/>
-                                                </p:commandButton>
-
-                                                <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
-                                                    <p:commandButton title="EliminarSi" value="Yes" styleClass="ui-confirmdialog-yes"/>
-                                                    <p:commandButton title="EliminarNo" value="No" styleClass="ui-confirmdialog-no" />
-                                                </p:confirmDialog>
-                                            </c:if>
-                                        </h:panelGroup>
-                                    </h:panelGrid>
-                                </h:form>
-                            </p:panel>
-                        </h:column>
-                    </h:dataTable>
+                                <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+                                    <p:commandButton title="EliminarSi" value="Yes" styleClass="ui-confirmdialog-yes"/>
+                                    <p:commandButton title="EliminarNo" value="No" styleClass="ui-confirmdialog-no" />
+                                </p:confirmDialog>
+                            </c:if>
+                            <h:commandButton type="submit" value="Guardar cambios" action="#{gestionEvento.guardarCambios(event)}"/>
+                        </h:form>
+                    </ui:repeat>
                     <c:if test="#{gestionEvento.hasPrevPage}">
                         <h:form>
                             <p:commandButton action="#{gestionEvento.paginaAnterior()}" value="Pagina Anterior"/>
@@ -119,7 +99,7 @@
                             <p:commandButton action="#{gestionEvento.paginaSiguiente()}" value="Pagina Siguiente"/>
                         </h:form>
                     </c:if>
-                </p:panel>
+                </h:panelGroup>
             </h:panelGrid>
             <script type="text/javascript" src="resources/js/busqueda.js"></script>
         </c:if>

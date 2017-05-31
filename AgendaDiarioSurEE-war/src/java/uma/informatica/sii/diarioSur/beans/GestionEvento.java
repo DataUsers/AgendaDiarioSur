@@ -251,6 +251,8 @@ public class GestionEvento implements Serializable{
             System.out.println(fecha);
         }
         
+        System.out.println(evento.getDescripcion());
+        
         try {
             negocioEvento.modificarEvento(evento);
         } catch (DiarioSurException ex) {
