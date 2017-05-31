@@ -24,12 +24,14 @@
                         <c:when test="#{controlAutorizacion.sesionIniciada()}">
                             Hola, #{controlAutorizacion.usuario.nombre} |
                             <h:form> 
-                                <h:commandLink value="Tu perfil" action="perfil" /> | <h:commandLink value="Cerrar sesión" action="#{controlAutorizacion.logout()}" />
+                                <h:commandLink value="Tu perfil" action="Perfil" /> | <h:commandLink value="Cerrar sesión" action="#{controlAutorizacion.logout()}" />
                             </h:form>
                         </c:when>
 
-                        <c:otherwise>                                                     
-                                <h:link value="Iniciar sesión" outcome="login" /> | <h:link value="Regístrate" outcome="register"/>
+                        <c:otherwise>
+                            <h:form>
+                                <h:commandLink value="Iniciar sesión" action="login" /> | <h:commandLink value="Regístrate" action="register"/>
+                            </h:form>
                         </c:otherwise>
                     </c:choose>
                 </div>
