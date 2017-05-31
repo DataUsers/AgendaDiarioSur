@@ -86,8 +86,7 @@
                                         <h:panelGroup>
                                             <p:commandButton type="submit" value="Guardar cambios" action="#{gestionEvento.guardarCambios(event)}"/>
                                             <br></br>
-                                            <p:button outcome="editEvento.xhtml?evento=#{event.idEvento}" value="Edicion avanzada"/> <!-- hardcodeado -->
-                                            <br></br>
+
                                             <c:if test="#{gestionEvento.comprobarAdmin()}">
                                                 <p:commandButton id="delete" action="#{gestionEvento.borrarEvento(event)}"
                                                                  icon="ui-icon ui-icon-trash" 
