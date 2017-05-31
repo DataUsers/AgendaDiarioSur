@@ -17,45 +17,54 @@ import uma.informatica.sii.diarioSur.entidades.Evento;
 public interface NegocioEvento {
 
     /**
-     * 
-     * @param idEvento
-     * @return
+     * Busca un evento en la base de datos
+     * @param idEvento del evento en cuestion a buscar 
+     * @return El evento encontrado
      * @throws DiarioSurException 
      */
     Evento findEvento(Integer idEvento) throws DiarioSurException;
 
     /**
+     * Guarda el evento en la BD
      * 
-     * @param evento
+     * Lanza EventoExistenteException si el evento ya existe en la BD
+     * @param evento El evento a guardar
      * @throws DiarioSurException 
      */
     void insertarEvento(Evento evento) throws DiarioSurException;
 
     /**
+     * Obtiene el numero de favortios que tiene el evento
      * 
-     * @param evento
-     * @return
+     * Lanza EventoNoEncException si no existe eñ evento
+     * @param evento El evento al que al que obtener su numero de favoritos
+     * @return El numero de favoritos del evento
      * @throws DiarioSurException 
      */
     Long obtenerNumFav(Evento evento) throws DiarioSurException;
 
     /**
-     * 
-     * @param maxResult
-     * @return
+     * Obtener una lista arbitraria de eventos
+     * @param maxResult Numero maximo de eventos
+     * @return Una lista de eventos con a lo sumo maxResult
      * @throws DiarioSurException 
      */
     List obtenerEventos(int maxResult) throws DiarioSurException;
     
     /**
+     * Elimina de la BD el evento pasado como parametro
      * 
-     * @param evento
+     * Lanza EventoExistenteException si no existe el evento
+     * @param evento El evento a eliminar
      * @throws DiarioSurException 
      */
     void eliminarEvento(Evento evento) throws DiarioSurException;
 
     /**
+     * Modifica el evento de la BD con los valores de los atributos del evento
+     * pasado como parametro.
      * 
+     * Lanza EventoExistenteException si no existe el evento
      * @param evento
      * @throws DiarioSurException 
      */

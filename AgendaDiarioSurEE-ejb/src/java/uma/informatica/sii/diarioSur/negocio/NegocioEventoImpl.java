@@ -78,7 +78,7 @@ public class NegocioEventoImpl implements NegocioEvento {
         Evento eventoBusq = em.find(Evento.class, evento.getIdEvento());
         
         if(eventoBusq == null){
-            throw new CuentaInexistenteException();
+            throw new EventoExistenteException();
         }
         
         em.merge(eventoBusq);
@@ -91,7 +91,7 @@ public class NegocioEventoImpl implements NegocioEvento {
         Evento eventoBusq = em.find(Evento.class, evento.getIdEvento());
         
         if(eventoBusq == null){
-            throw new CuentaInexistenteException();
+            throw new EventoExistenteException();
         }
         
         em.merge(evento);
