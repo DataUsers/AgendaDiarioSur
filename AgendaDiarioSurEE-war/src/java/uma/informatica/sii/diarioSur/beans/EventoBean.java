@@ -19,6 +19,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.component.UIComponent;
 import javax.faces.context.ExternalContext;
@@ -133,12 +134,13 @@ public class EventoBean implements Serializable {
                 }
 
                 // Settear calificaciones
-                calificaciones = negocio.getCalificaciones(commentPage, MAX_CALIFICACIONES, evento);
+                calificaciones = negocioCal.getCalificaciones(commentPage, MAX_CALIFICACIONES, evento);
 
-                if (calificaciones.size() < MAX_CALIFICACIONES) {
+                if (calificaciones.size() <= MAX_CALIFICACIONES) {
                     hasMoreComments = false;
                 } else {
                     hasMoreComments = true;
+                    calificaciones.remove(calificaciones.size() - 1);
                 }
 
                 // Aumentar el numero de visitas de la pagina
@@ -160,6 +162,7 @@ public class EventoBean implements Serializable {
     }
 
     public String nextCommentPage() {
+        System.out.println("mas paginas");
         ++commentPage;
         return currentURI + "&commentPage=" + commentPage + "&faces-redirect=true";
     }
@@ -183,6 +186,8 @@ public class EventoBean implements Serializable {
             // Guardar en la base de datos y redirigir al evento
 
             if (calificacion.getTitulo().length() == 0 || calificacion.getComentario().length() == 0) {
+                FacesContext ctx = FacesContext.getCurrentInstance();
+                ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Debe introducir un titulo y/o un comentario", "Debe introducir un titulo y/o un comentario"));
                 return null;
             }
 
@@ -215,8 +220,6 @@ public class EventoBean implements Serializable {
                         System.out.println("Leidos " + bytesRead);
                     }
 
-                    // Cerrar los streams?
-                    // Settear a la calificacion el path de la imagen
                     calificacion.setImagen(dbPath);
                 } catch (IOException ex) {
                     Logger.getLogger(EventoBean.class.getName()).log(Level.SEVERE, null, ex);
@@ -224,8 +227,12 @@ public class EventoBean implements Serializable {
 
             }
 
+            if (calificacion.getPuntuacion() == null) {
+                calificacion.setPuntuacion(0);
+            }
+
             calificacion.setEventos(evento);
-            calificacion.setUsuarios(ctrl.getUsuario()); // CTRL DEBERIA DE DEVOLVER BIEN AL USER
+            calificacion.setUsuarios(ctrl.getUsuario());
 
             // Guardar imagen y path de la imagen
             try {
@@ -239,9 +246,6 @@ public class EventoBean implements Serializable {
 
             return currentURI; // hacer feedback al usuario
         } else {
-            // Notificar que necesitainiciar sesion
-            //FacesContext context = FacesContext.getCurrentInstance();
-            //context.addMessage(formulario.getClientId(), new FacesMessage("Tienes que iniciar sesion para enviar una calificacion"));
             return "login"; // Hacer feedback al usuario
         }
 
@@ -258,12 +262,11 @@ public class EventoBean implements Serializable {
             try {
                 calificacion = new CalificacionEvento(); // Crear nueva calificacion por si acaso
                 calificacion.setEventos(evento);
-                calificacion.setUsuarios(ctrl.getUsuario()); // CTRL.GETUSUARIO DEBERIA DE FUNCIONAR
+                calificacion.setUsuarios(ctrl.getUsuario()); 
                 calificacion.setFavorito(true);
 
                 negocioCal.insertarCalificacion(calificacion);
             } catch (DiarioSurException ex) {
-                // CAMBIAR
                 Logger.getLogger(Evento.class.getName()).log(Level.SEVERE, null, ex);
                 return null; // Refrescar pagina
             }
@@ -272,11 +275,6 @@ public class EventoBean implements Serializable {
 
             return currentURI; // refrescar pagina
         } else {
-            System.out.println("NO iniciada sesion");
-            // Mostrar que no puede dar a favoritos a menos que este iniciado de sesion
-            //FacesContext context = FacesContext.getCurrentInstance();
-            //context.addMessage(favoritos.getClientId(), new FacesMessage("Tienes que iniciar sesion para dar a favoritos"));
-
             return "login"; // refrescar pagina
         }
     }

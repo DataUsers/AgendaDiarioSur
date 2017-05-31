@@ -64,24 +64,6 @@ public class NegocioEventoImpl implements NegocioEvento {
     }
 
     @Override
-    public List getCalificaciones(int pagina, int maxCalificaciones, Evento evento) throws DiarioSurException {
-
-        Evento eventoFound = em.find(Evento.class, evento.getIdEvento());
-
-        if (eventoFound == null) {
-            throw new EventoNoEncException();
-        }
-
-        Query query = em.createNamedQuery("findCalificaciones");
-        query.setParameter("idEvento", evento.getIdEvento());
-
-        query.setFirstResult(pagina * maxCalificaciones);
-        query.setMaxResults(maxCalificaciones);
-
-        return query.getResultList();
-    }
-
-    @Override
     public List obtenerEventos(int maxResult) throws DiarioSurException {
 
         Query query = em.createQuery("SELECT e from Evento e");
