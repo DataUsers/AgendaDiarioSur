@@ -454,6 +454,7 @@ td{
     float:left;
     width:100px;
     padding:15px;
+    padding-left:30px;
     z-index: 99;
 }
 

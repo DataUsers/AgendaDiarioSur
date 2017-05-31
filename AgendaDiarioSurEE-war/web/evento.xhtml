@@ -60,10 +60,10 @@
                                 <h:commandButton value="Favoritos #{evento.numeroFavoritos()}" 
                                                  action="#{evento.marcarFavorito()}" />
                             </h:form>
-
-                            <h:button styleClass="shareButton" value="Compartir Twitter" onclick="return shareTwitter('#{evento.currentUrl}')"/>
-                            <br></br>
-                            <h:button styleClass="shareButton" value="Compartir Facebook" onclick="return shareFacebook('#{evento.eventId}')"/>
+                            
+                            <h:graphicImage style="width: 40px" onclick="return shareTwitter('#{evento.currentUrl}')" value="resources/imagenes/twitter 2.png"/>
+                            <br/>
+                            <h:graphicImage style="width: 30px" onclick="return shareFacebook('#{evento.eventId}')" value="resources/imagenes/fb-art2.png"/>
 
                         </div>
                     </div>
