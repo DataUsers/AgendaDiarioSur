@@ -46,7 +46,7 @@
                                     <h:panelGrid columns="2">
                                         <h:panelGroup>
                                             <p>Precio: #{evento.evento.precio}€</p>
-                                            <p:button value="Comprar" outcome="compraEntradasBean.xhtml?evento=#{evento.eventId}" />
+                                            <p:button value="Comprar" outcome="compraEntradas.xhtml?evento=#{evento.eventId}" />
                                             <br></br>
                                             <h:form>
                                                 <p:commandButton value="Favoritos #{evento.numeroFavoritos()}" 

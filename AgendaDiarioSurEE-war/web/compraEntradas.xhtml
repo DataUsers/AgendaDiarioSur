@@ -12,18 +12,19 @@
     <ui:define name="subtitulo">Comprar Entradas</ui:define>
     <ui:define name="content">
         <c:choose>
-        <c:when test="#{!controlAutorizacion.sesionIniciada()}">
+        <c:when test="#{controlAutorizacion.sesionIniciada()}">
             <h:form onsubmit="return validate()">
                <p:panel header="Compra de Entradas para eventos" id="panel">
                  <h:messages style="size:4in 6in;color:red " />
-                    <h:dataTable  border="1"> 
+                 <h:dataTable  border="1">
                          <h:panelGrid columns="2">
                                     <h:panelGroup>
-                                        <p:panel header="Evento #{compra.nombreEvento}">
-                                            <p:graphicImage value="#{compra.fotoEvento}" width="25%"  height="25%"/>
+                                        <p:panel header="Evento">
+                                           <!-- <p:graphicImage value="#{compra.fotoEvento}" width="25%"  height="25%"/> -->
+                                           <h:outputText value="HOLA"/>
                                         </p:panel> 
                                     </h:panelGroup>
-                                    <h:panelGroup>
+                                    <!-- <h:panelGroup>
                                         <p:panel header="Detalles de compra ">
                                             <h:outputText value="Fecha: #{compra.fecha}"/>
                                             <p>Tipo Evento:
@@ -40,10 +41,9 @@
                                         <p:panel header="Descripción del evento">
                                             <h:outputText value="#{compra.descripcionEvento}" />
                                         </p:panel> 
-                                    </h:panelGroup>   
+                                    </h:panelGroup> -->  
                                   </h:panelGrid>
-                    </h:dataTable>
-
+                         </h:dataTable>
                    <h:panelGroup>
 
                         <br></br>  
