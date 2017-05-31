@@ -46,49 +46,55 @@
                 </h:panelGroup>
 
                 <h:panelGroup>
-                    <ui:repeat value="#{gestionEvento.eventosMostrar}" var="event">
-                        <h1>Editar #{event.nombre}</h1>
-                        <h:form>
-                            <h:panelGrid columns="2">
-                                <h:outputLabel for="nombre" value="Nombre"/>
-                                <h:inputText id="nombre" value="#{event.nombre}"/>
-                                <h:outputLabel for="precio" value="Precio"/>
-                                <h:inputText id="precio" value="#{event.precio}"/>
-                            </h:panelGrid>
-                            <h:panelGrid columns="2">
-                                <ui:repeat varStatus="loop" var="fecha" value="#{event.fechas}">
-                                    <h:inputText value="#{event.fechas[loop.index]}" >
-                                        <f:convertDateTime pattern="dd-MM-yyyy"/>
-                                    </h:inputText>
-                                </ui:repeat>
-                            </h:panelGrid>
-                            <h:panelGrid columns="2">
-                                <h:commandButton value="Añadir fecha" action="#{gestionEvento.anadirFecha(event)}"/>
-                                <h:commandButton value="Eliminar fecha" action="#{gestionEvento.eliminarFecha(event)}"/>
-                            </h:panelGrid>
-                            <h1>Editar descripcion</h1>
-                            <h:inputTextarea value="#{event.descripcion}"/>
-                            <br></br>
-                            <p:button outcome="editEvento.xhtml?evento=#{event.idEvento}" value="Edicion avanzada"/> <!-- hardcodeado -->
-                            <br></br>
-                            <c:if test="#{gestionEvento.comprobarAdmin()}">
-                                <p:commandButton id="delete" action="#{gestionEvento.borrarEvento(event)}"
-                                                 icon="ui-icon ui-icon-trash" 
-                                                 value="Eliminar Evento" 
-                                                 title="EliminarEvento">
-                                    <p:confirm header="Confirmar Eliminar" 
-                                               message="¿Estas seguro de querer eliminar este evento?" 
-                                               icon="ui-icon-alert"/>
-                                </p:commandButton>
 
-                                <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
-                                    <p:commandButton title="EliminarSi" value="Yes" styleClass="ui-confirmdialog-yes"/>
-                                    <p:commandButton title="EliminarNo" value="No" styleClass="ui-confirmdialog-no" />
-                                </p:confirmDialog>
-                            </c:if>
-                            <h:commandButton type="submit" value="Guardar cambios" action="#{gestionEvento.guardarCambios(event)}"/>
-                        </h:form>
-                    </ui:repeat>
+                    <h:dataTable id="listaEvento" value="#{gestionEvento.eventosMostrar}" var="event">
+
+                        <h:column>
+                            <h1>Editar #{event.nombre}</h1>
+                            <h:form>
+                                <h:panelGrid columns="2">
+                                    <h:outputLabel for="nombre" value="Nombre"/>
+                                    <h:inputText id="nombre" value="#{event.nombre}"/>
+                                    <h:outputLabel for="precio" value="Precio"/>
+                                    <h:inputText id="precio" value="#{event.precio}"/>
+                                </h:panelGrid>
+                                <h:panelGrid columns="2">
+                                    <ui:repeat varStatus="loop" var="fecha" value="#{event.fechas}">
+                                        <h:inputText value="#{event.fechas[loop.index]}" >
+                                            <f:convertDateTime pattern="dd-MM-yyyy"/>
+                                        </h:inputText>
+                                    </ui:repeat>
+                                </h:panelGrid>
+                                <h:panelGrid columns="2">
+                                    <h:commandButton value="Añadir fecha" action="#{gestionEvento.anadirFecha(event)}"/>
+                                    <h:commandButton value="Eliminar fecha" action="#{gestionEvento.eliminarFecha(event)}"/>
+                                </h:panelGrid>
+                                <h1>Editar descripcion</h1>
+                                <h:inputTextarea value="#{event.descripcion}"/>
+                                <br></br>
+                                <p:button outcome="editEvento.xhtml?evento=#{event.idEvento}" value="Edicion avanzada"/> <!-- hardcodeado -->
+                                <br></br>
+                                <c:if test="#{gestionEvento.comprobarAdmin()}">
+                                    <p:commandButton id="delete" action="#{gestionEvento.borrarEvento(event)}"
+                                                     icon="ui-icon ui-icon-trash" 
+                                                     value="Eliminar Evento" 
+                                                     title="EliminarEvento">
+                                        <p:confirm header="Confirmar Eliminar" 
+                                                   message="¿Estas seguro de querer eliminar este evento?" 
+                                                   icon="ui-icon-alert"/>
+                                    </p:commandButton>
+
+                                    <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+                                        <p:commandButton title="EliminarSi" value="Yes" styleClass="ui-confirmdialog-yes"/>
+                                        <p:commandButton title="EliminarNo" value="No" styleClass="ui-confirmdialog-no" />
+                                    </p:confirmDialog>
+                                </c:if>
+                                <h:commandButton type="submit" value="Guardar cambios" action="#{gestionEvento.guardarCambios(event)}"/>
+                            </h:form>
+                        </h:column>
+
+                    </h:dataTable>
+
                     <c:if test="#{gestionEvento.hasPrevPage}">
                         <h:form>
                             <p:commandButton action="#{gestionEvento.paginaAnterior()}" value="Pagina Anterior"/>
