@@ -62,11 +62,6 @@ public class GestionEvento implements Serializable{
     private String currentURI;
     private List<String> filtrosQuery;
 
-    private String fecha;
-    private String tiempo;
-
-    
-
     /**
      * Creates a new instance of GestionEvento
      */
@@ -304,22 +299,6 @@ public class GestionEvento implements Serializable{
 
     public void setEventosMostrar(List<Evento> eventosMostrar) {
         this.eventosMostrar = eventosMostrar;
-    }
-
-    public String getFecha() {
-        return fecha;
-    }
-
-    public void setFecha(String fecha) {
-        this.fecha = fecha;
-    }
-
-    public String getTiempo() {
-        return tiempo;
-    }
-
-    public void setTiempo(String tiempo) {
-        this.tiempo = tiempo;
     }
 
     public String getQueryString() {

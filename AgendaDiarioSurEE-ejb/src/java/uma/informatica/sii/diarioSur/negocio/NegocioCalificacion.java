@@ -5,6 +5,7 @@
  */
 package uma.informatica.sii.diarioSur.negocio;
 
+import java.util.List;
 import javax.ejb.Local;
 import uma.informatica.sii.diarioSur.entidades.CalificacionEvento;
 import uma.informatica.sii.diarioSur.entidades.Evento;
@@ -23,5 +24,7 @@ public interface NegocioCalificacion {
      * @throws DiarioSurException 
      */
     void insertarCalificacion(CalificacionEvento calificacion) throws DiarioSurException;
+    
+    List getCalificaciones(int pagina, int maxCalificaciones, Evento evento) throws DiarioSurException;
     
 }
