@@ -414,6 +414,7 @@ td{
 .evento_descripcion{
     float:left;
     margin-top:10px;
+    width:700px;
     padding-bottom: 10px;
     border-bottom-color: rgb(157, 167, 167);
     border-bottom-style: solid;
