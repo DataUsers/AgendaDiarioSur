@@ -100,7 +100,7 @@ public class compraEventosBean  implements Serializable {
     
        if(numTarjeta== null || numSecreto==null){
            ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Complete todos los campos", "Complete todos los campos"));
-        }else if (numTarjeta.length()!=12){
+        }else if (numTarjeta.length()!=12){ 
            ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Numero de tarjeta no válido", "Numero de tarjeta no válido"));
         }else if(numSecreto.length()<3 || numSecreto.length()> 4){
             ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Numero de tarjeta no válido", "Numero de tarjeta no válido"));
