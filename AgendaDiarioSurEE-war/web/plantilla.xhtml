@@ -24,7 +24,7 @@
                     <c:when test="#{controlAutorizacion.sesionIniciada()}">
                         Hola, #{controlAutorizacion.usuario.nombre} |
                         <h:form> 
-                            <h:commandLink value="Tu perfil" action="Perfil" /> | <h:commandLink value="Cerrar sesión" action="#{controlAutorizacion.logout()}" />
+                            <h:commandLink value="Tu perfil" action="perfil" /> | <h:commandLink value="Cerrar sesión" action="#{controlAutorizacion.logout()}" />
                         </h:form>
                     </c:when>
 
@@ -50,7 +50,7 @@
                 <h:link value="DESFILES" outcome="busqueda?filtrar=Desfiles"/> |
                 <h:link value="EXPOSICIONES" outcome="busqueda?filtrar=Exposiciones"/> |
                 <h:link value="FERIAS" outcome="busqueda?filtrar=Ferias"/> |
-                <h:link value="CINES" outcome="busqueda?filtrar=Cines"/>
+                <h:link value="CINE" outcome="busqueda?filtrar=Cines"/>
 
                 <div class="barra_content2">
                     <h:link value="BUSCADOR" outcome="busqueda" /> | 
@@ -78,7 +78,32 @@
         </div>
 
         <div class="footer">
-            CONTACTAR | LEGAL | REALIZADO POR
+            <div class="social">
+                <a href="https://www.facebook.com/diariosur/">
+                    <object type="image/png" data="resources/imagenes/fb-art.png" style="width: 30px"/>
+                </a>
+                <br/>
+                <a href="https://twitter.com/diariosur?lang=es">
+                    <object type="image/png" data="resources/imagenes/twitter.png" style="width: 30px"/>
+                </a>                
+            </div>
+            <div class="minilogo">
+                <a href="http://www.diariosur.es/">
+                    <object type="image/png" data="resources/imagenes/logomediomini.png" style="width: 100px"/>
+                </a>               
+            </div>
+            <div class="footer_text">
+                <a href="http://www.diariosur.es/contacta.html"> 
+                    CONTACTAR
+                </a>
+                <a href="http://www.diariosur.es/aviso-legal.html"> | 
+                    LEGAL
+                </a>
+                <a href="http://www.diariosur.es/condiciones-uso.html"> | 
+                    CONDICIONES DE USO
+                </a>
+            </div>
+            
 
         </div>
     </h:body>   
