@@ -62,9 +62,14 @@ public class PaginaTestBean {
         return null;
     }
 
-    public String crearAdmin() throws DiarioSurException {
-        Usuario u = new Usuario("admin", "admin", "admin@admin.admin", Usuario.tipoUsuario.ADMINISTRADOR);
-        negocio.registrarUsuario(u);
+     public String crearAdmin() throws DiarioSurException {
+        try {
+
+            Usuario u = new Usuario("admin", "admin", "admin@admin.admin", Usuario.tipoUsuario.ADMINISTRADOR);
+            negocio.registrarUsuario(u);
+        } catch (Exception e) {
+
+        }
         return null;
     }
 
