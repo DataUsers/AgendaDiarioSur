@@ -14,39 +14,40 @@
         <f:metadata>
             <f:viewAction action="#{compra.cargarDatos()}" />
         </f:metadata>
-         <h:messages style="size:4in 6in;color:red " />
         <c:choose>
         <c:when test="#{controlAutorizacion.sesionIniciada()}">
             <h:form onsubmit="return validate()">
-               <p:panel header="Compra de Entradas para eventos" id="panel">
+              <h:messages style="size:4in 6in;color:red "/>
+               <p:panel styleClass="estiloFondo" header="Compra de Entradas para eventos" id="panel">
                          <h:panelGrid columns="2" >
                                     <h:panelGroup >
-                                        <p:panel header="Evento">
-                                            <p:graphicImage value="#{compra.fotoEvento}" width="80%" height="80%"/> 
+                                        <p:panel styleClass="estiloFondo"  header="Evento">
+                                            <p:graphicImage value="#{compra.fotoEvento}" width="70%" height="70%"/> 
                                         </p:panel> 
                                     </h:panelGroup>
                                      <h:panelGroup  >
-                                        <p:panel header="Detalles de compra ">
-                                            <h:outputText value="Fecha:    #{compra.fecha}"/>
-                                            <p>Tipo Evento:
-                                                <h:outputText value="#{compra.tipoEvento}" />
+                                        <p:panel styleClass="estiloFondo"  header="Detalles de compra ">
+                                            <h:outputText  styleClass="estiloTexto"  value="Fecha:    #{compra.fecha}"/>
+                                            <p>
+                                                <h:outputText  styleClass="estiloTexto" value="Tipo Evento: "/>
+                                                <h:outputText  styleClass="estiloTexto"  value=" #{compra.tipoEvento}" />
                                             </p>
                                             
                                             <h:panelGrid >
                                                 <h:panelGrid columns="2">
                                                  <h:panelGrid>
-                                                <h:outputText value="Número Entradas"/> 
+                                                <h:outputText   styleClass="estiloTexto" value="Número Entradas"/> 
                                                 </h:panelGrid> 
                                                 <h:panelGrid>
-                                                    <h:inputText  value="#{compra.numEntradasSeleccionadas}"/>
+                                                    <h:inputText  styleClass="estiloTexto"  value="#{compra.numEntradasSeleccionadas}"/>
                                                 </h:panelGrid>
-                                                    <h:outputText value="Precio por entrada: #{compra.precioEntrada}€" />
+                                                    <h:outputText  styleClass="estiloTexto"  value="Precio por entrada: #{compra.precioEntrada}€" />
                                                </h:panelGrid>
                                            </h:panelGrid>
                                         </p:panel>
                       
-                                        <p:panel header="Descripción del evento">
-                                            <h:outputText value="#{compra.descripcionEvento}" />
+                                        <p:panel  styleClass="estiloFondo" header="Descripción del evento">
+                                            <h:outputText  styleClass="estiloTexto" value="#{compra.descripcionEvento}" />
                                         </p:panel> 
                                      
                                     </h:panelGroup>
@@ -56,15 +57,15 @@
 
                         <br></br>  
                         <br></br>
-                        <p:panel header="Forma de pago" id="panel1">
-                            <h:outputText value="Por favor seleccione su tipo de tarjeta de crédito y rellene los datos" />                
+                        <p:panel styleClass="estiloFondo"  header="Forma de pago" id="panel1">
+                            <h:outputText styleClass="estiloTexto"  value="Por favor seleccione su tipo de tarjeta de crédito y rellene los datos" />                
                             <h:panelGrid >
                                 <br></br>
-                                <p:panel> 
-                                    <h:selectOneRadio  value="{#compra.formaPago}" styleClass="radiolabelPF" >
-                                         <f:selectItem itemValue="Mastercard"  itemLabel="Mastercard" /> 
-                                           <h:outputLabel styleClass="radiolabelPF"></h:outputLabel>
-                                         <f:selectItem itemValue="Visa" itemLabel="Visa"  />
+                                <p:panel styleClass="estiloFondo" > 
+                                    <h:selectOneRadio  value="{#compra.formaPago}" class="estiloTexto" >
+                                        <f:selectItem  itemValue="Mastercard"  itemLabel="Mastercard" /> 
+                                           <h:outputLabel ></h:outputLabel>
+                                         <f:selectItem  itemValue="Visa" itemLabel="Visa"  />
                                             <h:panelGroup>
                                             <p:graphicImage value="resources/imagenes/mastercard.jpg" style="margin: 0px 20px 20px 20px" width="25%"  height="25%"/>
                                             </h:panelGroup>
@@ -78,15 +79,17 @@
                         </p:panel>
 
                         <tr>
-                            <td>Numero Tarjeta:</td>
-                            <td><h:inputText styleClass="compraEvento" id="numTarjeta"   value="#{compra.numTarjeta}"/>
+                            <td> <h:outputText  styleClass="estiloTexto" value="Numero Tarjeta: "/></td>
+                            <td><h:inputText styleClass="estiloTexto" id="numTarjeta"   value="#{compra.numTarjeta}"/>
                             </td>
                         </tr>
+                  
                         <tr>
-                            <td>Codigo Seguridad:</td>
-                            <td><h:inputSecret styleClass="compraEvento" id="codSeguridad"  value="#{compra.numSecreto}"/></td>
+                            <td> <h:outputText  styleClass="estiloTexto" value="Codigo Seguridad: "/></td>
+                            <td> <h:inputSecret  styleClass="estiloTexto"   id="codSeguridad"  value="#{compra.numSecreto}"/></td>
                         </tr>
                     </h:panelGroup>
+                    <br/>
                     <br/>
                     
                         
