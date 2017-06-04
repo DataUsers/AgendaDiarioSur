@@ -8,8 +8,8 @@ import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.application.FacesMessage;
 import javax.inject.Inject; 
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
@@ -52,6 +52,7 @@ public class compraEventosBean  implements Serializable {
    
      
     public void cargarDatos() throws DiarioSurException{
+        
         setUsuario(ctrl.getUsuario());
         HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         idEvento = request.getParameter("evento");
@@ -84,15 +85,18 @@ public class compraEventosBean  implements Serializable {
     public String validarCompra() {
          
        if(validarDatos()){
-           if (numEntradas <   Integer.parseInt(numEntradasSeleccionadas) ){
-                 ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "No hay suficientes entradas", "No hay suficientes entradas"));
-                 return null;
+           if (numEntradas < Integer.parseInt(numEntradasSeleccionadas) ){
+               System.out.println("HOLAAAA"+ numEntradas );
+               System.out.println(Integer.parseInt(numEntradasSeleccionadas));
+               ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "No hay suficientes entradas", "No hay suficientes entradas"));
+                return null;
            }else{
                 comprar.generarEntradas(evento, Integer.parseInt(numEntradasSeleccionadas), usuario, formaPago);
                 return "index.xhtml";
            }        
-       }
+       }else{
          return null;
+       }
        }
   
     public boolean validarDatos(){

@@ -48,6 +48,19 @@ table {
      margin: 0px 20px 20px 0px;
 }
 
+.estiloFondo {
+    background: #FFFFFF;
+    border-collapse: separate;
+    border-spacing: 10px 10px;
+    border-style: solid;
+    border-color: #ffffff #ffffff;
+    color: white;
+}
+
+.estiloTexto {    
+    color:#000000; 
+}
+
 .botonCompra {
      margin: 0px 20px 0px 10px;
 }

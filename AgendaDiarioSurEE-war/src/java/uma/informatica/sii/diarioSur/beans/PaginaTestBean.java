@@ -5,6 +5,7 @@
  */
 package uma.informatica.sii.diarioSur.beans;
 
+import static java.lang.Math.abs;
 import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -100,7 +101,7 @@ public class PaginaTestBean {
         evento.setNombre(nombre);
         evento.setDescripcion(descripcion);
         evento.setPrecio(rnd.nextInt(50));
-        evento.setNumero_entradas(rnd.nextInt()+10);
+        evento.setNumero_entradas(abs(rnd.nextInt(200))+10);
         // Latitud y longitud
         GeoLocation loc = coordenadas[i];
         System.out.println("Latitud Degree: " + loc.getLatitudeInDegrees() + " longitud Degree: " + loc.getLongitudeInDegrees());
