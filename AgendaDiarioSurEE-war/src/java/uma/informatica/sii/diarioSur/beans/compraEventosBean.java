@@ -6,6 +6,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -91,7 +93,11 @@ public class compraEventosBean  implements Serializable {
                ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "No hay suficientes entradas", "No hay suficientes entradas"));
                 return null;
            }else{
-                comprar.generarEntradas(evento, Integer.parseInt(numEntradasSeleccionadas), usuario, formaPago);
+               try {
+                   comprar.generarEntradas(evento, Integer.parseInt(numEntradasSeleccionadas), usuario, formaPago);
+               } catch (DiarioSurException ex) {
+                   Logger.getLogger(compraEventosBean.class.getName()).log(Level.SEVERE, null, ex);
+               }
                 return "index.xhtml";
            }        
        }else{

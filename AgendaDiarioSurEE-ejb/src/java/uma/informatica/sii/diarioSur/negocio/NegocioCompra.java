@@ -32,5 +32,5 @@ public interface NegocioCompra {
      * @param usuario
      * @param formaPago
      */
-    void generarEntradas(Evento evento, Integer numEntradasSeleccionadas,Usuario usuario, String formaPago);
+    void generarEntradas(Evento evento, Integer numEntradasSeleccionadas,Usuario usuario, String formaPago) throws DiarioSurException;
 }
