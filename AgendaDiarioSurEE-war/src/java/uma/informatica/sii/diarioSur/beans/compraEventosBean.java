@@ -50,7 +50,7 @@ public class compraEventosBean  implements Serializable {
     private Integer  precioEntrada;
     private String formaPago;
     
-    private final FacesContext ctx = FacesContext.getCurrentInstance();
+    private FacesContext ctx = FacesContext.getCurrentInstance();
    
      
     public void cargarDatos() throws DiarioSurException{
@@ -107,7 +107,7 @@ public class compraEventosBean  implements Serializable {
   
     public boolean validarDatos(){
        boolean valido = false;
-    
+        ctx = FacesContext.getCurrentInstance();
        if(numTarjeta== null || numSecreto==null){
            ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Complete todos los campos", "Complete todos los campos"));
         }else if (numTarjeta.length()!=12){ 
@@ -116,9 +116,15 @@ public class compraEventosBean  implements Serializable {
             ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Numero de tarjeta no válido", "Numero de tarjeta no válido"));
         }else if(formaPago!=null && (!"Visa".equals(formaPago) || !"Mastercard".equals(formaPago) )){ 
             ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Seleccione su tipo de tarjeta", "Seleccione su tipo de tarjeta"));
-        }else if(numEntradasSeleccionadas==null || ( Integer.parseInt(numEntradasSeleccionadas)<0 && Integer.parseInt(numEntradasSeleccionadas)>10 )){
+        }else if(numEntradasSeleccionadas==null){
            ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Introduce una cantidad valida para la compra", "Introduce una cantidad valida para la compra"));
-        }else{
+        }else if(numEntradasSeleccionadas!=null){
+            try{
+                Integer.parseInt(numEntradasSeleccionadas);
+            }catch(NumberFormatException e){
+                ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Introduce una cantidad valida para la compra", "Introduce una cantidad valida para la compra"));
+            }
+        } else{
            valido= true;
         }
        return valido;
