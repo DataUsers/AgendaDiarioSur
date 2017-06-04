@@ -98,7 +98,7 @@ public class compraEventosBean  implements Serializable {
                } catch (DiarioSurException ex) {
                    Logger.getLogger(compraEventosBean.class.getName()).log(Level.SEVERE, null, ex);
                }
-                return "index.xhtml";
+                return "index";
            }        
        }else{
          return null;
@@ -121,8 +121,10 @@ public class compraEventosBean  implements Serializable {
         }else if(numEntradasSeleccionadas!=null){
             try{
                 Integer.parseInt(numEntradasSeleccionadas);
+                valido = true;
             }catch(NumberFormatException e){
                 ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Introduce una cantidad valida para la compra", "Introduce una cantidad valida para la compra"));
+                valido = false;
             }
         } else{
            valido= true;
